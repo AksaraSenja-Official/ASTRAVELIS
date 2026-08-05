@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASTRAVELIS - Portal Kelas X-3</title>
+    <title>ASTRAVELIS - Portal Kelas</title>
     
     <link rel="manifest" href='data:application/manifest+json,{
       "name": "ASTRAVELIS",
@@ -20,11 +20,11 @@
     <link rel="apple-touch-icon" href="logo.jpg">
     <link rel="icon" type="image/jpeg" href="logo.jpg">
 
-    <!-- TailWind CSS & Font Inter -->
+    <!-- TailWind CSS & Font Plus Jakarta Sans -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Dependencies Pustaka Eksternal -->
+    <!-- Pustaka Eksternal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -42,30 +42,30 @@
         .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.8); }
     </style>
 </head>
-<body class="bg-slate-100/70 text-slate-800 min-h-screen flex flex-col justify-between p-3 md:p-8">
+<body class="bg-slate-100/70 text-slate-800 min-h-screen flex flex-col justify-between p-3 md:p-6">
 
     <div class="max-w-6xl mx-auto w-full">
         <!-- HEADER LAYOUT MODERN -->
-        <header class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 glass-card p-4 md:p-5 rounded-3xl shadow-sm">
-            <div class="flex items-center gap-3.5 cursor-pointer group" onclick="bukaHalaman('dashboard')">
-                <img id="logoApp" src="logo.jpg" alt="Logo" class="h-12 w-12 object-cover rounded-2xl shadow-md border-2 border-blue-600 transition transform group-hover:scale-105">
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3 glass-card p-3.5 md:p-4 rounded-2xl shadow-sm">
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="bukaHalaman('dashboard')">
+                <img id="logoApp" src="logo.jpg" alt="Logo" class="h-10 w-10 object-cover rounded-xl shadow-md border-2 border-blue-600 transition transform group-hover:scale-105">
                 <div>
-                    <h1 class="text-2xl font-black italic tracking-wide text-slate-900 leading-tight">ASTRAVELIS <span class="text-blue-600">X-3</span></h1>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Portal Resmi Manajemen Kelas</p>
+                    <h1 class="text-xl font-black italic tracking-wide text-slate-900 leading-tight">ASTRAVELIS</h1>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Portal Resmi Manajemen Kelas</p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-                <div class="bg-slate-100 text-slate-600 text-[11px] font-bold px-4 py-2.5 rounded-2xl shadow-inner border border-slate-200/60 flex items-center gap-2">
+            <div class="flex items-center gap-2.5 w-full sm:w-auto justify-between sm:justify-end">
+                <div class="bg-slate-100 text-slate-600 text-[10px] font-bold px-3 py-2 rounded-xl shadow-inner border border-slate-200/60 flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span id="realtimeClock">Memuat waktu...</span>
                 </div>
                 
                 <div id="authBox">
-                    <button id="btnLogin" onclick="bukaModalLogin()" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-2xl text-xs uppercase tracking-wider shadow-md shadow-blue-500/20 transition">LOGIN</button>
+                    <button id="btnLogin" onclick="bukaModalLogin()" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold px-4 py-2 rounded-xl text-[11px] uppercase tracking-wider shadow-md shadow-blue-500/20 transition">LOGIN PENGURUS</button>
                     <div id="userInfo" class="hidden flex items-center gap-2">
-                        <span id="roleBadge" class="bg-blue-50 text-blue-700 border border-blue-200 font-bold text-[11px] px-3.5 py-1.5 rounded-xl uppercase">Tamu</span>
-                        <button onclick="logout()" class="bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl text-[11px] border border-red-200 transition">Logout</button>
+                        <span id="roleBadge" class="bg-blue-50 text-blue-700 border border-blue-200 font-bold text-[10px] px-3 py-1 rounded-lg uppercase">Tamu</span>
+                        <button onclick="logout()" class="bg-red-50 hover:bg-red-100 text-red-600 font-bold px-2.5 py-1 rounded-lg text-[10px] border border-red-200 transition">Logout</button>
                     </div>
                 </div>
             </div>
@@ -75,71 +75,111 @@
         <main id="mainContainer">
             
             <!-- 1. MAIN DASHBOARD -->
-            <section id="pageDashboard" class="space-y-8">
+            <section id="pageDashboard" class="space-y-6">
                 <!-- HERO PHOTO BANNER -->
-                <div class="relative w-full h-72 md:h-96 bg-gradient-to-tr from-blue-900 via-blue-700 to-indigo-800 rounded-[2.5rem] shadow-xl overflow-hidden border-4 border-white flex items-center justify-center">
+                <div class="relative w-full h-52 md:h-72 bg-gradient-to-tr from-blue-900 via-blue-700 to-indigo-800 rounded-3xl shadow-lg overflow-hidden border-2 border-white flex items-center justify-center">
                     <img src="foto_kelas.jpg" onerror="this.style.opacity='0'" alt="Foto Anggota Kelas" class="absolute inset-0 w-full h-full object-cover transition duration-700 hover:scale-105">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/30 to-transparent flex flex-col justify-end p-6 md:p-10">
-                        <span class="bg-blue-500/80 text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full w-max mb-2 backdrop-blur-md">Member of</span>
-                        <h2 class="text-3xl md:text-5xl font-black italic uppercase text-white tracking-tight drop-shadow-md">ASTRAVELIS</h2>
-                        <p class="text-xs md:text-sm font-medium text-slate-200 opacity-90 mt-1">Reach the sky, Astravelis fly</p>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/30 to-transparent flex flex-col justify-end p-5 md:p-8">
+                        <span class="bg-blue-500/80 text-white text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded-full w-max mb-1 backdrop-blur-md">Member of</span>
+                        <h2 class="text-2xl md:text-4xl font-black italic uppercase text-white tracking-tight drop-shadow-md">ASTRAVELIS</h2>
+                        <p class="text-xs font-medium text-slate-200 opacity-90">Reach the sky, Astravelis fly</p>
                     </div>
                 </div>
 
-                <!-- MENU FITUR 4 KARTU MODERN -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <div onclick="aksesFitur('uangKas')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-7 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-blue-500/20 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between h-52 group">
-                        <div class="w-12 h-12 rounded-2xl bg-blue-100 group-hover:bg-white/20 flex items-center justify-center text-2xl transition">💰</div>
+                <!-- MENU FITUR 6 KARTU COMPACT & COMPACT GRID (2-3-4 KOLOM) -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3.5 md:gap-4">
+                    <!-- FITUR 1: UANG KAS -->
+                    <div onclick="aksesFitur('uangKas')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
                         <div>
-                            <h3 class="text-lg font-black italic uppercase tracking-wide">UANG KAS</h3>
-                            <p class="text-xs opacity-70 font-semibold mt-1">Kelola Transaksi & Laporan Keuangan</p>
+                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Khusus Pengurus</span>
+                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">UANG KAS</h3>
+                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Kelola Transaksi & Laporan</p>
                         </div>
                     </div>
 
-                    <div onclick="aksesFitur('cekKas')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-7 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-blue-500/20 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between h-52 group">
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-100 group-hover:bg-white/20 flex items-center justify-center text-2xl transition">🔍</div>
+                    <!-- FITUR 2: CEK KAS ANGGOTA -->
+                    <div onclick="aksesFitur('cekKas')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                        </div>
                         <div>
-                            <h3 class="text-lg font-black italic uppercase tracking-wide">CEK KAS ANGGOTA</h3>
-                            <p class="text-xs opacity-70 font-semibold mt-1">Status Pelunasan & Tunggakan Siswa</p>
+                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
+                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">CEK KAS ANGGOTA</h3>
+                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Pelunasan & Tunggakan</p>
                         </div>
                     </div>
 
-                    <div onclick="aksesFitur('moment')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-7 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-blue-500/20 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between h-52 group">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-100 group-hover:bg-white/20 flex items-center justify-center text-2xl transition">📸</div>
+                    <!-- FITUR 3: JADWAL PELAJARAN -->
+                    <div onclick="aksesFitur('jadwal')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
                         <div>
-                            <h3 class="text-lg font-black italic uppercase tracking-wide">MOMENT KELAS</h3>
-                            <p class="text-xs opacity-70 font-semibold mt-1">Galeri Foto & Memori Google Drive</p>
+                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
+                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">JADWAL PELAJARAN</h3>
+                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Jadwal Pelajaran Kelas</p>
                         </div>
                     </div>
 
-                    <div onclick="aksesFitur('materi')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-7 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-blue-500/20 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between h-52 group">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-100 group-hover:bg-white/20 flex items-center justify-center text-2xl transition">📚</div>
+                    <!-- FITUR 4: MOMENT KELAS -->
+                    <div onclick="aksesFitur('moment')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-rose-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
                         <div>
-                            <h3 class="text-lg font-black italic uppercase tracking-wide">MATERI PELAJARAN</h3>
-                            <p class="text-xs opacity-70 font-semibold mt-1">Folder Tugas & Bahan Belajar Kelas</p>
+                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
+                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">MOMENT KELAS</h3>
+                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Galeri Foto Drive</p>
+                        </div>
+                    </div>
+
+                    <!-- FITUR 5: MATERI PELAJARAN -->
+                    <div onclick="aksesFitur('materi')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        </div>
+                        <div>
+                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
+                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">MATERI PELAJARAN</h3>
+                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Folder Bahan Belajar</p>
+                        </div>
+                    </div>
+
+                    <!-- FITUR 6: POJOK LINK PENTING (QUICK LINKS) -->
+                    <div onclick="aksesFitur('quickLinks')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-violet-600 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                        </div>
+                        <div>
+                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
+                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">POJOK LINK PENTING</h3>
+                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Zoom, LMS & CBT ICLT</p>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- 2. FITUR 1: UANG KAS -->
-            <section id="pageUangKas" class="hidden space-y-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-2xl border shadow-sm">
+            <section id="pageUangKas" class="hidden space-y-5">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white p-3.5 rounded-2xl border shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 hover:text-blue-600 transition flex items-center gap-1.5">
                         <span>←</span> Kembali ke Dashboard
                     </button>
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2">
                         <span id="infoBulan" class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-100">Menghubungkan...</span>
-                        <button onclick="muatData()" class="p-2 bg-slate-100 hover:bg-slate-200 rounded-xl border transition">🔄</button>
+                        <button onclick="muatData()" class="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl border transition">🔄</button>
                     </div>
                 </div>
 
-                <div class="flex gap-3 items-center justify-end">
-                    <button onclick="kurangiBulan()" class="px-4 py-2.5 bg-white text-red-500 rounded-2xl shadow-sm border border-red-100 hover:bg-red-50 transition text-xs font-bold uppercase italic">➖ Edit Tagihan</button>
-                    <div class="bg-white px-4 py-2 rounded-2xl shadow-sm border flex items-center gap-3">
+                <div class="flex gap-2.5 items-center justify-end">
+                    <button onclick="kurangiBulan()" class="px-3 py-2 bg-white text-red-500 rounded-xl shadow-sm border border-red-100 hover:bg-red-50 transition text-[11px] font-bold uppercase italic">➖ Edit Tagihan</button>
+                    <div class="bg-white px-3 py-1.5 rounded-xl shadow-sm border flex items-center gap-2.5">
                         <div class="text-right">
-                            <p class="text-[9px] font-black text-slate-400 uppercase">Tambah Tagihan</p>
-                            <p id="statusSaklar" class="text-[10px] font-bold text-red-500 uppercase italic">Libur/Off</p>
+                            <p class="text-[8px] font-black text-slate-400 uppercase">Tambah Tagihan</p>
+                            <p id="statusSaklar" class="text-[9px] font-bold text-red-500 uppercase italic">Libur/Off</p>
                         </div>
                         <label class="switch">
                             <input type="checkbox" id="btnSaklar" onchange="toggleIuran()">
@@ -148,45 +188,45 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
-                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 p-7 rounded-[2.5rem] text-white shadow-lg shadow-blue-500/15 md:col-span-2 flex flex-col justify-between">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 p-5 rounded-3xl text-white shadow-md md:col-span-2 flex flex-col justify-between">
                         <div>
-                            <p class="text-xs font-extrabold uppercase opacity-80 italic">Total Saldo Fisik Kelas</p>
-                            <h2 id="totalSaldo" class="text-4xl md:text-5xl font-black tracking-tight mt-1">Rp 0</h2>
+                            <p class="text-[11px] font-extrabold uppercase opacity-80 italic">Total Saldo Fisik Kelas</p>
+                            <h2 id="totalSaldo" class="text-3xl md:text-4xl font-black tracking-tight mt-1">Rp 0</h2>
                         </div>
-                        <div class="mt-8 flex gap-6 text-xs font-bold border-t border-white/20 pt-4">
-                            <p>MASUK (BLN INI): <span id="mBulanIni" class="text-emerald-300 font-extrabold">+0</span></p>
-                            <p>KELUAR (BLN INI): <span id="kBulanIni" class="text-rose-300 font-extrabold">-0</span></p>
+                        <div class="mt-6 flex gap-5 text-xs font-bold border-t border-white/20 pt-3">
+                            <p>MASUK: <span id="mBulanIni" class="text-emerald-300 font-extrabold">+0</span></p>
+                            <p>KELUAR: <span id="kBulanIni" class="text-rose-300 font-extrabold">-0</span></p>
                         </div>
                     </div>
 
-                    <div class="bg-white p-7 rounded-[2.5rem] border shadow-sm flex flex-col justify-center">
-                        <p class="text-xs font-extrabold uppercase text-slate-400 italic">Piutang Tunggakan</p>
-                        <h2 id="sisaPiutang" class="text-3xl font-black text-rose-500 mt-1">Rp 0</h2>
-                        <p class="text-[10px] mt-2 text-slate-400 font-bold">*Sinkron Otomatis Seluruh Perangkat</p>
+                    <div class="bg-white p-5 rounded-3xl border shadow-sm flex flex-col justify-center">
+                        <p class="text-[11px] font-extrabold uppercase text-slate-400 italic">Piutang Tunggakan</p>
+                        <h2 id="sisaPiutang" class="text-2xl font-black text-rose-500 mt-1">Rp 0</h2>
+                        <p class="text-[9px] mt-1 text-slate-400 font-bold">*Sinkron Otomatis Perangkat</p>
                     </div>
 
-                    <div class="bg-white p-6 rounded-[2.5rem] border shadow-sm flex items-center justify-center">
-                        <canvas id="miniChart" class="max-h-24"></canvas>
+                    <div class="bg-white p-4 rounded-3xl border shadow-sm flex items-center justify-center">
+                        <canvas id="miniChart" class="max-h-20"></canvas>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                    <div class="lg:col-span-2 space-y-6">
-                        <div class="bg-white p-7 rounded-[2.5rem] border shadow-sm">
-                            <h3 class="text-xs font-black uppercase mb-5 text-slate-400 tracking-widest italic">Input Transaksi Kas</h3>
-                            <form id="kasForm" class="space-y-4">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                    <div class="lg:col-span-2 space-y-5">
+                        <div class="bg-white p-5 rounded-3xl border shadow-sm">
+                            <h3 class="text-[11px] font-black uppercase mb-4 text-slate-400 tracking-widest italic">Input Transaksi Kas</h3>
+                            <form id="kasForm" class="space-y-3">
                                 <div class="relative">
-                                    <input type="text" id="nama" list="listAnggota" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-bold uppercase text-xs" placeholder="Nama Siswa" required autocomplete="off">
+                                    <input type="text" id="nama" list="listAnggota" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-bold uppercase text-xs" placeholder="Nama Siswa" required autocomplete="off">
                                     <datalist id="listAnggota"></datalist>
                                 </div>
                                 
                                 <div class="grid grid-cols-2 gap-2">
-                                    <select id="tipe" class="p-3.5 bg-slate-50 border rounded-2xl font-bold text-xs outline-none" onchange="sesuaikanFormOtomatis()">
+                                    <select id="tipe" class="p-3 bg-slate-50 border rounded-xl font-bold text-xs outline-none" onchange="sesuaikanFormOtomatis()">
                                         <option value="Masuk">Masuk (+)</option>
                                         <option value="Keluar">Keluar (-)</option>
                                     </select>
-                                    <select id="kategori" class="p-3.5 bg-slate-50 border rounded-2xl font-bold text-xs outline-none" onchange="sesuaikanFormOtomatis()">
+                                    <select id="kategori" class="p-3 bg-slate-50 border rounded-xl font-bold text-xs outline-none" onchange="sesuaikanFormOtomatis()">
                                         <option value="Iuran">Iuran</option>
                                         <option value="Sosial">Sosial</option>
                                         <option value="Alat Kelas">Alat Kelas</option>
@@ -194,8 +234,8 @@
                                     </select>
                                 </div>
 
-                                <div id="boxBayarSekaligus" class="p-3.5 bg-blue-50/80 rounded-2xl border border-blue-100">
-                                    <label class="text-[10px] font-black text-blue-600 uppercase ml-1">Bayar Berapa Bulan?</label>
+                                <div id="boxBayarSekaligus" class="p-3 bg-blue-50/80 rounded-xl border border-blue-100">
+                                    <label class="text-[9px] font-black text-blue-600 uppercase ml-1">Bayar Berapa Bulan?</label>
                                     <select id="jumlahBulanBayar" class="w-full bg-transparent font-bold text-xs outline-none cursor-pointer mt-0.5" onchange="sesuaikanFormOtomatis()">
                                         <option value="1">1 Bulan (Normal)</option>
                                         <option value="2">2 Bulan Sekaligus</option>
@@ -206,28 +246,28 @@
                                     </select>
                                 </div>
                                 
-                                <input type="text" id="keterangan" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none text-xs" placeholder="Keterangan transaksi..." required>
-                                <input type="number" id="jumlah" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none font-black text-blue-600 text-base" placeholder="Nominal Rp" required>
+                                <input type="text" id="keterangan" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-xs" placeholder="Keterangan transaksi..." required>
+                                <input type="number" id="jumlah" class="w-full p-3 bg-slate-50 border rounded-xl outline-none font-black text-blue-600 text-sm" placeholder="Nominal Rp" required>
                                 
-                                <button type="submit" id="btnSimpan" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-98 text-white font-black py-4 rounded-2xl transition shadow-lg shadow-blue-500/20 uppercase text-xs tracking-wider italic">Simpan Transaksi</button>
+                                <button type="submit" id="btnSimpan" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-98 text-white font-black py-3 rounded-xl transition shadow-md shadow-blue-500/20 uppercase text-xs tracking-wider italic">Simpan Transaksi</button>
                             </form>
                         </div>
 
-                        <div class="bg-white p-7 rounded-[2.5rem] border shadow-sm">
-                            <h3 class="text-xs font-black uppercase mb-4 text-slate-400 tracking-widest italic">Ringkasan Pengeluaran</h3>
-                            <div id="ringkasanKategori" class="space-y-3"></div>
+                        <div class="bg-white p-5 rounded-3xl border shadow-sm">
+                            <h3 class="text-[11px] font-black uppercase mb-3 text-slate-400 tracking-widest italic">Ringkasan Pengeluaran</h3>
+                            <div id="ringkasanKategori" class="space-y-2"></div>
                         </div>
                     </div>
 
-                    <div class="lg:col-span-3 bg-white p-7 rounded-[2.5rem] border shadow-sm">
-                        <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
-                            <h3 class="text-xs font-black uppercase text-slate-400 tracking-widest italic">Riwayat Transaksi</h3>
+                    <div class="lg:col-span-3 bg-white p-5 rounded-3xl border shadow-sm">
+                        <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
+                            <h3 class="text-[11px] font-black uppercase text-slate-400 tracking-widest italic">Riwayat Transaksi</h3>
                             <div class="flex gap-2">
-                                <button onclick="unduhCSV()" class="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl font-bold text-[11px] border border-emerald-200 hover:bg-emerald-600 hover:text-white transition uppercase">Excel</button>
-                                <button onclick="unduhPDF()" class="px-4 py-2 bg-rose-50 text-rose-600 rounded-xl font-bold text-[11px] border border-rose-200 hover:bg-rose-600 hover:text-white transition uppercase">Cetak PDF</button>
+                                <button onclick="unduhCSV()" class="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg font-bold text-[10px] border border-emerald-200 hover:bg-emerald-600 hover:text-white transition uppercase">Excel</button>
+                                <button onclick="unduhPDF()" class="px-3 py-1.5 bg-rose-50 text-rose-600 rounded-lg font-bold text-[10px] border border-rose-200 hover:bg-rose-600 hover:text-white transition uppercase">Cetak PDF</button>
                             </div>
                         </div>
-                        <div class="overflow-y-auto max-h-[580px] custom-scrollbar">
+                        <div class="overflow-y-auto max-h-[480px] custom-scrollbar">
                             <table class="w-full text-left">
                                 <tbody id="tabelBody" class="divide-y divide-slate-100"></tbody>
                             </table>
@@ -237,55 +277,140 @@
             </section>
 
             <!-- 3. FITUR 2: CEK KAS BAGI ANGGOTA (PUBLIK) -->
-            <section id="pageCekKas" class="hidden space-y-6">
-                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border shadow-sm">
+            <section id="pageCekKas" class="hidden space-y-5">
+                <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 hover:text-blue-600 transition flex items-center gap-1.5">
                         <span>←</span> Kembali ke Dashboard
                     </button>
-                    <button onclick="copyPenunggak()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-xs font-black uppercase italic shadow-md transition">📋 Salin ke WhatsApp</button>
+                    <button onclick="copyPenunggak()" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-black uppercase italic shadow-sm transition">📋 Salin ke WhatsApp</button>
                 </div>
 
-                <div class="bg-white p-8 rounded-[2.5rem] border shadow-sm">
-                    <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-6">
+                <div class="bg-white p-6 md:p-7 rounded-3xl border shadow-sm">
+                    <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b pb-4">
                         <div>
-                            <h2 class="text-2xl font-black uppercase italic">STATUS PEMBAYARAN <span class="text-blue-600">KAS KELAS</span></h2>
-                            <p class="text-xs text-slate-400 font-bold uppercase mt-1">Total Tagihan Aktif: <span id="labelTagihanPublik" class="text-blue-600 font-extrabold">0</span> Bulan (<span id="labelNominalTagihan" class="text-slate-700 font-extrabold">Rp 0</span> / Siswa)</p>
+                            <h2 class="text-xl font-black uppercase italic">STATUS PEMBAYARAN <span class="text-blue-600">KAS KELAS</span></h2>
+                            <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Total Tagihan Aktif: <span id="labelTagihanPublik" class="text-blue-600 font-extrabold">0</span> Bulan (<span id="labelNominalTagihan" class="text-slate-700 font-extrabold">Rp 0</span> / Siswa)</p>
                         </div>
-                        <input type="text" id="searchSiswa" onkeyup="renderCekKasPublik()" placeholder="🔍 Cari nama siswa..." class="p-3.5 bg-slate-50 border rounded-2xl text-xs outline-none w-full md:w-72 focus:ring-2 focus:ring-blue-500">
+                        <input type="text" id="searchSiswa" onkeyup="renderCekKasPublik()" placeholder="🔍 Cari nama siswa..." class="p-3 bg-slate-50 border rounded-xl text-xs outline-none w-full md:w-64 focus:ring-2 focus:ring-blue-500">
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <!-- KOLOM SUDAH LUNAS -->
-                        <div class="bg-emerald-50/40 p-6 rounded-3xl border border-emerald-100">
-                            <h3 class="font-black text-emerald-800 text-xs uppercase italic mb-4 flex items-center justify-between">
+                        <div class="bg-emerald-50/40 p-5 rounded-2xl border border-emerald-100">
+                            <h3 class="font-black text-emerald-800 text-[11px] uppercase italic mb-3 flex items-center justify-between">
                                 <span>🎉 LUNAS SEPENUHNYA</span>
-                                <span id="countLunas" class="bg-emerald-200 text-emerald-900 text-[10px] font-extrabold px-3 py-1 rounded-full">0</span>
+                                <span id="countLunas" class="bg-emerald-200 text-emerald-900 text-[9px] font-extrabold px-2.5 py-0.5 rounded-full">0</span>
                             </h3>
-                            <div id="listSudahLunas" class="space-y-2.5 max-h-[420px] overflow-y-auto custom-scrollbar"></div>
+                            <div id="listSudahLunas" class="space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar"></div>
                         </div>
 
                         <!-- KOLOM BELUM LUNAS / TUNGGAKAN -->
-                        <div class="bg-rose-50/40 p-6 rounded-3xl border border-rose-100">
-                            <h3 class="font-black text-rose-800 text-xs uppercase italic mb-4 flex items-center justify-between">
+                        <div class="bg-rose-50/40 p-5 rounded-2xl border border-rose-100">
+                            <h3 class="font-black text-rose-800 text-[11px] uppercase italic mb-3 flex items-center justify-between">
                                 <span>⚠️ BELUM LUNAS / TUNGGAKAN</span>
-                                <span id="countBelumLunas" class="bg-rose-200 text-rose-900 text-[10px] font-extrabold px-3 py-1 rounded-full">0</span>
+                                <span id="countBelumLunas" class="bg-rose-200 text-rose-900 text-[9px] font-extrabold px-2.5 py-0.5 rounded-full">0</span>
                             </h3>
-                            <div id="listBelumLunas" class="space-y-2.5 max-h-[420px] overflow-y-auto custom-scrollbar"></div>
+                            <div id="listBelumLunas" class="space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar"></div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 4. FITUR 3 & 4: GOOGLE DRIVE EMBED -->
-            <section id="pageGDriveView" class="hidden space-y-6">
-                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border shadow-sm">
+            <!-- 4. FITUR JADWAL PELAJARAN (FOTO VIEW) -->
+            <section id="pageJadwal" class="hidden space-y-5">
+                <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 hover:text-blue-600 transition flex items-center gap-1.5">
                         <span>←</span> Kembali ke Dashboard
                     </button>
-                    <h2 id="gdriveTitle" class="text-sm font-black uppercase italic text-blue-600 tracking-wider">GOOGLE DRIVE KELAS</h2>
+                    <h2 class="text-xs font-black uppercase italic text-blue-600 tracking-wider">JADWAL PELAJARAN</h2>
                 </div>
-                <div class="bg-white p-3 rounded-[2.5rem] border shadow-sm h-[680px]">
-                    <iframe id="gdriveIframe" src="" class="w-full h-full rounded-2xl border-0"></iframe>
+
+                <div class="bg-white p-5 md:p-6 rounded-3xl border shadow-sm flex flex-col items-center">
+                    <div class="w-full max-w-2xl overflow-hidden rounded-2xl border shadow-md bg-slate-50 group relative">
+                        <img id="imgJadwal" src="jadwal_pelajaran.jpg" onerror="this.onerror=null; this.src='https://via.placeholder.com/1200x800/2563eb/ffffff?text=File+jadwal_pelajaran.jpg+Belum+Ada';" alt="Jadwal Pelajaran Kelas" class="w-full h-auto object-contain cursor-pointer transition transform group-hover:scale-102" onclick="bukaModalJadwal()">
+                    </div>
+                    <div class="mt-4 flex flex-col sm:flex-row items-center gap-2.5">
+                        <button onclick="bukaModalJadwal()" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs uppercase italic shadow-sm transition flex items-center gap-1.5">
+                            <span>🔍 Perbesar Foto Jadwal</span>
+                        </button>
+                        <a href="jadwal_pelajaran.jpg" download="Jadwal_Pelajaran.jpg" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold px-5 py-2.5 rounded-xl text-xs uppercase italic border transition">
+                            📥 Unduh Foto
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. FITUR POJOK LINK PENTING (QUICK LINKS COMPACT) -->
+            <section id="pageQuickLinks" class="hidden space-y-5">
+                <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border shadow-sm">
+                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 hover:text-blue-600 transition flex items-center gap-1.5">
+                        <span>←</span> Kembali ke Dashboard
+                    </button>
+                    <h2 class="text-xs font-black uppercase italic text-blue-600 tracking-wider">POJOK LINK PENTING KELAS</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- LINK 1: ZOOM KELAS -->
+                    <a id="linkZoomBtn" href="#" target="_blank" class="bg-white p-5 rounded-2xl border shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-300 flex flex-col justify-between h-44 group">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-500 to-cyan-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
+                            📹
+                        </div>
+                        <div>
+                            <span class="text-[8px] font-extrabold text-blue-600 uppercase tracking-widest bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100">Virtual Meeting</span>
+                            <h3 class="text-base font-black italic uppercase text-slate-800 mt-1 leading-tight">ZOOM KELAS</h3>
+                            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Tatap Muka Online</p>
+                        </div>
+                        <span class="text-[10px] font-black text-blue-600 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka Zoom →</span>
+                    </a>
+
+                    <!-- LINK 2: LMS SEKOLAH -->
+                    <a id="linkLmsBtn" href="#" target="_blank" class="bg-white p-5 rounded-2xl border shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between h-44 group">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
+                            📚
+                        </div>
+                        <div>
+                            <span class="text-[8px] font-extrabold text-emerald-600 uppercase tracking-widest bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">E-Learning Portal</span>
+                            <h3 class="text-base font-black italic uppercase text-slate-800 mt-1 leading-tight">LMS SEKOLAH</h3>
+                            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Portal Pembelajaran & Tugas</p>
+                        </div>
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka LMS →</span>
+                    </a>
+
+                    <!-- LINK 3: CBT ICLT -->
+                    <a id="linkCbtBtn" href="#" target="_blank" class="bg-white p-5 rounded-2xl border shadow-sm hover:shadow-md hover:border-purple-300 transition-all duration-300 flex flex-col justify-between h-44 group">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-500 to-indigo-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
+                            📝
+                        </div>
+                        <div>
+                            <span class="text-[8px] font-extrabold text-purple-600 uppercase tracking-widest bg-purple-50 px-2 py-0.5 rounded-md border border-purple-100">Ujian & Asesmen</span>
+                            <h3 class="text-base font-black italic uppercase text-slate-800 mt-1 leading-tight">CBT ICLT</h3>
+                            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Sistem Ujian Komputer</p>
+                        </div>
+                        <span class="text-[10px] font-black text-purple-600 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka CBT ICLT →</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 6. FITUR 3 & 4: GOOGLE DRIVE SAFE PREVIEW CARD -->
+            <section id="pageGDriveView" class="hidden space-y-5">
+                <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border shadow-sm">
+                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 hover:text-blue-600 transition flex items-center gap-1.5">
+                        <span>←</span> Kembali ke Dashboard
+                    </button>
+                    <h2 id="gdriveTitle" class="text-xs font-black uppercase italic text-blue-600 tracking-wider">GOOGLE DRIVE KELAS</h2>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl border shadow-sm flex flex-col items-center justify-center text-center min-h-[350px]">
+                    <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-3 shadow-inner border border-blue-100">
+                        📂
+                    </div>
+                    <h3 id="gdriveSubTitle" class="text-lg font-black text-slate-800 uppercase italic">Akses Folder Google Drive</h3>
+                    <p class="text-xs text-slate-400 font-medium max-w-sm mt-1 mb-5">
+                        Seluruh file, foto, dan dokumen tersimpan secara aman di Google Drive Resmi Astravelis.
+                    </p>
+                    <a id="btnBukaDrive" href="#" target="_blank" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold px-6 py-3 rounded-xl text-xs uppercase italic tracking-wider shadow-md shadow-blue-500/20 transition flex items-center gap-2">
+                        <span>🚀 Buka Folder Google Drive</span>
+                    </a>
                 </div>
             </section>
 
@@ -293,24 +418,32 @@
     </div>
 
     <!-- FOOTER LAYOUT -->
-    <footer class="max-w-6xl mx-auto w-full text-center py-6 mt-10 border-t border-slate-200">
-        <p class="text-xs font-bold text-slate-400">© 2026 ASTRAVELIS — Manajemen Data dan Layanan Kelas by Aksara Senja</p>
+    <footer class="max-w-6xl mx-auto w-full text-center py-4 mt-8 border-t border-slate-200">
+        <p class="text-[11px] font-bold text-slate-400">© 2026 ASTRAVELIS — Manajemen Data dan Layanan Kelas by Aksara Senja</p>
     </footer>
 
     <!-- MODAL LOGIN PENGURUS -->
     <div id="modalLogin" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
-        <div class="bg-white w-full max-w-sm rounded-[2.5rem] shadow-2xl p-7 text-center space-y-5 border">
+        <div class="bg-white w-full max-w-xs rounded-3xl shadow-2xl p-6 text-center space-y-4 border">
             <div>
-                <h3 class="font-black text-xl uppercase italic text-slate-900">LOGIN <span class="text-blue-600">PENGURUS</span></h3>
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">Masukkan PIN Otentikasi Jabatan</p>
+                <h3 class="font-black text-lg uppercase italic text-slate-900">LOGIN <span class="text-blue-600">PENGURUS</span></h3>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Masukkan PIN Otentikasi</p>
             </div>
             
-            <input type="password" id="loginPinInput" class="w-full p-4 bg-slate-50 border rounded-2xl text-center font-black tracking-[0.5em] text-xl outline-none focus:ring-2 focus:ring-blue-500" placeholder="••••">
+            <input type="password" id="loginPinInput" class="w-full p-3 bg-slate-50 border rounded-xl text-center font-black tracking-[0.4em] text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="••••">
             
             <div class="flex gap-2">
-                <button onclick="prosesLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3.5 rounded-2xl transition text-xs uppercase italic shadow-md shadow-blue-500/20">Masuk</button>
-                <button onclick="tutupModalLogin()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3.5 rounded-2xl transition text-xs uppercase italic">Batal</button>
+                <button onclick="prosesLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3 rounded-xl transition text-xs uppercase italic shadow-md shadow-blue-500/20">Masuk</button>
+                <button onclick="tutupModalLogin()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 rounded-xl transition text-xs uppercase italic">Batal</button>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL ZOOM JADWAL -->
+    <div id="modalJadwal" class="fixed inset-0 bg-slate-950/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md" onclick="tutupModalJadwal()">
+        <div class="relative max-w-4xl w-full flex flex-col items-center">
+            <img id="imgJadwalZoom" src="jadwal_pelajaran.jpg" alt="Zoom Jadwal" class="max-h-[80vh] w-auto object-contain rounded-xl shadow-2xl">
+            <button onclick="tutupModalJadwal()" class="mt-3 bg-white/20 hover:bg-white/40 text-white font-bold px-5 py-1.5 rounded-lg text-xs uppercase">Tutup Preview</button>
         </div>
     </div>
 
@@ -318,9 +451,14 @@
         const scriptURL = 'https://script.google.com/macros/s/AKfycbw9HX9zRlkd7FUXJfAjOpN8mn4Xn6FuwoaWekoAgkXMUsWBXeZ6abtSkxeJe6bQH0Th/exec';
         const NOMINAL_IURAN = 10000;
         
-        // PASTE EMBEDDED GOOGLE DRIVE LINK DI SINI
-        const URL_GDRIVE_MOMENT = "https://drive.google.com/embeddedfolderview?id=PROSES_GDRIVE_ID#grid";
-        const URL_GDRIVE_MATERI = "https://drive.google.com/embeddedfolderview?id=PROSES_GDRIVE_ID#grid";
+        // TAUTAN POJOK LINK PENTING (QUICK LINKS)
+        const URL_LINK_ZOOM = "https://us06web.zoom.us/j/4634019789?pwd=A1Mh6ctFpz0abaJsbkDxxisjZoowVb.1";
+        const URL_LINK_LMS = "https://lms.maniclotim.sch.id/";
+        const URL_LINK_CBT = "https://cbt.akademiksistem.my.id/";
+
+        // EMBEDDED GOOGLE DRIVE LINK
+        const URL_GDRIVE_MOMENT = "https://drive.google.com/drive/folders/1xYiNCGUPes8LU2kJsKFFLTdGrFRTYXU0?usp=sharing";
+        const URL_GDRIVE_MATERI = "https://drive.google.com/drive/folders/10tKD3rfBM5zUlNKjmgxngLJkD3JzQS8S?usp=sharing";
 
         // CONFIG HASIL LOGIN PENGURUS
         const ROLES = {
@@ -342,6 +480,9 @@
 
         function bukaModalLogin() { document.getElementById('modalLogin').classList.remove('hidden'); }
         function tutupModalLogin() { document.getElementById('modalLogin').classList.add('hidden'); document.getElementById('loginPinInput').value = ""; }
+
+        function bukaModalJadwal() { document.getElementById('modalJadwal').classList.remove('hidden'); }
+        function tutupModalJadwal() { document.getElementById('modalJadwal').classList.add('hidden'); }
 
         function prosesLogin() {
             const pin = document.getElementById('loginPinInput').value.trim();
@@ -365,13 +506,11 @@
         }
 
         function aksesFitur(fitur) {
-            // FITUR PUBLIK: Cek Kas & Moment dapat diakses oleh semua anggota tanpa login
-            if(fitur === 'cekKas' || fitur === 'moment') {
+            if(fitur === 'cekKas' || fitur === 'jadwal' || fitur === 'moment' || fitur === 'materi' || fitur === 'quickLinks') {
                 bukaHalaman(fitur);
                 return;
             }
 
-            // FITUR KHUSUS PENGURUS (Uang Kas & Materi Pelajaran)
             if(!currentRole) {
                 alert("Fitur ini khusus Pengurus Kelas. Silakan Login terlebih dahulu!");
                 bukaModalLogin();
@@ -388,6 +527,8 @@
             document.getElementById('pageDashboard').classList.add('hidden');
             document.getElementById('pageUangKas').classList.add('hidden');
             document.getElementById('pageCekKas').classList.add('hidden');
+            document.getElementById('pageJadwal').classList.add('hidden');
+            document.getElementById('pageQuickLinks').classList.add('hidden');
             document.getElementById('pageGDriveView').classList.add('hidden');
 
             if(hal === 'dashboard') document.getElementById('pageDashboard').classList.remove('hidden');
@@ -396,14 +537,25 @@
                 renderCekKasPublik();
                 document.getElementById('pageCekKas').classList.remove('hidden');
             }
+            else if(hal === 'jadwal') {
+                document.getElementById('pageJadwal').classList.remove('hidden');
+            }
+            else if(hal === 'quickLinks') {
+                document.getElementById('linkZoomBtn').href = URL_LINK_ZOOM;
+                document.getElementById('linkLmsBtn').href = URL_LINK_LMS;
+                document.getElementById('linkCbtBtn').href = URL_LINK_CBT;
+                document.getElementById('pageQuickLinks').classList.remove('hidden');
+            }
             else if(hal === 'moment') {
                 document.getElementById('gdriveTitle').innerText = "GALLERY MOMENT KELAS";
-                document.getElementById('gdriveIframe').src = URL_GDRIVE_MOMENT;
+                document.getElementById('gdriveSubTitle').innerText = "Folder Foto & Memori Astravelis";
+                document.getElementById('btnBukaDrive').href = URL_GDRIVE_MOMENT;
                 document.getElementById('pageGDriveView').classList.remove('hidden');
             }
             else if(hal === 'materi') {
                 document.getElementById('gdriveTitle').innerText = "MATERI & TUGAS PELAJARAN";
-                document.getElementById('gdriveIframe').src = URL_GDRIVE_MATERI;
+                document.getElementById('gdriveSubTitle').innerText = "Folder Bahan Belajar & Tugas";
+                document.getElementById('btnBukaDrive').href = URL_GDRIVE_MATERI;
                 document.getElementById('pageGDriveView').classList.remove('hidden');
             }
         }
@@ -543,14 +695,14 @@
             const body = document.getElementById('tabelBody');
             const dataValid = dataLokal.filter(r => r[0] && r[1] && r[3]);
             if (dataValid.length === 0) {
-                body.innerHTML = `<tr><td colspan="3" class="py-8 text-center text-slate-400 italic text-xs">Belum ada riwayat transaksi aktif.</td></tr>`;
+                body.innerHTML = `<tr><td colspan="3" class="py-6 text-center text-slate-400 italic text-xs">Belum ada riwayat transaksi aktif.</td></tr>`;
                 return;
             }
             body.innerHTML = dataValid.slice().reverse().map((r) => {
                 const realIdx = dataLokal.findIndex(originalRow => originalRow === r);
                 const nominal = parseInt(r[3]) || 0;
                 return `<tr class="border-b border-slate-100 text-xs">
-                    <td class="py-3"><b>${r[1]}</b><br><small class="text-slate-400">${r[2]}</small></td>
+                    <td class="py-2.5"><b>${r[1]}</b><br><small class="text-slate-400">${r[2]}</small></td>
                     <td class="text-right font-extrabold ${r[4] === 'Masuk' ? 'text-emerald-600' : 'text-rose-600'}">Rp ${nominal.toLocaleString('id-ID')}</td>
                     <td class="text-right"><button onclick="hapusData(${realIdx})" class="text-slate-300 hover:text-rose-500 transition px-2">✕</button></td>
                 </tr>`;
@@ -588,18 +740,18 @@
 
                 if(tunggakan <= 0) {
                     countLunas++;
-                    listLunasHTML += `<div class="p-3.5 bg-white rounded-2xl border border-emerald-100 flex justify-between items-center text-xs shadow-sm">
+                    listLunasHTML += `<div class="p-3 bg-white rounded-xl border border-emerald-100 flex justify-between items-center text-xs shadow-sm">
                         <span class="font-bold text-slate-800">${n}</span>
-                        <span class="text-[10px] font-black text-emerald-700 bg-emerald-100/80 px-2.5 py-1 rounded-lg">LUNAS</span>
+                        <span class="text-[9px] font-black text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md">LUNAS</span>
                     </div>`;
                 } else {
                     countBelum++;
-                    listBelumHTML += `<div class="p-3.5 bg-white rounded-2xl border border-rose-100 flex justify-between items-center text-xs shadow-sm">
+                    listBelumHTML += `<div class="p-3 bg-white rounded-xl border border-rose-100 flex justify-between items-center text-xs shadow-sm">
                         <div>
                             <p class="font-bold text-slate-800">${n}</p>
-                            <p class="text-[10px] text-slate-400 font-medium">Terbayar: Rp ${bayar.toLocaleString('id-ID')}</p>
+                            <p class="text-[9px] text-slate-400 font-medium">Terbayar: Rp ${bayar.toLocaleString('id-ID')}</p>
                         </div>
-                        <span class="text-[10px] font-black text-rose-600 bg-rose-100/80 px-2.5 py-1 rounded-lg">-Rp ${tunggakan.toLocaleString('id-ID')}</span>
+                        <span class="text-[9px] font-black text-rose-600 bg-rose-100/80 px-2 py-0.5 rounded-md">-Rp ${tunggakan.toLocaleString('id-ID')}</span>
                     </div>`;
                 }
             });
