@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASTRAVELIS - Portal Kelas X-3</title>
+    
+    <link rel="manifest" href='data:application/manifest+json,{
+      "name": "ASTRAVELIS",
+      "short_name": "Astravelis",
+      "start_url": ".",
+      "display": "standalone",
+      "background_color": "#ffffff",
+      "theme_color": "#2563eb",
+      "icons": [
+        { "src": "logo.jpg", "sizes": "192x192", "type": "image/jpeg" },
+        { "src": "logo.jpg", "sizes": "512x512", "type": "image/jpeg" }
+      ]
+    }'>
+    <link rel="apple-touch-icon" href="logo.jpg">
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+
+    <!-- TailWind CSS & Font Inter -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Dependencies Pustaka Eksternal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .switch { position: relative; display: inline-block; width: 48px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e2e8f0; transition: .3s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input:checked + .slider { background-color: #2563eb; }
+        input:checked + .slider:before { transform: translateX(22px); }
+        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.8); }
+    </style>
+</head>
+<body class="bg-slate-100/70 text-slate-800 min-h-screen flex flex-col justify-between p-3 md:p-8">
+
+    <div class="max-w-6xl mx-auto w-full">
+        <!-- HEADER LAYOUT MODERN -->
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 glass-card p-4 md:p-5 rounded-3xl shadow-sm">
+            <div class="flex items-center gap-3.5 cursor-pointer group" onclick="bukaHalaman('dashboard')">
+                <img id="logoApp" src="logo.jpg" alt="Logo" class="h-12 w-12 object-cover rounded-2xl shadow-md border-2 border-blue-600 transition transform group-hover:scale-105">
+                <div>
+                    <h1 class="text-2xl font-black italic tracking-wide text-slate-900 leading-tight">ASTRAVELIS <span class="text-blue-600">X-3</span></h1>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Portal Resmi Manajemen Kelas</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                <div class="bg-slate-100 text-slate-600 text-[11px] font-bold px-4 py-2.5 rounded-2xl shadow-inner border border-slate-200/60 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span id="realtimeClock">Memuat waktu...</span>
+                </div>
+                
+                <div id="authBox">
+                    <button id="btnLogin" onclick="bukaModalLogin()" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-2xl text-xs uppercase tracking-wider shadow-md shadow-blue-500/20 transition">LOGIN</button>
+                    <div id="userInfo" class="hidden flex items-center gap-2">
+                        <span id="roleBadge" class="bg-blue-50 text-blue-700 border border-blue-200 font-bold text-[11px] px-3.5 py-1.5 rounded-xl uppercase">Tamu</span>
+                        <button onclick="logout()" class="bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl text-[11px] border border-red-200 transition">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- DYNAMIC CONTENT CONTAINER -->
+        <main id="mainContainer">
+            
+            <!-- 1. MAIN DASHBOARD -->
+            <section id="pageDashboard" class="space-y-8">
+                <!-- HERO PHOTO BANNER -->
+                <div class="relative w-full h-72 md:h-96 bg-gradient-to-tr from-blue-900 via-blue-700 to-indigo-800 rounded-[2.5rem] shadow-xl overflow-hidden border-4 border-white flex items-center justify-center">
+                    <img src="foto_kelas.jpg" onerror="this.style.opacity='0'" alt="Foto Anggota Kelas" class="absolute inset-0 w-full h-full object-cover transition duration-700 hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/30 to-transparent flex flex-col justify-end p-6 md:p-10">
+                        <span class="bg-blue-500/80 text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full w-max mb-2 backdrop-blur-md">Member of</span>
+                        <h2 class="text-3xl md:text-5xl font-black italic uppercase text-white tracking-tight drop-shadow-md">ASTRAVELIS</h2>
+                        <p class="text-xs md:text-sm font-medium text-slate-200 opacity-90 mt-1">Reach the sky, Astravelis fly</p>
+                    </div>
+                </div>
+
+                <!-- MENU FITUR 4 KARTU MODERN -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div onclick="aksesFitur('uangKas')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-7 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-blue-500/20 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between h-52 group">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-100 group-hover:bg-white/20 flex items-center justify-center text-2xl transition">💰</div>
+                        <div>
+                            <h3 class="text-lg font-black italic uppercase tracking-wide">UANG KAS</h3>
+                            <p class="text-xs opacity-70 font-semibold mt-1">Kelola Transaksi & Laporan Keuangan</p>
+                        </div>
+                    </div>
+
+                    <div onclick="aksesFitur('cekKas')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-7 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-blue-500/20 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between h-52 group">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-100 group-hover:bg-white/20 flex items-center justify-center text-2xl transition">🔍</div>
+                        <div>
+                            <h3 class="text-lg font-black italic uppercase tracking-wide">CEK KAS ANGGOTA</h3>
+                            <p class="text-xs opacity-70 font-semibold mt-1">Status Pelunasan & Tunggakan Siswa</p>
+                        </div>
+                    </div>
+
+                    <div onclick="aksesFitur('moment')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-7 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-blue-500/20 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between h-52 group">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-100 group-hover:bg-white/20 flex items-center justify-center text-2xl transition">📸</div>
+                        <div>
+                            <h3 class="text-lg font-black italic uppercase tracking-wide">MOMENT KELAS</h3>
+                            <p class="text-xs opacity-70 font-semibold mt-1">Galeri Foto & Memori Google Drive</p>
+                        </div>
+                    </div>
+
+                    <div onclick="aksesFitur('materi')" class="glass-card hover:bg-blue-600 text-slate-800 hover:text-white p-7 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-blue-500/20 border cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between h-52 group">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-100 group-hover:bg-white/20 flex items-center justify-center text-2xl transition">📚</div>
+                        <div>
+                            <h3 class="text-lg font-black italic uppercase tracking-wide">MATERI PELAJARAN</h3>
+                            <p class="text-xs opacity-70 font-semibold mt-1">Folder Tugas & Bahan Belajar Kelas</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. FITUR 1: UANG KAS -->
+            <section id="pageUangKas" class="hidden space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-2xl border shadow-sm">
+                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 hover:text-blue-600 transition flex items-center gap-1.5">
+                        <span>←</span> Kembali ke Dashboard
+                    </button>
+                    <div class="flex items-center gap-3">
+                        <span id="infoBulan" class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-100">Menghubungkan...</span>
+                        <button onclick="muatData()" class="p-2 bg-slate-100 hover:bg-slate-200 rounded-xl border transition">🔄</button>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 items-center justify-end">
+                    <button onclick="kurangiBulan()" class="px-4 py-2.5 bg-white text-red-500 rounded-2xl shadow-sm border border-red-100 hover:bg-red-50 transition text-xs font-bold uppercase italic">➖ Edit Tagihan</button>
+                    <div class="bg-white px-4 py-2 rounded-2xl shadow-sm border flex items-center gap-3">
+                        <div class="text-right">
+                            <p class="text-[9px] font-black text-slate-400 uppercase">Tambah Tagihan</p>
+                            <p id="statusSaklar" class="text-[10px] font-bold text-red-500 uppercase italic">Libur/Off</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="btnSaklar" onchange="toggleIuran()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 p-7 rounded-[2.5rem] text-white shadow-lg shadow-blue-500/15 md:col-span-2 flex flex-col justify-between">
+                        <div>
+                            <p class="text-xs font-extrabold uppercase opacity-80 italic">Total Saldo Fisik Kelas</p>
+                            <h2 id="totalSaldo" class="text-4xl md:text-5xl font-black tracking-tight mt-1">Rp 0</h2>
+                        </div>
+                        <div class="mt-8 flex gap-6 text-xs font-bold border-t border-white/20 pt-4">
+                            <p>MASUK (BLN INI): <span id="mBulanIni" class="text-emerald-300 font-extrabold">+0</span></p>
+                            <p>KELUAR (BLN INI): <span id="kBulanIni" class="text-rose-300 font-extrabold">-0</span></p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-7 rounded-[2.5rem] border shadow-sm flex flex-col justify-center">
+                        <p class="text-xs font-extrabold uppercase text-slate-400 italic">Piutang Tunggakan</p>
+                        <h2 id="sisaPiutang" class="text-3xl font-black text-rose-500 mt-1">Rp 0</h2>
+                        <p class="text-[10px] mt-2 text-slate-400 font-bold">*Sinkron Otomatis Seluruh Perangkat</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-[2.5rem] border shadow-sm flex items-center justify-center">
+                        <canvas id="miniChart" class="max-h-24"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-7 rounded-[2.5rem] border shadow-sm">
+                            <h3 class="text-xs font-black uppercase mb-5 text-slate-400 tracking-widest italic">Input Transaksi Kas</h3>
+                            <form id="kasForm" class="space-y-4">
+                                <div class="relative">
+                                    <input type="text" id="nama" list="listAnggota" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-bold uppercase text-xs" placeholder="Nama Siswa" required autocomplete="off">
+                                    <datalist id="listAnggota"></datalist>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-2">
+                                    <select id="tipe" class="p-3.5 bg-slate-50 border rounded-2xl font-bold text-xs outline-none" onchange="sesuaikanFormOtomatis()">
+                                        <option value="Masuk">Masuk (+)</option>
+                                        <option value="Keluar">Keluar (-)</option>
+                                    </select>
+                                    <select id="kategori" class="p-3.5 bg-slate-50 border rounded-2xl font-bold text-xs outline-none" onchange="sesuaikanFormOtomatis()">
+                                        <option value="Iuran">Iuran</option>
+                                        <option value="Sosial">Sosial</option>
+                                        <option value="Alat Kelas">Alat Kelas</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select>
+                                </div>
+
+                                <div id="boxBayarSekaligus" class="p-3.5 bg-blue-50/80 rounded-2xl border border-blue-100">
+                                    <label class="text-[10px] font-black text-blue-600 uppercase ml-1">Bayar Berapa Bulan?</label>
+                                    <select id="jumlahBulanBayar" class="w-full bg-transparent font-bold text-xs outline-none cursor-pointer mt-0.5" onchange="sesuaikanFormOtomatis()">
+                                        <option value="1">1 Bulan (Normal)</option>
+                                        <option value="2">2 Bulan Sekaligus</option>
+                                        <option value="3">3 Bulan Sekaligus</option>
+                                        <option value="4">4 Bulan Sekaligus</option>
+                                        <option value="5">5 Bulan Sekaligus</option>
+                                        <option value="6">6 Bulan Sekaligus</option>
+                                    </select>
+                                </div>
+                                
+                                <input type="text" id="keterangan" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none text-xs" placeholder="Keterangan transaksi..." required>
+                                <input type="number" id="jumlah" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none font-black text-blue-600 text-base" placeholder="Nominal Rp" required>
+                                
+                                <button type="submit" id="btnSimpan" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-98 text-white font-black py-4 rounded-2xl transition shadow-lg shadow-blue-500/20 uppercase text-xs tracking-wider italic">Simpan Transaksi</button>
+                            </form>
+                        </div>
+
+                        <div class="bg-white p-7 rounded-[2.5rem] border shadow-sm">
+                            <h3 class="text-xs font-black uppercase mb-4 text-slate-400 tracking-widest italic">Ringkasan Pengeluaran</h3>
+                            <div id="ringkasanKategori" class="space-y-3"></div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-3 bg-white p-7 rounded-[2.5rem] border shadow-sm">
+                        <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
+                            <h3 class="text-xs font-black uppercase text-slate-400 tracking-widest italic">Riwayat Transaksi</h3>
+                            <div class="flex gap-2">
+                                <button onclick="unduhCSV()" class="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl font-bold text-[11px] border border-emerald-200 hover:bg-emerald-600 hover:text-white transition uppercase">Excel</button>
+                                <button onclick="unduhPDF()" class="px-4 py-2 bg-rose-50 text-rose-600 rounded-xl font-bold text-[11px] border border-rose-200 hover:bg-rose-600 hover:text-white transition uppercase">Cetak PDF</button>
+                            </div>
+                        </div>
+                        <div class="overflow-y-auto max-h-[580px] custom-scrollbar">
+                            <table class="w-full text-left">
+                                <tbody id="tabelBody" class="divide-y divide-slate-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. FITUR 2: CEK KAS BAGI ANGGOTA (PUBLIK) -->
+            <section id="pageCekKas" class="hidden space-y-6">
+                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border shadow-sm">
+                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 hover:text-blue-600 transition flex items-center gap-1.5">
+                        <span>←</span> Kembali ke Dashboard
+                    </button>
+                    <button onclick="copyPenunggak()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-xs font-black uppercase italic shadow-md transition">📋 Salin ke WhatsApp</button>
+                </div>
+
+                <div class="bg-white p-8 rounded-[2.5rem] border shadow-sm">
+                    <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-6">
+                        <div>
+                            <h2 class="text-2xl font-black uppercase italic">STATUS PEMBAYARAN <span class="text-blue-600">KAS KELAS</span></h2>
+                            <p class="text-xs text-slate-400 font-bold uppercase mt-1">Total Tagihan Aktif: <span id="labelTagihanPublik" class="text-blue-600 font-extrabold">0</span> Bulan (<span id="labelNominalTagihan" class="text-slate-700 font-extrabold">Rp 0</span> / Siswa)</p>
+                        </div>
+                        <input type="text" id="searchSiswa" onkeyup="renderCekKasPublik()" placeholder="🔍 Cari nama siswa..." class="p-3.5 bg-slate-50 border rounded-2xl text-xs outline-none w-full md:w-72 focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- KOLOM SUDAH LUNAS -->
+                        <div class="bg-emerald-50/40 p-6 rounded-3xl border border-emerald-100">
+                            <h3 class="font-black text-emerald-800 text-xs uppercase italic mb-4 flex items-center justify-between">
+                                <span>🎉 LUNAS SEPENUHNYA</span>
+                                <span id="countLunas" class="bg-emerald-200 text-emerald-900 text-[10px] font-extrabold px-3 py-1 rounded-full">0</span>
+                            </h3>
+                            <div id="listSudahLunas" class="space-y-2.5 max-h-[420px] overflow-y-auto custom-scrollbar"></div>
+                        </div>
+
+                        <!-- KOLOM BELUM LUNAS / TUNGGAKAN -->
+                        <div class="bg-rose-50/40 p-6 rounded-3xl border border-rose-100">
+                            <h3 class="font-black text-rose-800 text-xs uppercase italic mb-4 flex items-center justify-between">
+                                <span>⚠️ BELUM LUNAS / TUNGGAKAN</span>
+                                <span id="countBelumLunas" class="bg-rose-200 text-rose-900 text-[10px] font-extrabold px-3 py-1 rounded-full">0</span>
+                            </h3>
+                            <div id="listBelumLunas" class="space-y-2.5 max-h-[420px] overflow-y-auto custom-scrollbar"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. FITUR 3 & 4: GOOGLE DRIVE EMBED -->
+            <section id="pageGDriveView" class="hidden space-y-6">
+                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border shadow-sm">
+                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 hover:text-blue-600 transition flex items-center gap-1.5">
+                        <span>←</span> Kembali ke Dashboard
+                    </button>
+                    <h2 id="gdriveTitle" class="text-sm font-black uppercase italic text-blue-600 tracking-wider">GOOGLE DRIVE KELAS</h2>
+                </div>
+                <div class="bg-white p-3 rounded-[2.5rem] border shadow-sm h-[680px]">
+                    <iframe id="gdriveIframe" src="" class="w-full h-full rounded-2xl border-0"></iframe>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- FOOTER LAYOUT -->
+    <footer class="max-w-6xl mx-auto w-full text-center py-6 mt-10 border-t border-slate-200">
+        <p class="text-xs font-bold text-slate-400">© 2026 ASTRAVELIS — Manajemen Data dan Layanan Kelas by Aksara Senja</p>
+    </footer>
+
+    <!-- MODAL LOGIN PENGURUS -->
+    <div id="modalLogin" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-white w-full max-w-sm rounded-[2.5rem] shadow-2xl p-7 text-center space-y-5 border">
+            <div>
+                <h3 class="font-black text-xl uppercase italic text-slate-900">LOGIN <span class="text-blue-600">PENGURUS</span></h3>
+                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">Masukkan PIN Otentikasi Jabatan</p>
+            </div>
+            
+            <input type="password" id="loginPinInput" class="w-full p-4 bg-slate-50 border rounded-2xl text-center font-black tracking-[0.5em] text-xl outline-none focus:ring-2 focus:ring-blue-500" placeholder="••••">
+            
+            <div class="flex gap-2">
+                <button onclick="prosesLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3.5 rounded-2xl transition text-xs uppercase italic shadow-md shadow-blue-500/20">Masuk</button>
+                <button onclick="tutupModalLogin()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3.5 rounded-2xl transition text-xs uppercase italic">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw9HX9zRlkd7FUXJfAjOpN8mn4Xn6FuwoaWekoAgkXMUsWBXeZ6abtSkxeJe6bQH0Th/exec';
+        const NOMINAL_IURAN = 10000;
+        
+        // PASTE EMBEDDED GOOGLE DRIVE LINK DI SINI
+        const URL_GDRIVE_MOMENT = "https://drive.google.com/embeddedfolderview?id=PROSES_GDRIVE_ID#grid";
+        const URL_GDRIVE_MATERI = "https://drive.google.com/embeddedfolderview?id=PROSES_GDRIVE_ID#grid";
+
+        // CONFIG HASIL LOGIN PENGURUS
+        const ROLES = {
+            "0101": { name: "Admin", access: ["uangKas", "cekKas", "moment", "materi"] },
+            "2222": { name: "Bendahara", access: ["uangKas", "cekKas"] },
+            "3333": { name: "Sekretaris", access: ["moment", "materi"] },
+            "4444": { name: "Ketua/Wakil Kelas", access: ["moment", "materi"] }
+        };
+
+        let currentRole = null;
+        let dataLokal = [], listSiswa = [], myChart;
+        let bulanAktif = 0;
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('realtimeClock').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+        setInterval(updateClock, 1000);
+
+        function bukaModalLogin() { document.getElementById('modalLogin').classList.remove('hidden'); }
+        function tutupModalLogin() { document.getElementById('modalLogin').classList.add('hidden'); document.getElementById('loginPinInput').value = ""; }
+
+        function prosesLogin() {
+            const pin = document.getElementById('loginPinInput').value.trim();
+            if(ROLES[pin]) {
+                currentRole = ROLES[pin];
+                document.getElementById('btnLogin').classList.add('hidden');
+                document.getElementById('userInfo').classList.remove('hidden');
+                document.getElementById('roleBadge').innerText = currentRole.name;
+                tutupModalLogin();
+                alert(`Login Berhasil! Anda masuk sebagai ${currentRole.name}.`);
+            } else {
+                alert("PIN Otentikasi Salah!");
+            }
+        }
+
+        function logout() {
+            currentRole = null;
+            document.getElementById('btnLogin').classList.remove('hidden');
+            document.getElementById('userInfo').classList.add('hidden');
+            bukaHalaman('dashboard');
+        }
+
+        function aksesFitur(fitur) {
+            // FITUR PUBLIK: Cek Kas & Moment dapat diakses oleh semua anggota tanpa login
+            if(fitur === 'cekKas' || fitur === 'moment') {
+                bukaHalaman(fitur);
+                return;
+            }
+
+            // FITUR KHUSUS PENGURUS (Uang Kas & Materi Pelajaran)
+            if(!currentRole) {
+                alert("Fitur ini khusus Pengurus Kelas. Silakan Login terlebih dahulu!");
+                bukaModalLogin();
+                return;
+            }
+            if(!currentRole.access.includes(fitur)) {
+                alert(`Akses Ditolak! Jabatan ${currentRole.name} tidak memiliki wewenang pada fitur ini.`);
+                return;
+            }
+            bukaHalaman(fitur);
+        }
+
+        function bukaHalaman(hal) {
+            document.getElementById('pageDashboard').classList.add('hidden');
+            document.getElementById('pageUangKas').classList.add('hidden');
+            document.getElementById('pageCekKas').classList.add('hidden');
+            document.getElementById('pageGDriveView').classList.add('hidden');
+
+            if(hal === 'dashboard') document.getElementById('pageDashboard').classList.remove('hidden');
+            else if(hal === 'uangKas') document.getElementById('pageUangKas').classList.remove('hidden');
+            else if(hal === 'cekKas') {
+                renderCekKasPublik();
+                document.getElementById('pageCekKas').classList.remove('hidden');
+            }
+            else if(hal === 'moment') {
+                document.getElementById('gdriveTitle').innerText = "GALLERY MOMENT KELAS";
+                document.getElementById('gdriveIframe').src = URL_GDRIVE_MOMENT;
+                document.getElementById('pageGDriveView').classList.remove('hidden');
+            }
+            else if(hal === 'materi') {
+                document.getElementById('gdriveTitle').innerText = "MATERI & TUGAS PELAJARAN";
+                document.getElementById('gdriveIframe').src = URL_GDRIVE_MATERI;
+                document.getElementById('pageGDriveView').classList.remove('hidden');
+            }
+        }
+
+        async function muatData() {
+            document.getElementById('infoBulan').innerText = "MENYINGKRONKAN...";
+            try {
+                const res = await fetch(scriptURL);
+                const json = await res.json();
+                dataLokal = json.transaksi || [];
+                listSiswa = (json.anggota || []).map(n => n.toString().trim());
+                bulanAktif = parseInt(json.bulanAktif) || 0;
+                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
+                updateUI();
+                sesuaikanFormOtomatis();
+            } catch (e) { document.getElementById('infoBulan').innerText = "OFFLINE"; }
+        }
+
+        async function sinkronBulanKeCloud(nilaiBaru) {
+            document.getElementById('infoBulan').innerText = "MENYIMPAN...";
+            try {
+                await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ action: "updateBulan", nilai: nilaiBaru }) });
+                muatData();
+            } catch (e) { alert("Gagal koneksi cloud!"); }
+        }
+
+        async function kurangiBulan() {
+            const perintah = prompt("Ketik 'KURANG' untuk -1 bulan, atau 'RESET' untuk nol kan semua:");
+            if(!perintah) return;
+            let baru = bulanAktif;
+            if(perintah.toUpperCase() === 'RESET') {
+                if(confirm("Yakin reset semua tagihan?")) baru = 0;
+            } else if(perintah.toUpperCase() === 'KURANG' && bulanAktif > 0) {
+                baru = bulanAktif - 1;
+            }
+            await sinkronBulanKeCloud(baru);
+        }
+
+        async function toggleIuran() { 
+            if(confirm("Tambah tagihan 1 bulan?")) await sinkronBulanKeCloud(bulanAktif + 1);
+            document.getElementById('btnSaklar').checked = false; 
+        }
+
+        function sesuaikanFormOtomatis() {
+            const jmlBulan = parseInt(document.getElementById('jumlahBulanBayar').value) || 1;
+            const kategori = document.getElementById('kategori').value;
+            const tipe = document.getElementById('tipe').value;
+            const boxBulan = document.getElementById('boxBayarSekaligus');
+
+            if (kategori === "Iuran" && tipe === "Masuk") {
+                boxBulan.style.display = "block";
+                document.getElementById('jumlah').value = jmlBulan * NOMINAL_IURAN;
+                document.getElementById('keterangan').value = `Bayar kas untuk ${jmlBulan} bulan`;
+            } else {
+                boxBulan.style.display = "none";
+            }
+        }
+
+        document.getElementById('kasForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const namaInput = document.getElementById('nama').value.trim();
+            const namaValid = listSiswa.find(n => n.toUpperCase() === namaInput.toUpperCase());
+            if(!namaValid) { alert("NAMA TIDAK TERDAFTAR!"); return; }
+
+            const btn = document.getElementById('btnSimpan');
+            btn.innerText = "PROSES..."; btn.disabled = true;
+
+            const payload = { 
+                nama: namaValid, 
+                keterangan: `[${document.getElementById('kategori').value}] ${document.getElementById('keterangan').value}`, 
+                jumlah: parseInt(document.getElementById('jumlah').value) || 0, 
+                tipe: document.getElementById('tipe').value 
+            };
+
+            let barisKosong = dataLokal.length + 2;
+            try {
+                await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ ...payload, action: "insertAt", targetRow: barisKosong }) });
+                document.getElementById('nama').value = "";
+                document.getElementById('keterangan').value = "";
+                document.getElementById('jumlah').value = "";
+                muatData();
+            } catch (e) { alert("Gagal Simpan!"); }
+            finally { btn.innerText = "Simpan Transaksi"; btn.disabled = false; }
+        });
+
+        function updateUI() {
+            let mTotal = 0, kTotal = 0, mBulanIni = 0, kBulanIni = 0;
+            const sekarang = new Date();
+            const saldoTrend = [];
+            const pengeluaranKategori = { "Sosial": 0, "Alat Kelas": 0, "Lainnya": 0 };
+
+            dataLokal.forEach(r => {
+                if (!r[0] || !r[1]) return;
+                const tgl = new Date(r[0]);
+                const jml = parseInt(r[3]) || 0;
+                const tipe = r[4];
+                const ket = r[2] || "";
+
+                if(tipe === 'Masuk') mTotal += jml;
+                else {
+                    kTotal += jml;
+                    if(ket.includes("[Sosial]")) pengeluaranKategori["Sosial"] += jml;
+                    else if(ket.includes("[Alat Kelas]")) pengeluaranKategori["Alat Kelas"] += jml;
+                    else pengeluaranKategori["Lainnya"] += jml;
+                }
+
+                if(!isNaN(tgl.getTime())) {
+                    if(tgl.getMonth() === sekarang.getMonth() && tgl.getFullYear() === sekarang.getFullYear()) {
+                        if(tipe === 'Masuk') mBulanIni += jml; else kBulanIni += jml;
+                    }
+                }
+                saldoTrend.push(mTotal - kTotal);
+            });
+
+            document.getElementById('ringkasanKategori').innerHTML = Object.entries(pengeluaranKategori).map(([k, v]) => `
+                <div class="flex justify-between border-b pb-1 text-xs"><span>${k}</span><span class="font-bold text-rose-500">Rp ${v.toLocaleString()}</span></div>
+            `).join('');
+
+            const target = bulanAktif * NOMINAL_IURAN;
+            let piutang = 0;
+            listSiswa.forEach(n => {
+                const bayar = dataLokal.filter(t => t[1] && t[1].toString().trim() === n && t[4] === 'Masuk' && t[2].includes("[Iuran]")).reduce((a, b) => a + (parseInt(b[3]) || 0), 0);
+                if(bayar < target) piutang += (target - bayar);
+            });
+
+            document.getElementById('totalSaldo').innerText = "Rp " + (mTotal - kTotal).toLocaleString('id-ID');
+            document.getElementById('sisaPiutang').innerText = "Rp " + piutang.toLocaleString('id-ID');
+            document.getElementById('mBulanIni').innerText = "+" + mBulanIni.toLocaleString('id-ID');
+            document.getElementById('kBulanIni').innerText = "-" + kBulanIni.toLocaleString('id-ID');
+            document.getElementById('infoBulan').innerText = `TAGIHAN: ${bulanAktif} BULAN`;
+
+            renderTabel();
+            renderMiniChart(saldoTrend.length > 0 ? saldoTrend.slice(-10) : [0]);
+        }
+
+        function renderTabel() {
+            const body = document.getElementById('tabelBody');
+            const dataValid = dataLokal.filter(r => r[0] && r[1] && r[3]);
+            if (dataValid.length === 0) {
+                body.innerHTML = `<tr><td colspan="3" class="py-8 text-center text-slate-400 italic text-xs">Belum ada riwayat transaksi aktif.</td></tr>`;
+                return;
+            }
+            body.innerHTML = dataValid.slice().reverse().map((r) => {
+                const realIdx = dataLokal.findIndex(originalRow => originalRow === r);
+                const nominal = parseInt(r[3]) || 0;
+                return `<tr class="border-b border-slate-100 text-xs">
+                    <td class="py-3"><b>${r[1]}</b><br><small class="text-slate-400">${r[2]}</small></td>
+                    <td class="text-right font-extrabold ${r[4] === 'Masuk' ? 'text-emerald-600' : 'text-rose-600'}">Rp ${nominal.toLocaleString('id-ID')}</td>
+                    <td class="text-right"><button onclick="hapusData(${realIdx})" class="text-slate-300 hover:text-rose-500 transition px-2">✕</button></td>
+                </tr>`;
+            }).join('');
+        }
+
+        async function hapusData(idx) {
+            if(confirm("Hapus transaksi ini?")) {
+                await fetch(scriptURL, { method: 'POST', body: JSON.stringify({action: 'delete', row: idx}) });
+                muatData();
+            }
+        }
+
+        function renderMiniChart(data) {
+            const ctx = document.getElementById('miniChart').getContext('2d');
+            if(myChart) myChart.destroy();
+            myChart = new Chart(ctx, { type: 'line', data: { labels: data.map((_, i) => i), datasets: [{ data: data, borderColor: '#2563eb', fill: true, backgroundColor: 'rgba(37, 99, 235, 0.08)', tension: 0.4, pointRadius: 0 }] }, options: { scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false } } } });
+        }
+
+        function renderCekKasPublik() {
+            const target = bulanAktif * NOMINAL_IURAN;
+            const filterKeyword = document.getElementById('searchSiswa').value.toUpperCase();
+            
+            document.getElementById('labelTagihanPublik').innerText = bulanAktif;
+            document.getElementById('labelNominalTagihan').innerText = "Rp " + target.toLocaleString('id-ID');
+
+            let listLunasHTML = "", listBelumHTML = "";
+            let countLunas = 0, countBelum = 0;
+
+            listSiswa.forEach(n => {
+                if(filterKeyword && !n.toUpperCase().includes(filterKeyword)) return;
+
+                const bayar = dataLokal.filter(t => t[1] && t[1].toString().trim() === n && t[4] === 'Masuk' && t[2].includes("[Iuran]")).reduce((a, b) => a + (parseInt(b[3]) || 0), 0);
+                const tunggakan = target - bayar;
+
+                if(tunggakan <= 0) {
+                    countLunas++;
+                    listLunasHTML += `<div class="p-3.5 bg-white rounded-2xl border border-emerald-100 flex justify-between items-center text-xs shadow-sm">
+                        <span class="font-bold text-slate-800">${n}</span>
+                        <span class="text-[10px] font-black text-emerald-700 bg-emerald-100/80 px-2.5 py-1 rounded-lg">LUNAS</span>
+                    </div>`;
+                } else {
+                    countBelum++;
+                    listBelumHTML += `<div class="p-3.5 bg-white rounded-2xl border border-rose-100 flex justify-between items-center text-xs shadow-sm">
+                        <div>
+                            <p class="font-bold text-slate-800">${n}</p>
+                            <p class="text-[10px] text-slate-400 font-medium">Terbayar: Rp ${bayar.toLocaleString('id-ID')}</p>
+                        </div>
+                        <span class="text-[10px] font-black text-rose-600 bg-rose-100/80 px-2.5 py-1 rounded-lg">-Rp ${tunggakan.toLocaleString('id-ID')}</span>
+                    </div>`;
+                }
+            });
+
+            document.getElementById('countLunas').innerText = countLunas;
+            document.getElementById('countBelumLunas').innerText = countBelum;
+            document.getElementById('listSudahLunas').innerHTML = listLunasHTML || `<p class="text-xs text-slate-400 italic p-2">Tidak ada data lunas.</p>`;
+            document.getElementById('listBelumLunas').innerHTML = listBelumHTML || `<p class="text-xs text-slate-400 italic p-2">Tidak ada data tunggakan.</p>`;
+        }
+
+        function copyPenunggak() {
+            const target = bulanAktif * NOMINAL_IURAN;
+            let teks = "*📢 PENGINGAT TUNGGAKAN KAS ASTRAVELIS 📢*\n\n";
+            let adaPenunggak = false;
+            
+            listSiswa.forEach(n => {
+                const bayar = dataLokal.filter(t => t[1] && t[1].toString().trim() === n && t[4] === 'Masuk' && t[2].includes("[Iuran]")).reduce((a, b) => a + (parseInt(b[3]) || 0), 0);
+                const tunggakan = target - bayar;
+                if(tunggakan > 0) {
+                    teks += `🔹 *${n}* (Kurang: Rp ${tunggakan.toLocaleString('id-ID')})\n`;
+                    adaPenunggak = true;
+                }
+            });
+            if(!adaPenunggak) teks += "Alhamdulillah, seluruh anggota kelas sudah melunasi kas! 🎉";
+            navigator.clipboard.writeText(teks);
+            alert("Daftar tunggakan disalin ke Clipboard WhatsApp!");
+        }
+
+        function unduhCSV() { window.open(scriptURL + "?action=export"); }
+
+        function unduhPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const sekarang = new Date();
+            const namaBulan = sekarang.toLocaleDateString('id-ID', { month: 'long' });
+            const tahun = sekarang.getFullYear();
+            const jamCetakFormat = sekarang.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
+
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor('#1a365d');
+            doc.setFontSize(20);
+            doc.text("LAPORAN KAS ASTRAVELIS", 14, 18);
+            
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(9);
+            doc.setTextColor('#64748b');
+            doc.text(`Kas Bulan: ${namaBulan} ${tahun} | Tanggal Cetak: ${sekarang.toLocaleDateString('id-ID')} pukul ${jamCetakFormat}`, 14, 25);
+            
+            doc.setDrawColor('#2563eb');
+            doc.setLineWidth(1);
+            doc.line(14, 28, 196, 28);
+
+            let totalMasuk = 0, totalKeluar = 0;
+            const rows = dataLokal.filter(r => r[0] && r[1]).map(r => {
+                const nominal = parseInt(r[3]) || 0;
+                const tipeFormat = r[4] === 'Masuk' ? 'Masuk' : 'Keluar';
+                if(r[4] === 'Masuk') totalMasuk += nominal; else totalKeluar += nominal;
+                return [r[0], tipeFormat, r[1], r[2], `Rp ${nominal.toLocaleString('id-ID')}`];
+            });
+
+            doc.autoTable({
+                head: [['Tanggal', 'Tipe', 'Nama', 'Keterangan', 'Jumlah']],
+                body: rows,
+                startY: 32,
+                theme: 'striped',
+                headStyles: { fillColor: '#2563eb', textColor: '#ffffff', fontStyle: 'bold' },
+                columnStyles: { 4: { halign: 'right', fontStyle: 'bold' } }
+            });
+
+            const finalY = doc.lastAutoTable.finalY + 8;
+            doc.setFontSize(9);
+            doc.text(`Total Pemasukan: Rp ${totalMasuk.toLocaleString('id-ID')}`, 110, finalY);
+            doc.text(`Total Pengeluaran: Rp ${totalKeluar.toLocaleString('id-ID')}`, 110, finalY + 5);
+            doc.setFont("helvetica", "bold");
+            doc.text(`Sisa Saldo Bersih: Rp ${(totalMasuk - totalKeluar).toLocaleString('id-ID')}`, 110, finalY + 11);
+
+            doc.save(`Laporan_Kas_Astravelis_${namaBulan}_${tahun}.pdf`);
+        }
+
+        muatData();
+    </script>
+</body>
+</html>
