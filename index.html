@@ -9,7 +9,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://astravelis-official.github.io/ASTRAVELIS/">
     <meta property="og:title" content="ASTRAVELIS - Portal Resmi Manajemen Kelas">
-    <meta property="og:description" content="Portal Layanan Informasi Kelas Astravelis: Transaksi Kas, Jadwal Pelajaran, Direktori Anggota, Bahan Belajar & Link Penting.">
+    <meta property="og:description" content="Portal Layanan Informasi Kelas Astravelis: Transaksi Kas, Jadwal Pelajaran, Bahan Belajar & Link Penting.">
     <meta property="og:image" content="https://astravelis-official.github.io/ASTRAVELIS/foto_kelas.jpg">
     
     <!-- TWITTER CARD PREVIEW -->
@@ -113,8 +113,8 @@
                     </div>
                 </div>
 
-                <!-- MENU FITUR GRID UTAMA -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-4">
+                <!-- MENU FITUR 6 KARTU COMPACT & COMPACT GRID -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3.5 md:gap-4">
                     <!-- FITUR 1: UANG KAS -->
                     <div onclick="aksesFitur('uangKas')" class="glass-card hover:bg-blue-600 text-slate-800 dark:text-slate-100 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border border-slate-200/80 dark:border-slate-800 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
@@ -136,18 +136,6 @@
                             <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
                             <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">CEK KAS ANGGOTA</h3>
                             <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Pelunasan & Tunggakan</p>
-                        </div>
-                    </div>
-
-                    <!-- FITUR BARU: DIREKTORI ANGGOTA KELAS -->
-                    <div onclick="aksesFitur('profil')" class="glass-card hover:bg-blue-600 text-slate-800 dark:text-slate-100 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border border-slate-200/80 dark:border-slate-800 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-500 to-pink-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5 5 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
-                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">DIREKTORI ANGGOTA</h3>
-                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Profil & Ulang Tahun</p>
                         </div>
                     </div>
 
@@ -355,33 +343,7 @@
                 </div>
             </section>
 
-            <!-- 4. FITUR BARU: DIREKTORI ANGGOTA KELAS -->
-            <section id="pageProfil" class="hidden space-y-5">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
-                        <span>←</span> Kembali ke Dashboard
-                    </button>
-                    <div class="flex items-center gap-2 w-full sm:w-auto">
-                        <input type="text" id="searchProfil" onkeyup="renderProfilSiswa()" placeholder="🔍 Cari nama / jabatan..." class="p-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs outline-none w-full sm:w-60 focus:ring-2 focus:ring-blue-500 dark:text-white">
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-slate-800 p-6 md:p-7 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <div class="mb-6 border-b dark:border-slate-700 pb-4 flex justify-between items-center">
-                        <div>
-                            <h2 class="text-xl font-black uppercase italic">DIREKTORI <span class="text-blue-600 dark:text-blue-400">ANGGOTA KELAS</span></h2>
-                            <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Total Anggota: <span id="totalAnggotaProfil" class="text-blue-600 dark:text-blue-400 font-extrabold">23</span> Siswa</p>
-                        </div>
-                    </div>
-
-                    <!-- GRID PROFIL SELEBRITI KELAS -->
-                    <div id="gridProfilSiswa" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <!-- Profil di-render via Javascript -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- 5. FITUR JADWAL PELAJARAN -->
+            <!-- 4. FITUR JADWAL PELAJARAN -->
             <section id="pageJadwal" class="hidden space-y-5">
                 <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
@@ -405,7 +367,7 @@
                 </div>
             </section>
 
-            <!-- 6. FITUR POJOK LINK PENTING (QUICK LINKS) -->
+            <!-- 5. FITUR POJOK LINK PENTING (QUICK LINKS) -->
             <section id="pageQuickLinks" class="hidden space-y-5">
                 <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
@@ -469,7 +431,7 @@
                 </div>
             </section>
 
-            <!-- 7. GOOGLE DRIVE PREVIEW CARD -->
+            <!-- 6. GOOGLE DRIVE PREVIEW CARD -->
             <section id="pageGDriveView" class="hidden space-y-5">
                 <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
@@ -492,7 +454,7 @@
                 </div>
             </section>
 
-            <!-- 8. FITUR BARU: PANEL PENGATURAN ADMIN -->
+            <!-- 7. PANEL PENGATURAN ADMIN -->
             <section id="pageAdminPanel" class="hidden space-y-5">
                 <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
@@ -632,8 +594,7 @@
             return {
                 scriptURL: window.APP_CONFIG.scriptURL,
                 nominalIuran: savedNominal ? parseInt(savedNominal) : window.APP_CONFIG.nominalIuran,
-                links: savedLinks ? JSON.parse(savedLinks) : window.APP_CONFIG.links,
-                defaultMembers: window.APP_CONFIG.defaultMembers
+                links: savedLinks ? JSON.parse(savedLinks) : window.APP_CONFIG.links
             };
         }
 
@@ -751,7 +712,7 @@
         }
 
         function aksesFitur(fitur) {
-            if(fitur === 'cekKas' || fitur === 'jadwal' || fitur === 'moment' || fitur === 'materi' || fitur === 'quickLinks' || fitur === 'profil') {
+            if(fitur === 'cekKas' || fitur === 'jadwal' || fitur === 'moment' || fitur === 'materi' || fitur === 'quickLinks') {
                 bukaHalaman(fitur);
                 return;
             }
@@ -772,7 +733,6 @@
             document.getElementById('pageDashboard').classList.add('hidden');
             document.getElementById('pageUangKas').classList.add('hidden');
             document.getElementById('pageCekKas').classList.add('hidden');
-            document.getElementById('pageProfil').classList.add('hidden');
             document.getElementById('pageJadwal').classList.add('hidden');
             document.getElementById('pageQuickLinks').classList.add('hidden');
             document.getElementById('pageGDriveView').classList.add('hidden');
@@ -783,10 +743,6 @@
             else if(hal === 'cekKas') {
                 renderCekKasPublik();
                 document.getElementById('pageCekKas').classList.remove('hidden');
-            }
-            else if(hal === 'profil') {
-                renderProfilSiswa();
-                document.getElementById('pageProfil').classList.remove('hidden');
             }
             else if(hal === 'jadwal') {
                 document.getElementById('pageJadwal').classList.remove('hidden');
@@ -817,54 +773,7 @@
         }
 
         // ==========================================
-        // FITUR BARU: DIREKTORI PROFIL ANGGOTA KELAS
-        // ==========================================
-        function renderProfilSiswa() {
-            const grid = document.getElementById('gridProfilSiswa');
-            const searchKeyword = document.getElementById('searchProfil').value.toUpperCase();
-            const members = dynamicConfig.defaultMembers;
-            const hariIni = new Date();
-            const bulanIni = hariIni.getMonth() + 1;
-            const tanggalIni = hariIni.getDate();
-
-            let filtered = members.filter(m => m.name.toUpperCase().includes(searchKeyword) || m.role.toUpperCase().includes(searchKeyword));
-            document.getElementById('totalAnggotaProfil').innerText = filtered.length;
-
-            if(filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-400 italic text-xs">Anggota kelas tidak ditemukan.</div>`;
-                return;
-            }
-
-            grid.innerHTML = filtered.map(m => {
-                let fotoUrl = m.photo ? m.photo : 'logo.jpg';
-                let tglLahirStr = "Belum diatur";
-                let isUltah = false;
-
-                if(m.birthdate) {
-                    const parts = m.birthdate.split('-');
-                    if(parts.length === 3) {
-                        const thn = parts[0], bln = parseInt(parts[1]), tgl = parseInt(parts[2]);
-                        const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"][bln - 1];
-                        tglLahirStr = `${tgl} ${namaBulan}`;
-                        if(bln === bulanIni && tgl === tanggalIni) isUltah = true;
-                    }
-                }
-
-                return `
-                <div class="bg-slate-50 dark:bg-slate-900/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-700/80 flex flex-col items-center text-center relative overflow-hidden group hover:shadow-md transition">
-                    ${isUltah ? `<span class="absolute top-2 right-2 bg-pink-500 text-white font-extrabold text-[8px] px-2 py-0.5 rounded-full animate-bounce">🎉 ULTAH!</span>` : ''}
-                    <div class="w-16 h-16 rounded-2xl overflow-hidden mb-3 border-2 border-blue-500/40 shadow-sm">
-                        <img src="${fotoUrl}" onerror="this.src='logo.jpg'" alt="${m.name}" class="w-full h-full object-cover transition transform group-hover:scale-110">
-                    </div>
-                    <h3 class="font-extrabold text-xs text-slate-900 dark:text-white line-clamp-1">${m.name}</h3>
-                    <span class="text-[9px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded-md mt-1 uppercase border border-blue-100 dark:border-blue-800/60">${m.role}</span>
-                    <p class="text-[9px] text-slate-400 font-medium mt-2 flex items-center gap-1">🎂 <span>${tglLahirStr}</span></p>
-                </div>`;
-            }).join('');
-        }
-
-        // ==========================================
-        // FITUR BARU: PANEL PENGATURAN ADMIN
+        // FITUR: PANEL PENGATURAN ADMIN
         // ==========================================
         function muatFormAdmin() {
             document.getElementById('adminZoomInput').value = dynamicConfig.links.zoom;
