@@ -9,7 +9,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://astravelis-official.github.io/ASTRAVELIS/">
     <meta property="og:title" content="ASTRAVELIS - Portal Resmi Manajemen Kelas">
-    <meta property="og:description" content="Portal Layanan Informasi Kelas Astravelis: Transaksi Kas, Jadwal Pelajaran, Bahan Belajar & Link Penting.">
+    <meta property="og:description" content="Portal Layanan Informasi Kelas Astravelis: Transaksi Kas, Jadwal Pelajaran, Group Generator, Bahan Belajar & Link Penting.">
     <meta property="og:image" content="https://astravelis-official.github.io/ASTRAVELIS/foto_kelas.jpg">
     
     <!-- TWITTER CARD PREVIEW -->
@@ -113,8 +113,8 @@
                     </div>
                 </div>
 
-                <!-- MENU FITUR 6 KARTU COMPACT & COMPACT GRID -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3.5 md:gap-4">
+                <!-- MENU FITUR GRID UTAMA -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-4">
                     <!-- FITUR 1: UANG KAS -->
                     <div onclick="aksesFitur('uangKas')" class="glass-card hover:bg-blue-600 text-slate-800 dark:text-slate-100 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border border-slate-200/80 dark:border-slate-800 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
@@ -136,6 +136,18 @@
                             <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
                             <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">CEK KAS ANGGOTA</h3>
                             <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Pelunasan & Tunggakan</p>
+                        </div>
+                    </div>
+
+                    <!-- FITUR BARU: PEMBAGI KELOMPOK -->
+                    <div onclick="aksesFitur('generatorKelompok')" class="glass-card hover:bg-blue-600 text-slate-800 dark:text-slate-100 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border border-slate-200/80 dark:border-slate-800 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5 5 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <div>
+                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
+                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">PEMBAGI KELOMPOK</h3>
+                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Acak Kelompok Tugas Otomatis</p>
                         </div>
                     </div>
 
@@ -343,7 +355,47 @@
                 </div>
             </section>
 
-            <!-- 4. FITUR JADWAL PELAJARAN -->
+            <!-- 4. FITUR: PEMBAGI KELOMPOK -->
+            <section id="pageGeneratorKelompok" class="hidden space-y-5">
+                <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
+                        <span>←</span> Kembali ke Dashboard
+                    </button>
+                    <h2 class="text-xs font-black uppercase italic text-purple-600 dark:text-purple-400 tracking-wider">PEMBAGI KELOMPOK OTOMATIS</h2>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b dark:border-slate-700 pb-4">
+                        <div>
+                            <h2 class="text-xl font-black uppercase italic text-purple-600 dark:text-purple-400">PEMBAGI <span class="text-slate-800 dark:text-white">KELOMPOK</span></h2>
+                            <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Acak siswa menjadi beberapa kelompok secara adil & instan</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                            <div class="flex items-center gap-2">
+                                <label class="text-xs font-bold text-slate-500 dark:text-slate-400">Jumlah Kelompok:</label>
+                                <select id="selectJmlKelompok" class="p-2.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-extrabold outline-none dark:text-white">
+                                    <option value="2">2 Kelompok</option>
+                                    <option value="3">3 Kelompok</option>
+                                    <option value="4" selected>4 Kelompok</option>
+                                    <option value="5">5 Kelompok</option>
+                                    <option value="6">6 Kelompok</option>
+                                </select>
+                            </div>
+                            <button onclick="acakDanBuatKelompok()" class="bg-purple-600 hover:bg-purple-700 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs uppercase italic shadow-md transition">🎲 Acak Sekarang</button>
+                            <button onclick="copyHasilKelompokWA()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase italic shadow-md transition">📋 Salin ke WA</button>
+                        </div>
+                    </div>
+
+                    <!-- HASIL PEMBAGI KELOMPOK CONTAINER -->
+                    <div id="containerHasilKelompok" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="col-span-full py-12 text-center text-slate-400 font-medium text-xs">
+                            Klik tombol <b class="text-purple-600">"🎲 Acak Sekarang"</b> di atas untuk membagi kelompok siswa.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. FITUR JADWAL PELAJARAN -->
             <section id="pageJadwal" class="hidden space-y-5">
                 <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
@@ -367,7 +419,7 @@
                 </div>
             </section>
 
-            <!-- 5. FITUR POJOK LINK PENTING (QUICK LINKS) -->
+            <!-- 6. FITUR POJOK LINK PENTING (QUICK LINKS) -->
             <section id="pageQuickLinks" class="hidden space-y-5">
                 <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
@@ -431,7 +483,7 @@
                 </div>
             </section>
 
-            <!-- 6. GOOGLE DRIVE PREVIEW CARD -->
+            <!-- 7. GOOGLE DRIVE PREVIEW CARD -->
             <section id="pageGDriveView" class="hidden space-y-5">
                 <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
@@ -454,7 +506,7 @@
                 </div>
             </section>
 
-            <!-- 7. PANEL PENGATURAN ADMIN -->
+            <!-- 8. PANEL PENGATURAN ADMIN -->
             <section id="pageAdminPanel" class="hidden space-y-5">
                 <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
@@ -463,14 +515,14 @@
                     <h2 class="text-xs font-black uppercase italic text-purple-600 dark:text-purple-400 tracking-wider">PANEL KONTROL ADMIN</h2>
                 </div>
 
-                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-8">
                     <div>
-                        <h2 class="text-xl font-black uppercase italic text-purple-600 dark:text-purple-400">PENGATURAN KONTROL & LINK</h2>
-                        <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Kelola konfigurasi sistem dan tautan penting tanpa edit kode</p>
+                        <h2 class="text-xl font-black uppercase italic text-purple-600 dark:text-purple-400">PENGATURAN KONTROL & SISTEM</h2>
+                        <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Kelola data siswa, otentikasi PIN pengurus, audit log & tautan penting</p>
                     </div>
 
+                    <!-- BLOK 1: PENGATURAN LINK & IURAN -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- KOLOM PENGATURAN LINK -->
                         <div class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
                             <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 border-b pb-2 dark:border-slate-700">🔗 Edit Tautan Penting</h3>
                             
@@ -492,7 +544,6 @@
                             </div>
                         </div>
 
-                        <!-- KOLOM PENGATURAN IURAN & UTILITAS -->
                         <div class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
                             <div class="space-y-4">
                                 <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 border-b pb-2 dark:border-slate-700">⚙️ Pengaturan Iuran & Laporan</h3>
@@ -508,8 +559,69 @@
                             </div>
 
                             <button onclick="simpanPengaturanAdmin()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-3.5 rounded-xl text-xs uppercase italic tracking-wider shadow-md shadow-purple-500/20 transition">
-                                💾 Simpan Semua Pengaturan
+                                💾 Simpan Semua Tautan & Iuran
                             </button>
+                        </div>
+                    </div>
+
+                    <!-- BLOK 2: STUDENT DATA MANAGER (MANAJEMEN SISWA) -->
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+                        <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
+                            <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">👥 Student Data Manager (Manajemen Siswa)</h3>
+                            <span id="totalSiswaAdminBadge" class="bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-300 text-[10px] font-black px-2.5 py-0.5 rounded-full">0 Siswa</span>
+                        </div>
+
+                        <!-- FORM TAMBAH SISWA -->
+                        <div class="flex gap-2">
+                            <input type="text" id="inputNamaSiswaBaru" placeholder="Masukkan Nama Siswa Baru..." class="p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none flex-1 dark:text-white uppercase">
+                            <button onclick="tambahSiswaBaruAdmin()" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase italic shadow-sm transition">+ Tambah</button>
+                        </div>
+
+                        <!-- TABEL NAMA SISWA -->
+                        <div class="max-h-56 overflow-y-auto custom-scrollbar border rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2">
+                            <table class="w-full text-left text-xs">
+                                <thead>
+                                    <tr class="border-b dark:border-slate-700 text-[10px] uppercase text-slate-400 font-extrabold">
+                                        <th class="p-2">No</th>
+                                        <th class="p-2">Nama Siswa</th>
+                                        <th class="p-2 text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelSiswaAdmin" class="divide-y divide-slate-100 dark:divide-slate-700 font-bold"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- BLOK 3: MASTER CONTROL & RESET PIN PENGURUS -->
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+                        <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
+                            <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">🔑 Master Control & Reset PIN Pengurus</h3>
+                            <button onclick="resetSemuaPinKeDefault()" class="bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 text-[10px] font-extrabold px-3 py-1 rounded-lg hover:bg-rose-600 hover:text-white transition uppercase">⚠️ Reset Semua PIN ke Default</button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                                <thead>
+                                    <tr class="border-b dark:border-slate-700 text-[10px] uppercase text-slate-400 font-extrabold">
+                                        <th class="p-3">Jabatan</th>
+                                        <th class="p-3">PIN Aktif</th>
+                                        <th class="p-3">Wewenang Akses</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelPinAdmin" class="divide-y divide-slate-100 dark:divide-slate-700 font-bold"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- BLOK 4: AUDIT LOG RIWAYAT AKTIVITAS PENGURUS -->
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+                        <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
+                            <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">📜 Activity Audit Log (Riwayat Aktivitas Pengurus)</h3>
+                            <button onclick="bersihkanAuditLog()" class="text-slate-400 hover:text-rose-500 text-[10px] font-bold transition">Bersihkan Log</button>
+                        </div>
+
+                        <div class="max-h-48 overflow-y-auto custom-scrollbar border rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 space-y-2 text-[11px]" id="containerAuditLog">
+                            <p class="text-slate-400 italic text-center text-xs">Belum ada riwayat aktivitas recorded.</p>
                         </div>
                     </div>
                 </div>
@@ -587,6 +699,18 @@
 
     <!-- SCRIPT UTAMA SISTEM -->
     <script>
+        // DAFTAR DEFAULT 23 SISWA KELAS X-3 (BACKUP)
+        const DEFAULT_SISWA_BACKUP = [
+            "A. MOH. REA SATHIRA DEVA", "AHMAD BAIHAQI HAKIM", "ANDI AHMAD AL PARIZI",
+            "AULIA RAHMADANIL", "BAIJA BAEQUNI SULAEMAN", "ELANG ARYA YUDHISTIRA",
+            "FADLAN YUSRAN RABBANI", "FATIH AKRAM NUGRAHA", "FIRDAUS MAULANA",
+            "HAIL RASYID LALU KAHARUDDIN", "I WAJAN KARTIKA PUTRA", "KADEK AGUS YUDI SURYA PERMANA",
+            "M. ARIL ANUGRAH HASIBUAN", "M. BAZLI HIKAM", "M. DAFFI ANDRIAN JAYADI",
+            "M. ZOHRI HABIBI", "MUHAMMAD ABDUH KHAIRI", "MUHAMMAD AL FATIH",
+            "MUHAMMAD ZIYAD YUSUF", "NUR SULTAN AZKA DEVANANDA", "RADITYA FADIL KURNIAWAN",
+            "RAFI AKMAL FARID", "ZAMZAMI EL HAKIM"
+        ];
+
         // MENGAMBIL KONFIGURASI
         function getDynamicConfig() {
             const savedLinks = localStorage.getItem('ASTRAVELIS_LINKS');
@@ -613,8 +737,54 @@
 
         let ROLES = getActiveRoles();
         let currentRole = null;
-        let dataLokal = [], listSiswa = [], myChart;
+        let dataLokal = [];
+        let listSiswa = [...DEFAULT_SISWA_BACKUP];
+        let myChart;
         let bulanAktif = 0;
+        let hasilKelompokLokal = [];
+
+        // ==========================================
+        // FITUR LOGGING AKTIVITAS PENGURUS (AUDIT LOG)
+        // ==========================================
+        function catatAuditLog(pesan) {
+            let logs = JSON.parse(localStorage.getItem('ASTRAVELIS_AUDIT_LOG') || '[]');
+            const waktu = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            const tanggal = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+            const pelaku = currentRole ? currentRole.name : "Sistem/Tamu";
+
+            logs.unshift({ timestamp: `${tanggal}, ${waktu}`, user: pelaku, action: pesan });
+            if (logs.length > 30) logs.pop();
+            localStorage.setItem('ASTRAVELIS_AUDIT_LOG', JSON.stringify(logs));
+            renderAuditLog();
+        }
+
+        function renderAuditLog() {
+            const container = document.getElementById('containerAuditLog');
+            if(!container) return;
+            const logs = JSON.parse(localStorage.getItem('ASTRAVELIS_AUDIT_LOG') || '[]');
+
+            if(logs.length === 0) {
+                container.innerHTML = `<p class="text-slate-400 italic text-center text-xs">Belum ada riwayat aktivitas recorded.</p>`;
+                return;
+            }
+
+            container.innerHTML = logs.map(l => `
+                <div class="border-b dark:border-slate-700/60 pb-1.5 flex justify-between items-start gap-2">
+                    <div>
+                        <span class="font-extrabold text-purple-600 dark:text-purple-400">[${l.user}]</span>
+                        <span class="text-slate-700 dark:text-slate-200 font-medium">${l.action}</span>
+                    </div>
+                    <span class="text-[9px] font-extrabold text-slate-400 whitespace-nowrap">${l.timestamp}</span>
+                </div>
+            `).join('');
+        }
+
+        function bersihkanAuditLog() {
+            if(confirm("Bersihkan semua riwayat log aktivitas?")) {
+                localStorage.removeItem('ASTRAVELIS_AUDIT_LOG');
+                renderAuditLog();
+            }
+        }
 
         // ==========================================
         // FITUR: DARK MODE TOGGLE
@@ -626,6 +796,7 @@
                 document.getElementById('btnThemeToggle').innerText = '☀️';
             } else {
                 document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
                 document.getElementById('btnThemeToggle').innerText = '🌙';
             }
         }
@@ -643,7 +814,7 @@
         }
 
         // ==========================================
-        // FITUR: GANTI PIN PENGURUS
+        // FITUR: GANTI & RESET PIN PENGURUS
         // ==========================================
         function bukaModalGantiPin() { document.getElementById('modalGantiPin').classList.remove('hidden'); }
         function tutupModalGantiPin() { document.getElementById('modalGantiPin').classList.add('hidden'); document.getElementById('pinBaruInput').value = ''; }
@@ -663,8 +834,20 @@
             localStorage.setItem('ASTRAVELIS_ROLES', JSON.stringify(currentRoles));
             ROLES = currentRoles;
 
+            catatAuditLog(`Mengubah PIN Akses Jabatan`);
             alert("PIN Berhasil diperbarui!");
             tutupModalGantiPin();
+            if(currentRole && currentRole.access.includes('adminPanel')) muatFormAdmin();
+        }
+
+        function resetSemuaPinKeDefault() {
+            if(confirm("Yakin ingin mengembalikan seluruh PIN Pengurus ke PIN bawaan default?")) {
+                localStorage.removeItem('ASTRAVELIS_ROLES');
+                ROLES = window.APP_CONFIG.defaultRoles;
+                catatAuditLog(`Melakukan Reset Master PIN Pengurus ke Default`);
+                alert("Seluruh PIN Pengurus telah dikembalikan ke PIN Default bawaan!");
+                muatFormAdmin();
+            }
         }
 
         // ==========================================
@@ -696,6 +879,7 @@
                     document.getElementById('btnAdminPanel').classList.add('hidden');
                 }
 
+                catatAuditLog(`Login ke sistem`);
                 tutupModalLogin();
                 alert(`Login Berhasil! Anda masuk sebagai ${currentRole.name}.`);
             } else {
@@ -704,6 +888,7 @@
         }
 
         function logout() {
+            if(currentRole) catatAuditLog(`Logout dari sistem`);
             currentRole = null;
             document.getElementById('btnLogin').classList.remove('hidden');
             document.getElementById('userInfo').classList.add('hidden');
@@ -712,7 +897,7 @@
         }
 
         function aksesFitur(fitur) {
-            if(fitur === 'cekKas' || fitur === 'jadwal' || fitur === 'moment' || fitur === 'materi' || fitur === 'quickLinks') {
+            if(fitur === 'cekKas' || fitur === 'jadwal' || fitur === 'moment' || fitur === 'materi' || fitur === 'quickLinks' || fitur === 'generatorKelompok') {
                 bukaHalaman(fitur);
                 return;
             }
@@ -733,6 +918,7 @@
             document.getElementById('pageDashboard').classList.add('hidden');
             document.getElementById('pageUangKas').classList.add('hidden');
             document.getElementById('pageCekKas').classList.add('hidden');
+            document.getElementById('pageGeneratorKelompok').classList.add('hidden');
             document.getElementById('pageJadwal').classList.add('hidden');
             document.getElementById('pageQuickLinks').classList.add('hidden');
             document.getElementById('pageGDriveView').classList.add('hidden');
@@ -743,6 +929,9 @@
             else if(hal === 'cekKas') {
                 renderCekKasPublik();
                 document.getElementById('pageCekKas').classList.remove('hidden');
+            }
+            else if(hal === 'generatorKelompok') {
+                document.getElementById('pageGeneratorKelompok').classList.remove('hidden');
             }
             else if(hal === 'jadwal') {
                 document.getElementById('pageJadwal').classList.remove('hidden');
@@ -773,6 +962,72 @@
         }
 
         // ==========================================
+        // FITUR: PEMBAGI KELOMPOK
+        // ==========================================
+        function acakDanBuatKelompok() {
+            const targetSiswa = (listSiswa && listSiswa.length > 0) ? listSiswa : DEFAULT_SISWA_BACKUP;
+            const jmlKelompok = parseInt(document.getElementById('selectJmlKelompok').value) || 4;
+            let copySiswa = [...targetSiswa];
+
+            for (let i = copySiswa.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copySiswa[i], copySiswa[j]] = [copySiswa[j], copySiswa[i]];
+            }
+
+            let kelompokArray = Array.from({ length: jmlKelompok }, () => []);
+            copySiswa.forEach((siswa, index) => {
+                kelompokArray[index % jmlKelompok].push(siswa);
+            });
+
+            hasilKelompokLokal = kelompokArray;
+            renderHasilKelompok();
+        }
+
+        function renderHasilKelompok() {
+            const container = document.getElementById('containerHasilKelompok');
+            if(!hasilKelompokLokal || hasilKelompokLokal.length === 0) return;
+
+            const colors = ['border-blue-500 text-blue-600', 'border-purple-500 text-purple-600', 'border-emerald-500 text-emerald-600', 'border-rose-500 text-rose-600', 'border-amber-500 text-amber-600', 'border-cyan-500 text-cyan-600'];
+
+            container.innerHTML = hasilKelompokLokal.map((k, idx) => {
+                const colorClass = colors[idx % colors.length];
+                return `
+                <div class="bg-slate-50 dark:bg-slate-900/60 p-4 rounded-2xl border-t-4 ${colorClass} border-x border-b border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 dark:text-white">KELOMPOK ${idx + 1}</h3>
+                            <span class="text-[9px] font-extrabold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full">${k.length} Siswa</span>
+                        </div>
+                        <ol class="list-decimal list-inside space-y-1 text-xs font-bold text-slate-700 dark:text-slate-300">
+                            ${k.map(nama => `<li class="truncate py-0.5">${nama}</li>`).join('')}
+                        </ol>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function copyHasilKelompokWA() {
+            if(!hasilKelompokLokal || hasilKelompokLokal.length === 0) {
+                alert("Silakan klik 'Acak Sekarang' terlebih dahulu!");
+                return;
+            }
+
+            let teks = "*📌 PEMBAGIAN KELOMPOK KELAS ASTRAVELIS*\n\n";
+            hasilKelompokLokal.forEach((k, idx) => {
+                teks += `*KELOMPOK ${idx + 1}* (${k.length} Siswa):\n`;
+                k.forEach((nama, nIdx) => {
+                    teks += `${nIdx + 1}. ${nama}\n`;
+                });
+                teks += `\n`;
+            });
+
+            teks += `Diacak otomatis melalui Portal Resmi Astravelis.\nhttps://astravelis-official.github.io/ASTRAVELIS/`;
+
+            navigator.clipboard.writeText(teks);
+            alert("Hasil pembagian kelompok berhasil disalin ke WhatsApp!");
+        }
+
+        // ==========================================
         // FITUR: PANEL PENGATURAN ADMIN
         // ==========================================
         function muatFormAdmin() {
@@ -781,6 +1036,87 @@
             document.getElementById('adminCbtInput').value = dynamicConfig.links.cbt;
             document.getElementById('adminIgInput').value = dynamicConfig.links.instagramClass;
             document.getElementById('adminIuranInput').value = dynamicConfig.nominalIuran;
+
+            renderTabelSiswaAdmin();
+            renderTabelPinAdmin();
+            renderAuditLog();
+        }
+
+        function renderTabelSiswaAdmin() {
+            const body = document.getElementById('tabelSiswaAdmin');
+            const badge = document.getElementById('totalSiswaAdminBadge');
+            if(!body) return;
+
+            badge.innerText = `${listSiswa.length} Siswa`;
+            body.innerHTML = listSiswa.map((nama, idx) => `
+                <tr>
+                    <td class="p-2 text-slate-400 font-extrabold">${idx + 1}</td>
+                    <td class="p-2 dark:text-white uppercase">${nama}</td>
+                    <td class="p-2 text-right">
+                        <button onclick="editNamaSiswaAdmin(${idx})" class="text-blue-600 dark:text-blue-400 hover:underline mr-2">Edit</button>
+                        <button onclick="hapusSiswaAdmin(${idx})" class="text-rose-500 hover:underline">Hapus</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function tambahSiswaBaruAdmin() {
+            const input = document.getElementById('inputNamaSiswaBaru');
+            const namaBaru = input.value.trim().toUpperCase();
+
+            if(!namaBaru) {
+                alert("Masukkan nama siswa terlebih dahulu!");
+                return;
+            }
+
+            if(listSiswa.includes(namaBaru)) {
+                alert("Nama siswa ini sudah ada di dalam daftar!");
+                return;
+            }
+
+            listSiswa.push(namaBaru);
+            input.value = "";
+            catatAuditLog(`Menambahkan siswa baru: ${namaBaru}`);
+            document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
+            renderTabelSiswaAdmin();
+            updateUI();
+        }
+
+        function editNamaSiswaAdmin(idx) {
+            const namaLama = listSiswa[idx];
+            const namaUbah = prompt("Edit Nama Siswa:", namaLama);
+            if(namaUbah && namaUbah.trim() !== "") {
+                listSiswa[idx] = namaUbah.trim().toUpperCase();
+                catatAuditLog(`Mengubah nama siswa: ${namaLama} ➔ ${listSiswa[idx]}`);
+                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
+                renderTabelSiswaAdmin();
+                updateUI();
+            }
+        }
+
+        function hapusSiswaAdmin(idx) {
+            const namaHapus = listSiswa[idx];
+            if(confirm(`Yakin ingin menghapus ${namaHapus} dari daftar siswa?`)) {
+                listSiswa.splice(idx, 1);
+                catatAuditLog(`Menghapus siswa: ${namaHapus}`);
+                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
+                renderTabelSiswaAdmin();
+                updateUI();
+            }
+        }
+
+        function renderTabelPinAdmin() {
+            const body = document.getElementById('tabelPinAdmin');
+            if(!body) return;
+
+            const activeRoles = getActiveRoles();
+            body.innerHTML = Object.entries(activeRoles).map(([pin, data]) => `
+                <tr>
+                    <td class="p-3 text-purple-600 dark:text-purple-400 italic">${data.name}</td>
+                    <td class="p-3 tracking-widest font-mono text-slate-800 dark:text-white">•••• (${pin})</td>
+                    <td class="p-3 text-[10px] text-slate-400 font-bold uppercase">${data.access.join(', ')}</td>
+                </tr>
+            `).join('');
         }
 
         function simpanPengaturanAdmin() {
@@ -803,6 +1139,7 @@
 
             document.getElementById('footerIgBtn').href = dynamicConfig.links.instagramClass;
 
+            catatAuditLog(`Memperbarui Konfigurasi Tautan & Nominal Iuran Kas`);
             alert("Semua pengaturan berhasil disimpan!");
             bukaHalaman('dashboard');
         }
@@ -825,6 +1162,7 @@
             teks += `Cek rincian transaksi lengkap di portal resmi:\nhttps://astravelis-official.github.io/ASTRAVELIS/`;
 
             navigator.clipboard.writeText(teks);
+            catatAuditLog(`Menyalin Ringkasan Laporan Kas ke WA`);
             alert("Laporan Kas WhatsApp berhasil disalin!");
         }
 
@@ -837,18 +1175,26 @@
                 const res = await fetch(scriptURL);
                 const json = await res.json();
                 dataLokal = json.transaksi || [];
-                listSiswa = (json.anggota || []).map(n => n.toString().trim());
+                
+                const rawSiswa = json.Siswa || json.siswa || json.anggota;
+                if(rawSiswa && Array.isArray(rawSiswa) && rawSiswa.length > 0) {
+                    listSiswa = rawSiswa.map(n => n.toString().trim()).filter(n => n !== "");
+                }
+
                 bulanAktif = parseInt(json.bulanAktif) || 0;
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
                 updateUI();
                 sesuaikanFormOtomatis();
-            } catch (e) { document.getElementById('infoBulan').innerText = "OFFLINE"; }
+            } catch (e) { 
+                document.getElementById('infoBulan').innerText = "OFFLINE"; 
+            }
         }
 
         async function sinkronBulanKeCloud(nilaiBaru) {
             document.getElementById('infoBulan').innerText = "MENYIMPAN...";
             try {
                 await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ action: "updateBulan", nilai: nilaiBaru }) });
+                catatAuditLog(`Mengubah Periode Tagihan Bulan Kas menjadi ${nilaiBaru} Bulan`);
                 muatData();
             } catch (e) { alert("Gagal koneksi cloud!"); }
         }
@@ -904,6 +1250,7 @@
             let barisKosong = dataLokal.length + 2;
             try {
                 await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ ...payload, action: "insertAt", targetRow: barisKosong }) });
+                catatAuditLog(`Menginput transaksi (${payload.tipe}): ${payload.nama} - Rp ${payload.jumlah.toLocaleString('id-ID')}`);
                 document.getElementById('nama').value = "";
                 document.getElementById('keterangan').value = "";
                 document.getElementById('jumlah').value = "";
@@ -981,8 +1328,10 @@
         }
 
         async function hapusData(idx) {
+            const dataHapus = dataLokal[idx];
             if(confirm("Hapus transaksi ini?")) {
                 await fetch(scriptURL, { method: 'POST', body: JSON.stringify({action: 'delete', row: idx}) });
+                if(dataHapus) catatAuditLog(`Menghapus transaksi: ${dataHapus[1]} (Rp ${parseInt(dataHapus[3] || 0).toLocaleString('id-ID')})`);
                 muatData();
             }
         }
@@ -1048,6 +1397,7 @@
             });
             if(!adaPenunggak) teks += "Alhamdulillah, seluruh anggota kelas sudah melunasi kas! 🎉";
             navigator.clipboard.writeText(teks);
+            catatAuditLog(`Menyalin Daftar Tunggakan Siswa ke WA`);
             alert("Daftar tunggakan disalin ke Clipboard WhatsApp!");
         }
 
@@ -1099,6 +1449,7 @@
             doc.setFont("helvetica", "bold");
             doc.text(`Sisa Saldo Bersih: Rp ${(totalMasuk - totalKeluar).toLocaleString('id-ID')}`, 110, finalY + 11);
 
+            catatAuditLog(`Mengunduh File PDF Laporan Kas`);
             doc.save(`Laporan_Kas_Astravelis_${namaBulan}_${tahun}.pdf`);
         }
 
