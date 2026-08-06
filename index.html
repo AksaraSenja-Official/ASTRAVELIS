@@ -836,7 +836,6 @@
             }
 
             let currentRoles = { ...ROLES };
-            // Hapus pin lama dari role yang sama jika ada
             Object.keys(currentRoles).forEach(k => {
                 if(currentRoles[k].name === window.APP_CONFIG.defaultRoles[roleKey]?.name) {
                     delete currentRoles[k];
@@ -845,7 +844,6 @@
 
             currentRoles[pinBaru] = window.APP_CONFIG.defaultRoles[roleKey] || { name: "Pengurus", access: ["uangKas", "cekKas"] };
             
-            // Simpan ke Cloud (Google Sheets)
             try {
                 await fetch(scriptURL, { 
                     method: 'POST', 
@@ -1210,7 +1208,6 @@
 
                 bulanAktif = parseInt(json.bulanAktif) || 0;
 
-                // Sinkronisasi PIN dari Cloud
                 if(json.roles) {
                     ROLES = json.roles;
                 }
@@ -1485,6 +1482,13 @@
             catatAuditLog(`Mengunduh File PDF Laporan Kas`);
             doc.save(`Laporan_Kas_Astravelis_${namaBulan}_${tahun}.pdf`);
         }
+
+        // Auto-refresh data setiap 60 detik (1 menit) jika halaman uang kas aktif
+        setInterval(() => {
+            if (!document.getElementById('pageUangKas').classList.contains('hidden')) {
+                muatData();
+            }
+        }, 60000);
 
         // Inisialisasi awal
         document.getElementById('footerIgBtn').href = dynamicConfig.links.instagramClass;
