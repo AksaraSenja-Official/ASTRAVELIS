@@ -1205,12 +1205,13 @@
         }
 
         // ==========================================
-        // DOKUMEN & SINKRONISASI DATA KAS & PIN (CLOUD)
+        // DOKUMEN & SINKRONISASI DATA KAS & PIN (CLOUD DENGAN CACHE BUSTING)
         // ==========================================
         async function muatData() {
             document.getElementById('infoBulan').innerText = "MENYINGKRONKAN...";
             try {
-                const res = await fetch(scriptURL);
+                // Menambahkan parameter ?t= timestamp untuk mencegah caching pada sisi Google Apps Script
+                const res = await fetch(scriptURL + "?t=" + Date.now());
                 const json = await res.json();
                 dataLokal = json.transaksi || [];
                 
