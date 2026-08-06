@@ -660,7 +660,7 @@
         <div class="bg-white dark:bg-slate-800 w-full max-w-sm rounded-3xl shadow-2xl p-6 text-center space-y-4 border border-slate-200 dark:border-slate-700">
             <div>
                 <h3 class="font-black text-lg uppercase italic text-slate-900 dark:text-white">UBAH <span class="text-blue-600 dark:text-blue-400">PIN PENGURUS</span></h3>
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Perbarui PIN Akses Jabatan</p>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Perbarui PIN Akses Jabatan (Tersinkronisasi Cloud)</p>
             </div>
             
             <div class="space-y-3 text-left">
@@ -721,7 +721,7 @@
             "NUR TSABITA FARHANI",
             "SYADZWINA RAMADHANI",
             "SYIFA ILMIRA ABID",
-            "TALITA Syifa Arkena", // Dipertahankan sesuai format
+            "TALITA Syifa Arkena",
             "TUHFATUL AHWAZIYA",
             "ZAHRA MAULIDA"
         ];
@@ -741,16 +741,8 @@
         const scriptURL = dynamicConfig.scriptURL;
         let NOMINAL_IURAN = dynamicConfig.nominalIuran;
 
-        // SISTEM MANAGEMENT PIN (TERSIMPAN DI BROWSER / LOCAL STORAGE)
-        function getActiveRoles() {
-            const savedRoles = localStorage.getItem('ASTRAVELIS_ROLES');
-            if(savedRoles) {
-                return JSON.parse(savedRoles);
-            }
-            return window.APP_CONFIG.defaultRoles;
-        }
-
-        let ROLES = getActiveRoles();
+        // SISTEM MANAGEMENT PIN (TERSYNC DARI CLOUD / GOOGLE SHEETS)
+        let ROLES = window.APP_CONFIG.defaultRoles;
         let currentRole = null;
         let dataLokal = [];
         let listSiswa = [...DEFAULT_SISWA_BACKUP];
@@ -829,12 +821,12 @@
         }
 
         // ==========================================
-        // FITUR: GANTI & RESET PIN PENGURUS
+        // FITUR: GANTI & RESET PIN PENGURUS (CLOUD SYNC)
         // ==========================================
         function bukaModalGantiPin() { document.getElementById('modalGantiPin').classList.remove('hidden'); }
         function tutupModalGantiPin() { document.getElementById('modalGantiPin').classList.add('hidden'); document.getElementById('pinBaruInput').value = ''; }
 
-        function simpanPinBaru() {
+        async function simpanPinBaru() {
             const roleKey = document.getElementById('pinRoleSelect').value;
             const pinBaru = document.getElementById('pinBaruInput').value.trim();
 
@@ -843,25 +835,46 @@
                 return;
             }
 
-            let currentRoles = getActiveRoles();
-            delete currentRoles[roleKey];
-            currentRoles[pinBaru] = window.APP_CONFIG.defaultRoles[roleKey] || { name: "Pengurus", access: ["uangKas", "cekKas"] };
-            localStorage.setItem('ASTRAVELIS_ROLES', JSON.stringify(currentRoles));
-            ROLES = currentRoles;
+            let currentRoles = { ...ROLES };
+            // Hapus pin lama dari role yang sama jika ada
+            Object.keys(currentRoles).forEach(k => {
+                if(currentRoles[k].name === window.APP_CONFIG.defaultRoles[roleKey]?.name) {
+                    delete currentRoles[k];
+                }
+            });
 
-            catatAuditLog(`Mengubah PIN Akses Jabatan`);
-            alert("PIN Berhasil diperbarui!");
-            tutupModalGantiPin();
-            if(currentRole && currentRole.access.includes('adminPanel')) muatFormAdmin();
+            currentRoles[pinBaru] = window.APP_CONFIG.defaultRoles[roleKey] || { name: "Pengurus", access: ["uangKas", "cekKas"] };
+            
+            // Simpan ke Cloud (Google Sheets)
+            try {
+                await fetch(scriptURL, { 
+                    method: 'POST', 
+                    body: JSON.stringify({ action: "updatePIN", newRoles: currentRoles }) 
+                });
+                ROLES = currentRoles;
+                catatAuditLog(`Mengubah PIN Akses Jabatan secara online`);
+                alert("PIN Berhasil diperbarui dan disinkronkan ke semua perangkat!");
+                tutupModalGantiPin();
+                if(currentRole && currentRole.access.includes('adminPanel')) muatFormAdmin();
+            } catch (e) {
+                alert("Gagal menyimpan PIN ke Cloud. Periksa koneksi internet Anda.");
+            }
         }
 
-        function resetSemuaPinKeDefault() {
-            if(confirm("Yakin ingin mengembalikan seluruh PIN Pengurus ke PIN bawaan default?")) {
-                localStorage.removeItem('ASTRAVELIS_ROLES');
-                ROLES = window.APP_CONFIG.defaultRoles;
-                catatAuditLog(`Melakukan Reset Master PIN Pengurus ke Default`);
-                alert("Seluruh PIN Pengurus telah dikembalikan ke PIN Default bawaan!");
-                muatFormAdmin();
+        async function resetSemuaPinKeDefault() {
+            if(confirm("Yakin ingin mengembalikan seluruh PIN Pengurus ke PIN bawaan default di Cloud?")) {
+                try {
+                    await fetch(scriptURL, { 
+                        method: 'POST', 
+                        body: JSON.stringify({ action: "updatePIN", newRoles: window.APP_CONFIG.defaultRoles }) 
+                    });
+                    ROLES = window.APP_CONFIG.defaultRoles;
+                    catatAuditLog(`Melakukan Reset Master PIN Pengurus ke Default`);
+                    alert("Seluruh PIN Pengurus telah dikembalikan ke PIN Default!");
+                    muatFormAdmin();
+                } catch(e) {
+                    alert("Gagal mereset PIN ke Cloud.");
+                }
             }
         }
 
@@ -1124,8 +1137,7 @@
             const body = document.getElementById('tabelPinAdmin');
             if(!body) return;
 
-            const activeRoles = getActiveRoles();
-            body.innerHTML = Object.entries(activeRoles).map(([pin, data]) => `
+            body.innerHTML = Object.entries(ROLES).map(([pin, data]) => `
                 <tr>
                     <td class="p-3 text-purple-600 dark:text-purple-400 italic">${data.name}</td>
                     <td class="p-3 tracking-widest font-mono text-slate-800 dark:text-white">•••• (${pin})</td>
@@ -1182,7 +1194,7 @@
         }
 
         // ==========================================
-        // DOKUMEN & SINKRONISASI DATA KAS
+        // DOKUMEN & SINKRONISASI DATA KAS & PIN (CLOUD)
         // ==========================================
         async function muatData() {
             document.getElementById('infoBulan').innerText = "MENYINGKRONKAN...";
@@ -1197,6 +1209,12 @@
                 }
 
                 bulanAktif = parseInt(json.bulanAktif) || 0;
+
+                // Sinkronisasi PIN dari Cloud
+                if(json.roles) {
+                    ROLES = json.roles;
+                }
+
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
                 updateUI();
                 sesuaikanFormOtomatis();
