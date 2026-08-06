@@ -621,7 +621,7 @@
                         </div>
 
                         <div class="max-h-48 overflow-y-auto custom-scrollbar border rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 space-y-2 text-[11px]" id="containerAuditLog">
-                            <p class="text-slate-400 italic text-center text-xs">Belum ada riwayat aktivitas recorded.</p>
+                            <p class="text-slate-400 italic text-center text-xs">Memuat aktivitas global...</p>
                         </div>
                     </div>
                 </div>
@@ -699,7 +699,6 @@
 
     <!-- SCRIPT UTAMA SISTEM -->
     <script>
-        // DAFTAR DEFAULT 23 SISWA KELAS (SESUAI PERMINTAAN)
         const DEFAULT_SISWA_BACKUP = [
             "AHMAD ADITYA RISKI PRATAMA",
             "AHMAD DONI ILYASA",
@@ -726,7 +725,6 @@
             "ZAHRA MAULIDA"
         ];
 
-        // MENGAMBIL KONFIGURASI
         function getDynamicConfig() {
             const savedLinks = localStorage.getItem('ASTRAVELIS_LINKS');
             const savedNominal = localStorage.getItem('ASTRAVELIS_NOMINAL');
@@ -741,55 +739,70 @@
         const scriptURL = dynamicConfig.scriptURL;
         let NOMINAL_IURAN = dynamicConfig.nominalIuran;
 
-        // SISTEM MANAGEMENT PIN (TERSYNC DARI CLOUD / GOOGLE SHEETS)
         let ROLES = window.APP_CONFIG.defaultRoles;
         let currentRole = null;
         let dataLokal = [];
         let listSiswa = [...DEFAULT_SISWA_BACKUP];
+        let globalAuditLogs = [];
         let myChart;
         let bulanAktif = 0;
         let hasilKelompokLokal = [];
 
         // ==========================================
-        // FITUR LOGGING AKTIVITAS PENGURUS (AUDIT LOG)
+        // FITUR LOGGING AKTIVITAS PENGURUS (CLOUD REAL-TIME)
         // ==========================================
-        function catatAuditLog(pesan) {
-            let logs = JSON.parse(localStorage.getItem('ASTRAVELIS_AUDIT_LOG') || '[]');
+        async function catatAuditLog(pesan) {
             const waktu = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
             const tanggal = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
             const pelaku = currentRole ? currentRole.name : "Sistem/Tamu";
+            const timestampFormatted = `${tanggal}, ${waktu}`;
 
-            logs.unshift({ timestamp: `${tanggal}, ${waktu}`, user: pelaku, action: pesan });
-            if (logs.length > 30) logs.pop();
-            localStorage.setItem('ASTRAVELIS_AUDIT_LOG', JSON.stringify(logs));
-            renderAuditLog();
+            try {
+                await fetch(scriptURL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: "addLog",
+                        timestamp: timestampFormatted,
+                        user: pelaku,
+                        actionText: pesan
+                    })
+                });
+            } catch (e) {
+                console.error("Gagal mencatat log cloud", e);
+            }
+            muatData();
         }
 
         function renderAuditLog() {
             const container = document.getElementById('containerAuditLog');
             if(!container) return;
-            const logs = JSON.parse(localStorage.getItem('ASTRAVELIS_AUDIT_LOG') || '[]');
 
-            if(logs.length === 0) {
+            if(!globalAuditLogs || globalAuditLogs.length === 0) {
                 container.innerHTML = `<p class="text-slate-400 italic text-center text-xs">Belum ada riwayat aktivitas recorded.</p>`;
                 return;
             }
 
-            container.innerHTML = logs.map(l => `
+            container.innerHTML = globalAuditLogs.map(l => `
                 <div class="border-b dark:border-slate-700/60 pb-1.5 flex justify-between items-start gap-2">
                     <div>
-                        <span class="font-extrabold text-purple-600 dark:text-purple-400">[${l.user}]</span>
-                        <span class="text-slate-700 dark:text-slate-200 font-medium">${l.action}</span>
+                        <span class="font-extrabold text-purple-600 dark:text-purple-400">[${l[1]}]</span>
+                        <span class="text-slate-700 dark:text-slate-200 font-medium">${l[2]}</span>
                     </div>
-                    <span class="text-[9px] font-extrabold text-slate-400 whitespace-nowrap">${l.timestamp}</span>
+                    <span class="text-[9px] font-extrabold text-slate-400 whitespace-nowrap">${l[0]}</span>
                 </div>
             `).join('');
         }
 
-        function bersihkanAuditLog() {
-            if(confirm("Bersihkan semua riwayat log aktivitas?")) {
-                localStorage.removeItem('ASTRAVELIS_AUDIT_LOG');
-                renderAuditLog();
+        async function bersihkanAuditLog() {
+            if(confirm("Bersihkan semua riwayat log aktivitas global?")) {
+                try {
+                    await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ action: "clearLogs" }) });
+                    globalAuditLogs = [];
+                    renderAuditLog();
+                    alert("Log aktivitas berhasil dibersihkan!");
+                } catch (e) {
+                    alert("Gagal membersihkan log.");
+                }
             }
         }
 
@@ -821,7 +834,7 @@
         }
 
         // ==========================================
-        // FITUR: GANTI & RESET PIN PENGURUS (CLOUD SYNC)
+        // FITUR: GANTI & RESET PIN PENGURUS (CLOUD)
         // ==========================================
         function bukaModalGantiPin() { document.getElementById('modalGantiPin').classList.remove('hidden'); }
         function tutupModalGantiPin() { document.getElementById('modalGantiPin').classList.add('hidden'); document.getElementById('pinBaruInput').value = ''; }
@@ -1212,6 +1225,11 @@
                     ROLES = json.roles;
                 }
 
+                if(json.auditLogs) {
+                    globalAuditLogs = json.auditLogs;
+                    renderAuditLog();
+                }
+
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
                 updateUI();
                 sesuaikanFormOtomatis();
@@ -1483,9 +1501,9 @@
             doc.save(`Laporan_Kas_Astravelis_${namaBulan}_${tahun}.pdf`);
         }
 
-        // Auto-refresh data setiap 60 detik (1 menit) jika halaman uang kas aktif
+        // Auto-refresh data setiap 60 detik (1 menit)
         setInterval(() => {
-            if (!document.getElementById('pageUangKas').classList.contains('hidden')) {
+            if (!document.getElementById('pageUangKas').classList.contains('hidden') || !document.getElementById('pageAdminPanel').classList.contains('hidden')) {
                 muatData();
             }
         }, 60000);
