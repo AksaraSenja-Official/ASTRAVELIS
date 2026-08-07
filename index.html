@@ -195,7 +195,7 @@
                         <div>
                             <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
                             <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">POJOK LINK PENTING</h3>
-                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Zoom, LMS, CBT & Instagram</p>
+                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Zoom, LMS, LMS 2, CBT & Instagram</p>
                         </div>
                     </div>
                 </div>
@@ -455,6 +455,19 @@
                         <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka LMS →</span>
                     </a>
 
+                    <!-- LINK 2.5: LMS SEKOLAH 2 -->
+                    <a id="linkLms2Btn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-amber-300 transition-all duration-300 flex flex-col justify-between h-44 group">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
+                            🚀
+                        </div>
+                        <div>
+                            <span class="text-[8px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-widest bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-100 dark:border-amber-800">E-Learning Portal</span>
+                            <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">LMS SEKOLAH 2</h3>
+                            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Portal Pembelajaran & Tugas</p>
+                        </div>
+                        <span class="text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka LMS SEKOLAH 2 →</span>
+                    </a>
+
                     <!-- LINK 3: CBT ICLT -->
                     <a id="linkCbtBtn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-purple-300 transition-all duration-300 flex flex-col justify-between h-44 group">
                         <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-500 to-indigo-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
@@ -533,6 +546,10 @@
                             <div>
                                 <label class="text-[10px] font-bold text-slate-400 uppercase">Link LMS Sekolah</label>
                                 <input type="text" id="adminLmsInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-400 uppercase">Link LMS SEKOLAH 2</label>
+                                <input type="text" id="adminLms2Input" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
                             </div>
                             <div>
                                 <label class="text-[10px] font-bold text-slate-400 uppercase">Link CBT ICLT</label>
@@ -978,6 +995,7 @@
             else if(hal === 'quickLinks') {
                 document.getElementById('linkZoomBtn').href = dynamicConfig.links.zoom;
                 document.getElementById('linkLmsBtn').href = dynamicConfig.links.lms;
+                document.getElementById('linkLms2Btn').href = dynamicConfig.links.lms2;
                 document.getElementById('linkCbtBtn').href = dynamicConfig.links.cbt;
                 document.getElementById('linkIgBtn').href = dynamicConfig.links.instagramClass;
                 document.getElementById('pageQuickLinks').classList.remove('hidden');
@@ -1072,6 +1090,7 @@
         function muatFormAdmin() {
             document.getElementById('adminZoomInput').value = dynamicConfig.links.zoom;
             document.getElementById('adminLmsInput').value = dynamicConfig.links.lms;
+            document.getElementById('adminLms2Input').value = dynamicConfig.links.lms2;
             document.getElementById('adminCbtInput').value = dynamicConfig.links.cbt;
             document.getElementById('adminIgInput').value = dynamicConfig.links.instagramClass;
             document.getElementById('adminIuranInput').value = dynamicConfig.nominalIuran;
@@ -1161,6 +1180,7 @@
             const updatedLinks = {
                 zoom: document.getElementById('adminZoomInput').value.trim(),
                 lms: document.getElementById('adminLmsInput').value.trim(),
+                lms2: document.getElementById('adminLms2Input').value.trim(),
                 cbt: document.getElementById('adminCbtInput').value.trim(),
                 driveMoment: dynamicConfig.links.driveMoment,
                 driveMateri: dynamicConfig.links.driveMateri,
@@ -1210,7 +1230,6 @@
         async function muatData() {
             document.getElementById('infoBulan').innerText = "MENYINGKRONKAN...";
             try {
-                // Menambahkan parameter ?t= timestamp untuk mencegah caching pada sisi Google Apps Script
                 const res = await fetch(scriptURL + "?t=" + Date.now());
                 const json = await res.json();
                 dataLokal = json.transaksi || [];

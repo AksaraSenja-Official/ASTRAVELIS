@@ -13,6 +13,7 @@ window.APP_CONFIG = {
     links: {
         zoom: "https://us06web.zoom.us/j/4634019789?pwd=A1Mh6ctFpz0abaJsbkDxxisjZoowVb.1",
         lms: "https://lms.maniclotim.sch.id/",
+        lms2: "https://sites.google.com/view/maniclotim-ski-lms/lms", // TAMBAHAN LMS 2
         cbt: "https://cbt.akademiksistem.my.id/",
         driveMoment: "https://drive.google.com/drive/folders/1xYiNCGUPes8LU2kJsKFFLTdGrFRTYXU0?usp=sharing",
         driveMateri: "https://drive.google.com/drive/folders/10tKD3rfBM5zUlNKjmgxngLJkD3JzQS8S?usp=sharing",
