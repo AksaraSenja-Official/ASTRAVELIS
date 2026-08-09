@@ -90,7 +90,7 @@
                     <button id="btnLogin" onclick="bukaModalLogin()" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold px-4 py-2 rounded-xl text-[11px] uppercase tracking-wider shadow-md shadow-blue-500/20 transition">LOGIN PENGURUS</button>
                     <div id="userInfo" class="hidden flex items-center gap-2">
                         <span id="roleBadge" class="bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-bold text-[10px] px-3 py-1 rounded-lg uppercase">Tamu</span>
-                        <button id="btnAdminPanel" onclick="bukaHalaman('adminPanel')" title="Panel Pengaturan Admin" class="hidden bg-purple-600 hover:bg-purple-700 text-white font-extrabold px-2.5 py-1 rounded-lg text-[10px] shadow-sm transition">⚙️ SETTING</button>
+                        <button id="btnAdminPanel" onclick="bukaHalaman('adminPanel')" title="Panel Kontrol Pengurus" class="hidden bg-purple-600 hover:bg-purple-700 text-white font-extrabold px-2.5 py-1 rounded-lg text-[10px] shadow-sm transition">⚙️ PANEL KONTROL</button>
                         <button onclick="bukaModalGantiPin()" title="Ubah PIN Otentikasi" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold px-2.5 py-1 rounded-lg text-[10px] border border-slate-200 dark:border-slate-700 transition">🔑 PIN</button>
                         <button onclick="logout()" class="bg-red-50 hover:bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold px-2.5 py-1 rounded-lg text-[10px] border border-red-200 dark:border-red-800 transition">Logout</button>
                     </div>
@@ -519,24 +519,27 @@
                 </div>
             </section>
 
-            <!-- 8. PANEL PENGATURAN ADMIN -->
+            <!-- 8. PANEL PENGATURAN & KONTROL PENGURUS -->
             <section id="pageAdminPanel" class="hidden space-y-5">
                 <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
                         <span>←</span> Kembali ke Dashboard
                     </button>
-                    <h2 class="text-xs font-black uppercase italic text-purple-600 dark:text-purple-400 tracking-wider">PANEL KONTROL ADMIN</h2>
+                    <div class="flex items-center gap-2">
+                        <span id="panelRoleBadge" class="bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 font-extrabold text-[10px] px-3 py-1 rounded-xl border border-purple-200 dark:border-purple-800 uppercase">AKSES PENGURUS</span>
+                        <h2 class="text-xs font-black uppercase italic text-purple-600 dark:text-purple-400 tracking-wider">PANEL KONTROL KELAS</h2>
+                    </div>
                 </div>
 
                 <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-8">
                     <div>
                         <h2 class="text-xl font-black uppercase italic text-purple-600 dark:text-purple-400">PENGATURAN KONTROL & SISTEM</h2>
-                        <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Kelola data siswa, otentikasi PIN pengurus, audit log & tautan penting</p>
+                        <p id="panelSubtitle" class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Kelola data siswa, otentikasi PIN pengurus, audit log & tautan penting</p>
                     </div>
 
                     <!-- BLOK 1: PENGATURAN LINK & IURAN -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
+                        <div id="blockLinks" class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
                             <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 border-b pb-2 dark:border-slate-700">🔗 Edit Tautan Penting</h3>
                             
                             <div>
@@ -561,7 +564,7 @@
                             </div>
                         </div>
 
-                        <div class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
+                        <div id="blockIuran" class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
                             <div class="space-y-4">
                                 <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 border-b pb-2 dark:border-slate-700">⚙️ Pengaturan Iuran & Laporan</h3>
                                 <div>
@@ -575,21 +578,21 @@
                                 </div>
                             </div>
 
-                            <button onclick="simpanPengaturanAdmin()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-3.5 rounded-xl text-xs uppercase italic tracking-wider shadow-md shadow-purple-500/20 transition">
+                            <button id="btnSimpanPengaturan" onclick="simpanPengaturanAdmin()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-3.5 rounded-xl text-xs uppercase italic tracking-wider shadow-md shadow-purple-500/20 transition">
                                 💾 Simpan Semua Tautan & Iuran
                             </button>
                         </div>
                     </div>
 
                     <!-- BLOK 2: STUDENT DATA MANAGER (MANAJEMEN SISWA) -->
-                    <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+                    <div id="blockSiswaManager" class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
                         <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
                             <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">👥 Student Data Manager (Manajemen Siswa)</h3>
                             <span id="totalSiswaAdminBadge" class="bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-300 text-[10px] font-black px-2.5 py-0.5 rounded-full">0 Siswa</span>
                         </div>
 
                         <!-- FORM TAMBAH SISWA -->
-                        <div class="flex gap-2">
+                        <div id="formTambahSiswa" class="flex gap-2">
                             <input type="text" id="inputNamaSiswaBaru" placeholder="Masukkan Nama Siswa Baru..." class="p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none flex-1 dark:text-white uppercase">
                             <button onclick="tambahSiswaBaruAdmin()" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase italic shadow-sm transition">+ Tambah</button>
                         </div>
@@ -610,10 +613,10 @@
                     </div>
 
                     <!-- BLOK 3: MASTER CONTROL & RESET PIN PENGURUS -->
-                    <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+                    <div id="blockMasterPin" class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
                         <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
-                            <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">🔑 Master Control & Reset PIN Pengurus</h3>
-                            <button onclick="resetSemuaPinKeDefault()" class="bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 text-[10px] font-extrabold px-3 py-1 rounded-lg hover:bg-rose-600 hover:text-white transition uppercase">⚠️ Reset Semua PIN ke Default</button>
+                            <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">🔑 Master Control & Status PIN Pengurus</h3>
+                            <button id="btnResetPinGlobal" onclick="resetSemuaPinKeDefault()" class="bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 text-[10px] font-extrabold px-3 py-1 rounded-lg hover:bg-rose-600 hover:text-white transition uppercase">⚠️ Reset Semua PIN ke Default</button>
                         </div>
 
                         <div class="overflow-x-auto">
@@ -631,10 +634,10 @@
                     </div>
 
                     <!-- BLOK 4: AUDIT LOG RIWAYAT AKTIVITAS PENGURUS -->
-                    <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+                    <div id="blockAuditLog" class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
                         <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
                             <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">📜 Activity Audit Log (Riwayat Aktivitas Pengurus)</h3>
-                            <button onclick="bersihkanAuditLog()" class="text-slate-400 hover:text-rose-500 text-[10px] font-bold transition">Bersihkan Log</button>
+                            <button id="btnCleanLog" onclick="bersihkanAuditLog()" class="text-slate-400 hover:text-rose-500 text-[10px] font-bold transition">Bersihkan Log</button>
                         </div>
 
                         <div class="max-h-48 overflow-y-auto custom-scrollbar border rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 space-y-2 text-[11px]" id="containerAuditLog">
@@ -929,7 +932,7 @@
                 document.getElementById('userInfo').classList.remove('hidden');
                 document.getElementById('roleBadge').innerText = currentRole.name;
                 
-                if(currentRole.access.includes("adminPanel")) {
+                if(currentRole.access && currentRole.access.includes("adminPanel")) {
                     document.getElementById('btnAdminPanel').classList.remove('hidden');
                 } else {
                     document.getElementById('btnAdminPanel').classList.add('hidden');
@@ -963,7 +966,7 @@
                 bukaModalLogin();
                 return;
             }
-            if(!currentRole.access.includes(fitur)) {
+            if(!currentRole.access || !currentRole.access.includes(fitur)) {
                 alert(`Akses Ditolak! Jabatan ${currentRole.name} tidak memiliki wewenang pada fitur ini.`);
                 return;
             }
@@ -1085,9 +1088,10 @@
         }
 
         // ==========================================
-        // FITUR: PANEL PENGATURAN ADMIN
+        // FITUR: PANEL PENGATURAN & KONTROL MULTI-JABATAN
         // ==========================================
         function muatFormAdmin() {
+            // 1. Isikan data tautan & nominal saat ini ke form
             document.getElementById('adminZoomInput').value = dynamicConfig.links.zoom;
             document.getElementById('adminLmsInput').value = dynamicConfig.links.lms;
             document.getElementById('adminLms2Input').value = dynamicConfig.links.lms2;
@@ -1095,9 +1099,50 @@
             document.getElementById('adminIgInput').value = dynamicConfig.links.instagramClass;
             document.getElementById('adminIuranInput').value = dynamicConfig.nominalIuran;
 
+            // 2. Ambil identitas & wewenang jabatan pengguna aktif
+            const roleName = currentRole ? currentRole.name : "Pengurus";
+            document.getElementById('panelRoleBadge').innerText = `AKSES: ${roleName.toUpperCase()}`;
+
+            const isAdmin = roleName.toLowerCase() === "admin";
+            const isSekretaris = roleName.toLowerCase().includes("sekretaris");
+            const isKetua = roleName.toLowerCase().includes("ketua") || roleName.toLowerCase().includes("wakil");
+
+            // 3. Kontrol Visibilitas Modul/Blok Berdasarkan Jabatan
+
+            // BLOK 1: Kelola Links / Tautan Utama (Hanya Admin & Sekretaris)
+            const blockLinks = document.getElementById('blockLinks');
+            if (blockLinks) {
+                blockLinks.style.display = (isAdmin || isSekretaris) ? "block" : "none";
+            }
+
+            // BLOK 2: Pengaturan Iuran & Progres Uang Kas Kelas (Hanya Admin & Ketua / Wakil Kelas)
+            const blockIuran = document.getElementById('blockIuran');
+            if (blockIuran) {
+                blockIuran.style.display = (isAdmin || isKetua) ? "flex" : "none";
+            }
+
+            // BLOK 3: Student Data Manager / Edit Nama Siswa (Admin, Sekretaris, dan Ketua / Wakil Kelas)
+            const blockSiswaManager = document.getElementById('blockSiswaManager');
+            if (blockSiswaManager) {
+                blockSiswaManager.style.display = (isAdmin || isSekretaris || isKetua) ? "block" : "none";
+            }
+
+            // BLOK 4: Master Control & Reset PIN Pengurus (Hanya Admin Utama)
+            const blockMasterPin = document.getElementById('blockMasterPin');
+            if (blockMasterPin) {
+                blockMasterPin.style.display = isAdmin ? "block" : "none";
+            }
+
+            // BLOK 5: Activity Audit Log (Hanya Admin Utama)
+            const blockAuditLog = document.getElementById('blockAuditLog');
+            if (blockAuditLog) {
+                blockAuditLog.style.display = isAdmin ? "block" : "none";
+            }
+
+            // 4. Render Ulang Data Tabel Internal
             renderTabelSiswaAdmin();
-            renderTabelPinAdmin();
-            renderAuditLog();
+            if (isAdmin) renderTabelPinAdmin();
+            if (isAdmin) renderAuditLog();
         }
 
         function renderTabelSiswaAdmin() {
@@ -1105,14 +1150,19 @@
             const badge = document.getElementById('totalSiswaAdminBadge');
             if(!body) return;
 
+            const roleName = currentRole ? currentRole.name.toLowerCase() : "";
+            const canEditSiswa = roleName === "admin" || roleName.includes("sekretaris") || roleName.includes("ketua") || roleName.includes("wakil");
+
             badge.innerText = `${listSiswa.length} Siswa`;
             body.innerHTML = listSiswa.map((nama, idx) => `
                 <tr>
                     <td class="p-2 text-slate-400 font-extrabold">${idx + 1}</td>
                     <td class="p-2 dark:text-white uppercase">${nama}</td>
                     <td class="p-2 text-right">
-                        <button onclick="editNamaSiswaAdmin(${idx})" class="text-blue-600 dark:text-blue-400 hover:underline mr-2">Edit</button>
-                        <button onclick="hapusSiswaAdmin(${idx})" class="text-rose-500 hover:underline">Hapus</button>
+                        ${canEditSiswa ? `
+                            <button onclick="editNamaSiswaAdmin(${idx})" class="text-blue-600 dark:text-blue-400 hover:underline mr-2">Edit</button>
+                            <button onclick="hapusSiswaAdmin(${idx})" class="text-rose-500 hover:underline">Hapus</button>
+                        ` : `<span class="text-slate-400 text-[10px] italic">Lihat Saja</span>`}
                     </td>
                 </tr>
             `).join('');
@@ -1171,7 +1221,7 @@
                 <tr>
                     <td class="p-3 text-purple-600 dark:text-purple-400 italic">${data.name}</td>
                     <td class="p-3 tracking-widest font-mono text-slate-800 dark:text-white">•••• (${pin})</td>
-                    <td class="p-3 text-[10px] text-slate-400 font-bold uppercase">${data.access.join(', ')}</td>
+                    <td class="p-3 text-[10px] text-slate-400 font-bold uppercase">${(data.access || []).join(', ')}</td>
                 </tr>
             `).join('');
         }
@@ -1241,7 +1291,14 @@
 
                 bulanAktif = parseInt(json.bulanAktif) || 0;
 
+                // SINKRONISASI OTOMATIS: Penggabungan Hak Akses Config.js & Data Cloud
                 if(json.roles) {
+                    Object.keys(json.roles).forEach(pin => {
+                        const defaultRole = Object.values(window.APP_CONFIG.defaultRoles).find(r => r.name === json.roles[pin].name);
+                        if (defaultRole) {
+                            json.roles[pin].access = Array.from(new Set([...(json.roles[pin].access || []), ...defaultRole.access]));
+                        }
+                    });
                     ROLES = json.roles;
                 }
 
