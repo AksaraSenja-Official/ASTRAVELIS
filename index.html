@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASTRAVELIS - Portal Kelas</title>
+    <title>ASTRAVELIS - Portal Kelas Official</title>
     
     <!-- OPEN GRAPH / PREVIEW TAUTAN WHATSAPP & SOSIAL MEDIA -->
     <meta property="og:type" content="website">
@@ -24,7 +24,7 @@
       "start_url": ".",
       "display": "standalone",
       "background_color": "#ffffff",
-      "theme_color": "#2563eb",
+      "theme_color": "#0d9488",
       "icons": [
         { "src": "logo.jpg", "sizes": "192x192", "type": "image/jpeg" },
         { "src": "logo.jpg", "sizes": "512x512", "type": "image/jpeg" }
@@ -33,14 +33,16 @@
     <link rel="apple-touch-icon" href="logo.jpg">
     <link rel="icon" type="image/jpeg" href="logo.jpg">
 
-    <!-- TailWind CSS (Serta Konfigurasi Dark Mode) -->
+    <!-- Tailwind CSS CDN & Dark Mode Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,900&display=swap" rel="stylesheet">
     
     <!-- Pustaka Eksternal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -49,647 +51,847 @@
     
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        .transition-all-300 { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
+        
         .switch { position: relative; display: inline-block; width: 48px; height: 26px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e2e8f0; transition: .3s; border-radius: 34px; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 34px; }
         .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        input:checked + .slider { background-color: #2563eb; }
+        input:checked + .slider { background-color: #0d9488; }
         input:checked + .slider:before { transform: translateX(22px); }
         
         .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.8); }
         .dark .glass-card { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.8); }
     </style>
 </head>
-<body class="bg-slate-100/70 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col justify-between p-3 md:p-6 transition-colors duration-300">
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
 
-    <div class="max-w-6xl mx-auto w-full">
-        <!-- HEADER LAYOUT MODERN -->
-        <header class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3 glass-card p-3.5 md:p-4 rounded-2xl shadow-sm">
-            <div class="flex items-center gap-3 cursor-pointer group" onclick="bukaHalaman('dashboard')">
-                <img id="logoApp" src="logo.jpg" alt="Logo" class="h-10 w-10 object-cover rounded-xl shadow-md border-2 border-blue-600 transition transform group-hover:scale-105">
-                <div>
-                    <h1 class="text-xl font-black italic tracking-wide text-slate-900 dark:text-white leading-tight">ASTRAVELIS</h1>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Portal Resmi Manajemen Kelas</p>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-2.5 w-full sm:w-auto justify-between sm:justify-end">
-                <!-- DARK MODE TOGGLE BUTTON -->
-                <button onclick="toggleDarkMode()" id="btnThemeToggle" title="Ganti Mode Gelap/Terang" class="p-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-amber-400 rounded-xl border border-slate-200 dark:border-slate-700 hover:scale-105 transition shadow-inner">
-                    🌙
-                </button>
-
-                <div class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] font-bold px-3 py-2 rounded-xl shadow-inner border border-slate-200/60 dark:border-slate-700/60 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span id="realtimeClock">Memuat waktu...</span>
-                </div>
-                
-                <div id="authBox">
-                    <button id="btnLogin" onclick="bukaModalLogin()" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold px-4 py-2 rounded-xl text-[11px] uppercase tracking-wider shadow-md shadow-blue-500/20 transition">LOGIN PENGURUS</button>
-                    <div id="userInfo" class="hidden flex items-center gap-2">
-                        <span id="roleBadge" class="bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-bold text-[10px] px-3 py-1 rounded-lg uppercase">Tamu</span>
-                        <button id="btnAdminPanel" onclick="bukaHalaman('adminPanel')" title="Panel Kontrol Pengurus" class="hidden bg-purple-600 hover:bg-purple-700 text-white font-extrabold px-2.5 py-1 rounded-lg text-[10px] shadow-sm transition">⚙️ PANEL KONTROL</button>
-                        <button onclick="bukaModalGantiPin()" title="Ubah PIN Otentikasi" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold px-2.5 py-1 rounded-lg text-[10px] border border-slate-200 dark:border-slate-700 transition">🔑 PIN</button>
-                        <button onclick="logout()" class="bg-red-50 hover:bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold px-2.5 py-1 rounded-lg text-[10px] border border-red-200 dark:border-red-800 transition">Logout</button>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- DYNAMIC CONTENT CONTAINER -->
-        <main id="mainContainer">
-            
-            <!-- 1. MAIN DASHBOARD -->
-            <section id="pageDashboard" class="space-y-6">
-                <!-- HERO PHOTO BANNER -->
-                <div class="relative w-full h-52 md:h-72 bg-gradient-to-tr from-blue-900 via-blue-700 to-indigo-800 rounded-3xl shadow-lg overflow-hidden border-2 border-white dark:border-slate-800 flex items-center justify-center">
-                    <img src="foto_kelas.jpg" onerror="this.style.opacity='0'" alt="Foto Anggota Kelas" class="absolute inset-0 w-full h-full object-cover transition duration-700 hover:scale-105">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/30 to-transparent flex flex-col justify-end p-5 md:p-8">
-                        <span class="bg-blue-500/80 text-white text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded-full w-max mb-1 backdrop-blur-md">Member of</span>
-                        <h2 class="text-2xl md:text-4xl font-black italic uppercase text-white tracking-tight drop-shadow-md">ASTRAVELIS</h2>
-                        <p class="text-xs font-medium text-slate-200 opacity-90">Reach the sky, Astravelis fly</p>
-                    </div>
-                </div>
-
-                <!-- MENU FITUR GRID UTAMA -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-4">
-                    <!-- FITUR 1: UANG KAS -->
-                    <div onclick="aksesFitur('uangKas')" class="glass-card hover:bg-blue-600 text-slate-800 dark:text-slate-100 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border border-slate-200/80 dark:border-slate-800 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Khusus Pengurus</span>
-                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">UANG KAS</h3>
-                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Kelola Transaksi & Laporan</p>
-                        </div>
-                    </div>
-
-                    <!-- FITUR 2: CEK KAS ANGGOTA -->
-                    <div onclick="aksesFitur('cekKas')" class="glass-card hover:bg-blue-600 text-slate-800 dark:text-slate-100 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border border-slate-200/80 dark:border-slate-800 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
-                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">CEK KAS ANGGOTA</h3>
-                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Pelunasan & Tunggakan</p>
-                        </div>
-                    </div>
-
-                    <!-- FITUR 3: PEMBAGI KELOMPOK -->
-                    <div onclick="aksesFitur('generatorKelompok')" class="glass-card hover:bg-blue-600 text-slate-800 dark:text-slate-100 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border border-slate-200/80 dark:border-slate-800 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M17 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5 5 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
-                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">PEMBAGI KELOMPOK</h3>
-                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Acak Kelompok Heterogen / Homogen</p>
-                        </div>
-                    </div>
-
-                    <!-- FITUR 4: JADWAL PELAJARAN -->
-                    <div onclick="aksesFitur('jadwal')" class="glass-card hover:bg-blue-600 text-slate-800 dark:text-slate-100 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border border-slate-200/80 dark:border-slate-800 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
-                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">JADWAL PELAJARAN</h3>
-                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Jadwal Pelajaran Kelas</p>
-                        </div>
-                    </div>
-
-                    <!-- FITUR 5: MOMENT KELAS -->
-                    <div onclick="aksesFitur('moment')" class="glass-card hover:bg-blue-600 text-slate-800 dark:text-slate-100 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border border-slate-200/80 dark:border-slate-800 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-rose-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
-                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">MOMENT KELAS</h3>
-                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Galeri Foto Drive</p>
-                        </div>
-                    </div>
-
-                    <!-- FITUR 6: MATERI PELAJARAN -->
-                    <div onclick="aksesFitur('materi')" class="glass-card hover:bg-blue-600 text-slate-800 dark:text-slate-100 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border border-slate-200/80 dark:border-slate-800 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
-                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">MATERI PELAJARAN</h3>
-                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Folder Bahan Belajar</p>
-                        </div>
-                    </div>
-
-                    <!-- FITUR 7: POJOK LINK PENTING -->
-                    <div onclick="aksesFitur('quickLinks')" class="glass-card hover:bg-blue-600 text-slate-800 dark:text-slate-100 hover:text-white p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/15 border border-slate-200/80 dark:border-slate-800 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-36 md:h-40 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-violet-600 group-hover:from-white/20 group-hover:to-white/30 flex items-center justify-center text-white transition shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
-                            <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">POJOK LINK PENTING</h3>
-                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Zoom, LMS, LMS 2, CBT & Instagram</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 2. FITUR UANG KAS -->
-            <section id="pageUangKas" class="hidden space-y-5">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
-                        <span>←</span> Kembali ke Dashboard
-                    </button>
-                    <div class="flex items-center gap-2">
-                        <span id="infoBulan" class="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-xl border border-blue-100 dark:border-blue-800">Menghubungkan...</span>
-                        <button onclick="muatData()" class="p-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 rounded-xl border transition">🔄</button>
-                    </div>
-                </div>
-
-                <div class="flex gap-2.5 items-center justify-end">
-                    <button onclick="kurangiBulan()" class="px-3 py-2 bg-white dark:bg-slate-800 text-red-500 rounded-xl shadow-sm border border-red-100 dark:border-red-900/40 hover:bg-red-50 transition text-[11px] font-bold uppercase italic">➖ Edit Tagihan</button>
-                    <div class="bg-white dark:bg-slate-800 px-3 py-1.5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2.5">
-                        <div class="text-right">
-                            <p class="text-[8px] font-black text-slate-400 uppercase">Tambah Tagihan</p>
-                            <p id="statusSaklar" class="text-[9px] font-bold text-red-500 uppercase italic">Libur/Off</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="btnSaklar" onchange="toggleIuran()">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 p-5 rounded-3xl text-white shadow-md md:col-span-2 flex flex-col justify-between">
-                        <div>
-                            <p class="text-[11px] font-extrabold uppercase opacity-80 italic">Total Saldo Fisik Kelas</p>
-                            <h2 id="totalSaldo" class="text-3xl md:text-4xl font-black tracking-tight mt-1">Rp 0</h2>
-                        </div>
-                        <div class="mt-6 flex gap-5 text-xs font-bold border-t border-white/20 pt-3">
-                            <p>MASUK: <span id="mBulanIni" class="text-emerald-300 font-extrabold">+0</span></p>
-                            <p>KELUAR: <span id="kBulanIni" class="text-rose-300 font-extrabold">-0</span></p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-center">
-                        <p class="text-[11px] font-extrabold uppercase text-slate-400 italic">Piutang Tunggakan</p>
-                        <h2 id="sisaPiutang" class="text-2xl font-black text-rose-500 mt-1">Rp 0</h2>
-                        <p class="text-[9px] mt-1 text-slate-400 font-bold">*Sinkron Otomatis Perangkat</p>
-                    </div>
-
-                    <div class="bg-white dark:bg-slate-800 p-4 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center">
-                        <canvas id="miniChart" class="max-h-20"></canvas>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                    <div class="lg:col-span-2 space-y-5">
-                        <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                            <h3 class="text-[11px] font-black uppercase mb-4 text-slate-400 tracking-widest italic">Input Transaksi Kas</h3>
-                            <form id="kasForm" class="space-y-3">
-                                <div class="relative">
-                                    <input type="text" id="nama" list="listAnggota" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-bold uppercase text-xs dark:text-white" placeholder="Nama Siswa" required autocomplete="off">
-                                    <datalist id="listAnggota"></datalist>
-                                </div>
-                                
-                                <div class="grid grid-cols-2 gap-2">
-                                    <select id="tipe" class="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs outline-none dark:text-white" onchange="sesuaikanFormOtomatis()">
-                                        <option value="Masuk">Masuk (+)</option>
-                                        <option value="Keluar">Keluar (-)</option>
-                                    </select>
-                                    <select id="kategori" class="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs outline-none dark:text-white" onchange="sesuaikanFormOtomatis()">
-                                        <option value="Iuran">Iuran</option>
-                                        <option value="Sosial">Sosial</option>
-                                        <option value="Alat Kelas">Alat Kelas</option>
-                                        <option value="Lainnya">Lainnya</option>
-                                    </select>
-                                </div>
-
-                                <div id="boxBayarSekaligus" class="p-3 bg-blue-50/80 dark:bg-blue-900/30 rounded-xl border border-blue-100 dark:border-blue-800">
-                                    <label class="text-[9px] font-black text-blue-600 dark:text-blue-400 uppercase ml-1">Bayar Berapa Bulan?</label>
-                                    <select id="jumlahBulanBayar" class="w-full bg-transparent font-bold text-xs outline-none cursor-pointer mt-0.5 dark:text-white" onchange="sesuaikanFormOtomatis()">
-                                        <option value="1">1 Bulan (Normal)</option>
-                                        <option value="2">2 Bulan Sekaligus</option>
-                                        <option value="3">3 Bulan Sekaligus</option>
-                                        <option value="4">4 Bulan Sekaligus</option>
-                                        <option value="5">5 Bulan Sekaligus</option>
-                                        <option value="6">6 Bulan Sekaligus</option>
-                                    </select>
-                                </div>
-                                
-                                <input type="text" id="keterangan" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none text-xs dark:text-white" placeholder="Keterangan transaksi..." required>
-                                <input type="number" id="jumlah" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none font-black text-blue-600 dark:text-blue-400 text-sm" placeholder="Nominal Rp" required>
-                                
-                                <button type="submit" id="btnSimpan" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-98 text-white font-black py-3 rounded-xl transition shadow-md shadow-blue-500/20 uppercase text-xs tracking-wider italic">Simpan Transaksi</button>
-                            </form>
-                        </div>
-
-                        <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                            <h3 class="text-[11px] font-black uppercase mb-3 text-slate-400 tracking-widest italic">Ringkasan Pengeluaran</h3>
-                            <div id="ringkasanKategori" class="space-y-2"></div>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-3 bg-white dark:bg-slate-800 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
-                            <h3 class="text-[11px] font-black uppercase text-slate-400 tracking-widest italic">Riwayat Transaksi</h3>
-                            <div class="flex gap-2">
-                                <button onclick="unduhCSV()" class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-lg font-bold text-[10px] border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-600 hover:text-white transition uppercase">Excel</button>
-                                <button onclick="unduhPDF()" class="px-3 py-1.5 bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 rounded-lg font-bold text-[10px] border border-rose-200 dark:border-rose-800 hover:bg-rose-600 hover:text-white transition uppercase">Cetak PDF</button>
-                            </div>
-                        </div>
-                        <div class="overflow-y-auto max-h-[480px] custom-scrollbar">
-                            <table class="w-full text-left">
-                                <tbody id="tabelBody" class="divide-y divide-slate-100 dark:divide-slate-700"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 3. FITUR CEK KAS BAGI ANGGOTA (PUBLIK) -->
-            <section id="pageCekKas" class="hidden space-y-5">
-                <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
-                        <span>←</span> Kembali ke Dashboard
-                    </button>
-                    <button onclick="copyPenunggak()" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-black uppercase italic shadow-sm transition">📋 Salin ke WhatsApp</button>
-                </div>
-
-                <div class="bg-white dark:bg-slate-800 p-6 md:p-7 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b dark:border-slate-700 pb-4">
-                        <div>
-                            <h2 class="text-xl font-black uppercase italic">STATUS PEMBAYARAN <span class="text-blue-600 dark:text-blue-400">KAS KELAS</span></h2>
-                            <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Total Tagihan Aktif: <span id="labelTagihanPublik" class="text-blue-600 dark:text-blue-400 font-extrabold">0</span> Bulan (<span id="labelNominalTagihan" class="text-slate-700 dark:text-slate-300 font-extrabold">Rp 0</span> / Siswa)</p>
-                        </div>
-                        <input type="text" id="searchSiswa" onkeyup="renderCekKasPublik()" placeholder="🔍 Cari nama siswa..." class="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs outline-none w-full md:w-64 focus:ring-2 focus:ring-blue-500 dark:text-white">
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <!-- KOLOM SUDAH LUNAS -->
-                        <div class="bg-emerald-50/40 dark:bg-emerald-950/20 p-5 rounded-2xl border border-emerald-100 dark:border-emerald-900/40">
-                            <h3 class="font-black text-emerald-800 dark:text-emerald-400 text-[11px] uppercase italic mb-3 flex items-center justify-between">
-                                <span>🎉 LUNAS SEPENUHNYA</span>
-                                <span id="countLunas" class="bg-emerald-200 dark:bg-emerald-900/80 text-emerald-900 dark:text-emerald-200 text-[9px] font-extrabold px-2.5 py-0.5 rounded-full">0</span>
-                            </h3>
-                            <div id="listSudahLunas" class="space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar"></div>
-                        </div>
-
-                        <!-- KOLOM BELUM LUNAS / TUNGGAKAN -->
-                        <div class="bg-rose-50/40 dark:bg-rose-950/20 p-5 rounded-2xl border border-rose-100 dark:border-rose-900/40">
-                            <h3 class="font-black text-rose-800 dark:text-rose-400 text-[11px] uppercase italic mb-3 flex items-center justify-between">
-                                <span>⚠️ BELUM LUNAS / TUNGGAKAN</span>
-                                <span id="countBelumLunas" class="bg-rose-200 dark:bg-rose-900/80 text-rose-900 dark:text-rose-200 text-[9px] font-extrabold px-2.5 py-0.5 rounded-full">0</span>
-                            </h3>
-                            <div id="listBelumLunas" class="space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 4. FITUR: PEMBAGI KELOMPOK -->
-            <section id="pageGeneratorKelompok" class="hidden space-y-5">
-                <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
-                        <span>←</span> Kembali ke Dashboard
-                    </button>
-                    <h2 class="text-xs font-black uppercase italic text-purple-600 dark:text-purple-400 tracking-wider">PEMBAGI KELOMPOK OTOMATIS</h2>
-                </div>
-
-                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b dark:border-slate-700 pb-4">
-                        <div>
-                            <h2 class="text-xl font-black uppercase italic text-purple-600 dark:text-purple-400">PEMBAGI <span class="text-slate-800 dark:text-white">KELOMPOK</span></h2>
-                            <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Acak siswa menjadi beberapa kelompok (Heterogen / Homogen)</p>
-                        </div>
-                        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                            <div class="flex items-center gap-2">
-                                <label class="text-xs font-bold text-slate-500 dark:text-slate-400">Mode:</label>
-                                <select id="selectModePembagian" class="p-2.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-extrabold outline-none dark:text-white">
-                                    <option value="campuran">🔀 Acak Campuran (Heterogen)</option>
-                                    <option value="homogen">🚻 Homogen (Terpisah Putra & Putri)</option>
-                                    <option value="putra">👨 Khusus Putra Saja</option>
-                                    <option value="putri">👩 Khusus Putri Saja</option>
-                                </select>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <label class="text-xs font-bold text-slate-500 dark:text-slate-400">Jumlah Kelompok:</label>
-                                <select id="selectJmlKelompok" class="p-2.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-extrabold outline-none dark:text-white">
-                                    <option value="2">2 Kelompok</option>
-                                    <option value="3">3 Kelompok</option>
-                                    <option value="4" selected>4 Kelompok</option>
-                                    <option value="5">5 Kelompok</option>
-                                    <option value="6">6 Kelompok</option>
-                                    <option value="7">7 Kelompok</option>
-                                    <option value="8">8 Kelompok</option>
-                                </select>
-                            </div>
-                            <button onclick="acakDanBuatKelompok()" class="bg-purple-600 hover:bg-purple-700 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs uppercase italic shadow-md transition">🎲 Acak Sekarang</button>
-                            <button onclick="copyHasilKelompokWA()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase italic shadow-md transition">📋 Salin ke WA</button>
-                        </div>
-                    </div>
-
-                    <div id="containerHasilKelompok" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div class="col-span-full py-12 text-center text-slate-400 font-medium text-xs">
-                            Klik tombol <b class="text-purple-600">"🎲 Acak Sekarang"</b> di atas untuk membagi kelompok siswa.
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 5. FITUR JADWAL PELAJARAN -->
-            <section id="pageJadwal" class="hidden space-y-5">
-                <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
-                        <span>←</span> Kembali ke Dashboard
-                    </button>
-                    <h2 class="text-xs font-black uppercase italic text-blue-600 dark:text-blue-400 tracking-wider">JADWAL PELAJARAN</h2>
-                </div>
-
-                <div class="bg-white dark:bg-slate-800 p-5 md:p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center">
-                    <div class="w-full max-w-2xl overflow-hidden rounded-2xl border dark:border-slate-700 shadow-md bg-slate-50 dark:bg-slate-900 group relative">
-                        <img id="imgJadwal" src="jadwal_pelajaran.jpg" onerror="this.onerror=null; this.src='https://via.placeholder.com/1200x800/2563eb/ffffff?text=File+jadwal_pelajaran.jpg+Belum+Ada';" alt="Jadwal Pelajaran Kelas" class="w-full h-auto object-contain cursor-pointer transition transform group-hover:scale-102" onclick="bukaModalJadwal()">
-                    </div>
-                    <div class="mt-4 flex flex-col sm:flex-row items-center gap-2.5">
-                        <button onclick="bukaModalJadwal()" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs uppercase italic shadow-sm transition flex items-center gap-1.5">
-                            <span>🔍 Perbesar Foto Jadwal</span>
-                        </button>
-                        <a href="jadwal_pelajaran.jpg" download="Jadwal_Pelajaran.jpg" class="bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-extrabold px-5 py-2.5 rounded-xl text-xs uppercase italic border dark:border-slate-600 transition">
-                            📥 Unduh Foto
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 6. FITUR POJOK LINK PENTING (QUICK LINKS) -->
-            <section id="pageQuickLinks" class="hidden space-y-5">
-                <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
-                        <span>←</span> Kembali ke Dashboard
-                    </button>
-                    <h2 class="text-xs font-black uppercase italic text-blue-600 dark:text-blue-400 tracking-wider">POJOK LINK PENTING KELAS</h2>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <!-- LINK 1: ZOOM KELAS -->
-                    <a id="linkZoomBtn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-300 flex flex-col justify-between h-44 group">
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-500 to-cyan-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
-                            📹
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded-md border border-blue-100 dark:border-blue-800">Virtual Meeting</span>
-                            <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">ZOOM KELAS</h3>
-                            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Tatap Muka Online</p>
-                        </div>
-                        <span class="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka Zoom →</span>
-                    </a>
-
-                    <!-- LINK 2: LMS SEKOLAH -->
-                    <a id="linkLmsBtn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between h-44 group">
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
-                            📚
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest bg-emerald-50 dark:bg-emerald-900/40 px-2 py-0.5 rounded-md border border-emerald-100 dark:border-emerald-800">E-Learning Portal</span>
-                            <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">LMS SEKOLAH</h3>
-                            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Portal Pembelajaran & Tugas</p>
-                        </div>
-                        <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka LMS →</span>
-                    </a>
-
-                    <!-- LINK 3: LMS SEKOLAH 2 -->
-                    <a id="linkLms2Btn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-amber-300 transition-all duration-300 flex flex-col justify-between h-44 group">
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
-                            🚀
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-widest bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-100 dark:border-amber-800">E-Learning Portal</span>
-                            <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">LMS SEKOLAH 2</h3>
-                            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Portal Pembelajaran & Tugas</p>
-                        </div>
-                        <span class="text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka LMS SEKOLAH 2 →</span>
-                    </a>
-
-                    <!-- LINK 4: CBT ICLT -->
-                    <a id="linkCbtBtn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-purple-300 transition-all duration-300 flex flex-col justify-between h-44 group">
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-500 to-indigo-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
-                            📝
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-widest bg-purple-50 dark:bg-purple-900/40 px-2 py-0.5 rounded-md border border-purple-100 dark:border-purple-800">Ujian & Asesmen</span>
-                            <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">CBT ICLT</h3>
-                            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Sistem Ujian Komputer</p>
-                        </div>
-                        <span class="text-[10px] font-black text-purple-600 dark:text-purple-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka CBT ICLT →</span>
-                    </a>
-
-                    <!-- LINK 5: INSTAGRAM KELAS -->
-                    <a id="linkIgBtn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-rose-300 transition-all duration-300 flex flex-col justify-between h-44 group">
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-rose-500 via-purple-500 to-amber-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
-                            📸
-                        </div>
-                        <div>
-                            <span class="text-[8px] font-extrabold text-rose-600 dark:text-rose-400 uppercase tracking-widest bg-rose-50 dark:bg-rose-900/40 px-2 py-0.5 rounded-md border border-rose-100 dark:border-rose-800">Media Sosial</span>
-                            <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">@Astravelis__</h3>
-                            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Dokumentasi & Kegiatan</p>
-                        </div>
-                        <span class="text-[10px] font-black text-rose-600 dark:text-rose-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Kunjungi Instagram →</span>
-                    </a>
-                </div>
-            </section>
-
-            <!-- 7. GOOGLE DRIVE PREVIEW CARD -->
-            <section id="pageGDriveView" class="hidden space-y-5">
-                <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
-                        <span>←</span> Kembali ke Dashboard
-                    </button>
-                    <h2 id="gdriveTitle" class="text-xs font-black uppercase italic text-blue-600 dark:text-blue-400 tracking-wider">GOOGLE DRIVE KELAS</h2>
-                </div>
-                
-                <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center text-center min-h-[350px]">
-                    <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-3xl mb-3 shadow-inner border border-blue-100 dark:border-blue-800">
-                        📂
-                    </div>
-                    <h3 id="gdriveSubTitle" class="text-lg font-black text-slate-800 dark:text-slate-100 uppercase italic">Akses Folder Google Drive</h3>
-                    <p class="text-xs text-slate-400 font-medium max-w-sm mt-1 mb-5">
-                        Seluruh file, foto, dan dokumen tersimpan secara aman di Google Drive Resmi Astravelis.
-                    </p>
-                    <a id="btnBukaDrive" href="#" target="_blank" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold px-6 py-3 rounded-xl text-xs uppercase italic tracking-wider shadow-md shadow-blue-500/20 transition flex items-center gap-2">
-                        <span>🚀 Buka Folder Google Drive</span>
-                    </a>
-                </div>
-            </section>
-
-            <!-- 8. PANEL PENGATURAN & KONTROL PENGURUS -->
-            <section id="pageAdminPanel" class="hidden space-y-5">
-                <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition flex items-center gap-1.5">
-                        <span>←</span> Kembali ke Dashboard
-                    </button>
-                    <div class="flex items-center gap-2">
-                        <span id="panelRoleBadge" class="bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 font-extrabold text-[10px] px-3 py-1 rounded-xl border border-purple-200 dark:border-purple-800 uppercase">AKSES PENGURUS</span>
-                        <h2 class="text-xs font-black uppercase italic text-purple-600 dark:text-purple-400 tracking-wider">PANEL KONTROL KELAS</h2>
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-8">
+    <div class="flex flex-1 w-full">
+        <!-- ==================== SIDEBAR NAVIGASI ==================== -->
+        <aside id="sidebar" class="w-64 bg-white dark:bg-slate-800 border-r border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 flex flex-col fixed inset-y-0 left-0 z-50 transition-all-300 shadow-sm">
+            <!-- Brand Header -->
+            <div class="h-20 flex items-center justify-between px-5 border-b border-slate-100 dark:border-slate-700/50">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="bukaHalaman('dashboard')">
+                    <img id="logoApp" src="logo.jpg" onerror="this.src='https://via.placeholder.com/40?text=A'" alt="Logo" class="h-10 w-10 object-cover rounded-xl shadow-md border-2 border-teal-500 transition transform hover:scale-105">
                     <div>
-                        <h2 class="text-xl font-black uppercase italic text-purple-600 dark:text-purple-400">PENGATURAN KONTROL & SISTEM</h2>
-                        <p id="panelSubtitle" class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Kelola data siswa, otentikasi PIN pengurus, audit log & tautan penting</p>
+                        <h1 class="text-base font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">ASTRAVELIS</h1>
+                        <span class="text-[10px] text-teal-600 dark:text-teal-400 font-bold uppercase tracking-widest mt-1 block">Portal Kelas Official</span>
+                    </div>
+                </div>
+                <button onclick="toggleSidebar()" class="p-1.5 rounded-lg text-slate-400 hover:text-teal-600 hover:bg-slate-100 dark:hover:bg-slate-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>
+                </button>
+            </div>
+
+            <!-- Menu Navigasi Samping -->
+            <nav class="flex-1 px-4 py-6 space-y-6 overflow-y-auto text-xs font-semibold custom-scrollbar">
+                <!-- Nav Utama -->
+                <div class="space-y-1">
+                    <button onclick="bukaHalaman('dashboard')" class="w-full flex items-center justify-between px-3.5 py-3 rounded-2xl bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 font-bold border border-teal-100 dark:border-teal-800/50">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                            Beranda Utama
+                        </div>
+                        <span class="w-2 h-2 rounded-full bg-teal-500"></span>
+                    </button>
+                    
+                    <!-- PANEL KONTROL SIDEBAR (HANYA MUNCUL DI SIDEBAR SETELAH LOGIN) -->
+                    <button id="btnSidebarPanelKontrol" onclick="bukaHalaman('adminPanel')" class="w-full hidden flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 font-bold border border-purple-100 dark:border-purple-800/40 hover:bg-purple-100 dark:hover:bg-purple-900/60 transition">
+                        <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        <span>⚙️ Panel Kontrol</span>
+                    </button>
+                </div>
+
+                <!-- Kategori 1: Manajemen Keuangan -->
+                <div>
+                    <p class="px-3.5 text-[10px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Manajemen Keuangan</p>
+                    <div class="space-y-1">
+                        <button onclick="aksesFitur('uangKas')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition text-left">
+                            <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            Uang Kas Kelas
+                        </button>
+                        <button onclick="aksesFitur('cekKas')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 transition text-left">
+                            <svg class="w-4 h-4 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            Cek Kas Anggota
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Kategori 2: Layanan & Akademik -->
+                <div>
+                    <p class="px-3.5 text-[10px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Layanan & Akademik</p>
+                    <div class="space-y-1">
+                        <button onclick="aksesFitur('generatorKelompok')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition text-left">
+                            <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M17 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                            Bagi Kelompok
+                        </button>
+                        <button onclick="aksesFitur('jadwal')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 transition text-left">
+                            <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            Jadwal Pelajaran
+                        </button>
+                        <button onclick="aksesFitur('quickLinks')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition text-left">
+                            <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                            Pojok Link Penting
+                        </button>
+                        <button onclick="aksesFitur('moment')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 transition text-left">
+                            <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            Moment Kelas
+                        </button>
+                        <button onclick="aksesFitur('materi')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition text-left">
+                            <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                            Materi Pelajaran
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Overlay Mobile -->
+        <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/20 backdrop-blur-xs z-40 hidden md:hidden"></div>
+
+        <!-- ==================== AREA UTAMA ==================== -->
+        <div id="mainContent" class="flex-1 md:ml-64 flex flex-col min-h-screen transition-all-300">
+            
+            <!-- Header Top Modern -->
+            <header class="h-20 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between px-4 md:px-8 sticky top-0 z-30 transition-colors duration-300">
+                <div class="flex items-center gap-3">
+                    <!-- Tombol Garis 3 Minimalis -->
+                    <button onclick="toggleSidebar()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center justify-center" title="Toggle Navigasi">
+                        <svg class="w-5 h-5 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+                    <div class="hidden sm:block">
+                        <h2 class="text-xs font-bold text-slate-800 dark:text-slate-200">ASTRAVELIS Portal Kelas</h2>
+                        <p class="text-[10px] text-slate-400 dark:text-slate-500">Pusat Informasi & Administrasi Terpadu</p>
+                    </div>
+                </div>
+                
+                <!-- Sisi Kanan Header -->
+                <div class="flex items-center gap-3">
+                    <!-- Display Jam Realtime -->
+                    <div class="hidden md:flex flex-col text-right pr-2 border-r border-slate-200 dark:border-slate-700">
+                        <span id="realtimeClock" class="text-xs font-extrabold text-teal-600 dark:text-teal-400">Memuat jam...</span>
+                        <span class="text-[9px] font-semibold text-slate-400 dark:text-slate-500">Waktu Real-time</span>
                     </div>
 
-                    <!-- BLOK 1: PENGATURAN LINK & IURAN -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div id="blockLinks" class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
-                            <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 border-b pb-2 dark:border-slate-700">🔗 Edit Tautan Penting</h3>
-                            
+                    <!-- Tombol Toggle Dark Mode -->
+                    <button id="btnThemeToggle" onclick="toggleDarkMode()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition text-sm">
+                        🌙
+                    </button>
+
+                    <!-- Auth Box Area -->
+                    <div id="authBox">
+                        <!-- Tombol Login Pengurus (Jika Belum Login) -->
+                        <button id="btnLogin" onclick="bukaModalLogin()" class="px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs transition shadow-sm shadow-teal-200 dark:shadow-none flex items-center gap-2">
+                            <svg class="w-4 h-4 text-amber-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                            <span>Login Pengurus</span>
+                        </button>
+
+                        <!-- Informatif Role & Logout (Jika Sudah Login) -->
+                        <div id="userInfo" class="hidden flex items-center gap-2">
+                            <span id="roleBadgeText" class="bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 font-extrabold text-[10px] px-3 py-1.5 rounded-xl border border-teal-100 dark:border-teal-800/50 uppercase">
+                                TAMU
+                            </span>
+                            <button onclick="bukaModalGantiPin()" title="Ubah PIN Otentikasi" class="px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-slate-700 transition">🔑 PIN</button>
+                            <button onclick="logout()" class="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-800 text-rose-600 dark:text-rose-400 hover:bg-rose-100 transition text-xs font-bold" title="Logout Pengurus">
+                                🚪 Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Isi Konten Utama -->
+            <main class="p-4 md:p-8 space-y-8 flex-1 max-w-7xl mx-auto w-full">
+
+                <!-- ==================== PAGE 1: BERANDA UTAMA (DASHBOARD) ==================== -->
+                <section id="pageDashboard" class="space-y-8">
+                    <!-- HERO FOTO KELAS UTAMA -->
+                    <div class="relative rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-700/80 shadow-md min-h-[240px] sm:min-h-[300px] md:min-h-[340px] flex items-end p-6 md:p-8 group bg-slate-900">
+                        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('foto_kelas.jpg');"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent"></div>
+                        <div class="relative z-10 space-y-1">
                             <div>
-                                <label class="text-[10px] font-bold text-slate-400 uppercase">Link Zoom Meeting</label>
-                                <input type="text" id="adminZoomInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
+                                <span class="px-3 py-1 rounded-md bg-teal-500 text-white text-[10px] font-black uppercase tracking-widest inline-block shadow-sm">
+                                    MEMBER OF
+                                </span>
                             </div>
-                            <div>
-                                <label class="text-[10px] font-bold text-slate-400 uppercase">Link LMS Sekolah</label>
-                                <input type="text" id="adminLmsInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-bold text-slate-400 uppercase">Link LMS SEKOLAH 2</label>
-                                <input type="text" id="adminLms2Input" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-bold text-slate-400 uppercase">Link CBT ICLT</label>
-                                <input type="text" id="adminCbtInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-bold text-slate-400 uppercase">Link Instagram Kelas</label>
-                                <input type="text" id="adminIgInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
-                            </div>
+                            <h1 class="text-3xl sm:text-4xl md:text-5xl font-black italic tracking-wider text-white uppercase leading-none drop-shadow-md">
+                                ASTRAVELIS
+                            </h1>
+                            <p class="text-xs sm:text-sm text-teal-100 font-medium tracking-wide drop-shadow mt-1">
+                                Reach the sky, Astravelis fly
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- GRID KARTU FITUR UTAMA (6 MODUL BERJEJER) -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-extrabold text-slate-800 dark:text-slate-100 text-base flex items-center gap-2">
+                                <span class="w-2.5 h-5 rounded-full bg-teal-500 inline-block"></span>
+                                Modul & Layanan Utama
+                            </h3>
+                            <span class="text-xs text-slate-400 dark:text-slate-500 font-medium">6 Modul Terpadu</span>
                         </div>
 
-                        <div id="blockIuran" class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
-                            <div class="space-y-4">
-                                <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 border-b pb-2 dark:border-slate-700">⚙️ Pengaturan Iuran & Laporan</h3>
-                                <div>
-                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Nominal Iuran Kas Bulanan (Rp)</label>
-                                    <input type="number" id="adminIuranInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-black text-blue-600 dark:text-blue-400 outline-none">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                            <!-- 1. Uang Kas Kelas -->
+                            <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
+                                <div class="space-y-4">
+                                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-800/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-105 transition">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-100 text-base">Uang Kas Kelas</h4>
+                                        <p class="text-xs text-slate-400 dark:text-slate-400 mt-1 leading-relaxed">
+                                            Pencatatan transaksi kas, laporan bulanan, dan ekspor data otomatis.
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="pt-2">
-                                    <button onclick="copyLaporanSingkatWA()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl text-xs uppercase italic shadow-md transition flex items-center justify-center gap-2">
-                                        <span>📲 Salin Laporan WA Otomatis</span>
+                                <div class="pt-6">
+                                    <button onclick="aksesFitur('uangKas')" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition shadow-sm shadow-emerald-100 dark:shadow-none">
+                                        Kelola Transaksi Kas
                                     </button>
                                 </div>
                             </div>
 
-                            <button id="btnSimpanPengaturan" onclick="simpanPengaturanAdmin()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-3.5 rounded-xl text-xs uppercase italic tracking-wider shadow-md shadow-purple-500/20 transition">
-                                💾 Simpan Semua Tautan & Iuran
+                            <!-- 2. Cek Kas Anggota -->
+                            <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
+                                <div class="space-y-4">
+                                    <div class="w-12 h-12 rounded-2xl bg-teal-50 dark:bg-teal-950/40 border border-teal-100 dark:border-teal-800/40 flex items-center justify-center text-teal-600 dark:text-teal-400 group-hover:scale-105 transition">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-100 text-base">Cek Kas Anggota</h4>
+                                        <p class="text-xs text-slate-400 dark:text-slate-400 mt-1 leading-relaxed">
+                                            Pantau pelunasan kas, tunggakan siswa, dan ringkasan transparan.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="pt-6">
+                                    <button onclick="aksesFitur('cekKas')" class="w-full py-2.5 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs transition shadow-sm shadow-teal-100 dark:shadow-none">
+                                        Cek Tunggakan Kas
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 3. Bagi Kelompok -->
+                            <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
+                                <div class="space-y-4">
+                                    <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-800/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:scale-105 transition">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M17 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-100 text-base">Bagi Kelompok</h4>
+                                        <p class="text-xs text-slate-400 dark:text-slate-400 mt-1 leading-relaxed">
+                                            Pengacak urutan & pembagi kelompok belajar otomatis untuk seluruh siswa.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="pt-6">
+                                    <button onclick="aksesFitur('generatorKelompok')" class="w-full py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-white font-bold text-xs transition shadow-sm shadow-indigo-100 dark:shadow-none">
+                                        Acak Kelompok Belajar
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 4. Pojok Link Penting -->
+                            <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
+                                <div class="space-y-4">
+                                    <div class="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950/40 border border-purple-100 dark:border-purple-800/40 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-105 transition">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-100 text-base">Pojok Link Penting</h4>
+                                        <p class="text-xs text-slate-400 dark:text-slate-400 mt-1 leading-relaxed">
+                                            Akses cepat ke Zoom Meeting, LMS Sekolah, CBT ICLT, dan Instagram.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="pt-6">
+                                    <button onclick="aksesFitur('quickLinks')" class="w-full py-2.5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold text-xs transition shadow-sm shadow-purple-100 dark:shadow-none">
+                                        Buka Tautan Cepat
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 5. Moments -->
+                            <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
+                                <div class="space-y-4">
+                                    <div class="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-800/40 flex items-center justify-center text-rose-600 dark:text-rose-400 group-hover:scale-105 transition">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-100 text-base">Moments</h4>
+                                        <p class="text-xs text-slate-400 dark:text-slate-400 mt-1 leading-relaxed">
+                                            Galeri dokumentasi, kenangan, dan album foto kegiatan kelas ASTRAVELIS.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="pt-6">
+                                    <button onclick="aksesFitur('moment')" class="w-full py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs transition shadow-sm shadow-rose-100 dark:shadow-none">
+                                        Buka Galeri Moments
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 6. Materi Pelajaran -->
+                            <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
+                                <div class="space-y-4">
+                                    <div class="w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-100 dark:border-sky-800/40 flex items-center justify-center text-sky-600 dark:text-sky-400 group-hover:scale-105 transition">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-100 text-base">Materi Pelajaran</h4>
+                                        <p class="text-xs text-slate-400 dark:text-slate-400 mt-1 leading-relaxed">
+                                            Folder Google Drive penyimpan modul, slide, dan bahan ajar sekolah.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="pt-6">
+                                    <button onclick="aksesFitur('materi')" class="w-full py-2.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs transition shadow-sm shadow-sky-100 dark:shadow-none">
+                                        Akses Folder Materi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== PAGE 2: FITUR UANG KAS ==================== -->
+                <section id="pageUangKas" class="hidden space-y-5">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
+                            <span>←</span> Kembali ke Dashboard
+                        </button>
+                        <div class="flex items-center gap-2">
+                            <span id="infoBulan" class="text-xs font-bold text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-xl border border-teal-100 dark:border-teal-800">Menghubungkan...</span>
+                            <button onclick="muatData()" class="p-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 rounded-xl border transition">🔄</button>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2.5 items-center justify-end">
+                        <button onclick="kurangiBulan()" class="px-3 py-2 bg-white dark:bg-slate-800 text-red-500 rounded-xl shadow-sm border border-red-100 dark:border-red-900/40 hover:bg-red-50 transition text-[11px] font-bold uppercase italic">➖ Edit Tagihan</button>
+                        <div class="bg-white dark:bg-slate-800 px-3 py-1.5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2.5">
+                            <div class="text-right">
+                                <p class="text-[8px] font-black text-slate-400 uppercase">Tambah Tagihan</p>
+                                <p id="statusSaklar" class="text-[9px] font-bold text-red-500 uppercase italic">Libur/Off</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="btnSaklar" onchange="toggleIuran()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-gradient-to-br from-teal-600 to-indigo-700 p-5 rounded-3xl text-white shadow-md md:col-span-2 flex flex-col justify-between">
+                            <div>
+                                <p class="text-[11px] font-extrabold uppercase opacity-80 italic">Total Saldo Fisik Kelas</p>
+                                <h2 id="totalSaldo" class="text-3xl md:text-4xl font-black tracking-tight mt-1">Rp 0</h2>
+                            </div>
+                            <div class="mt-6 flex gap-5 text-xs font-bold border-t border-white/20 pt-3">
+                                <p>MASUK: <span id="mBulanIni" class="text-emerald-300 font-extrabold">+0</span></p>
+                                <p>KELUAR: <span id="kBulanIni" class="text-rose-300 font-extrabold">-0</span></p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-center">
+                            <p class="text-[11px] font-extrabold uppercase text-slate-400 italic">Piutang Tunggakan</p>
+                            <h2 id="sisaPiutang" class="text-2xl font-black text-rose-500 mt-1">Rp 0</h2>
+                            <p class="text-[9px] mt-1 text-slate-400 font-bold">*Sinkron Otomatis Perangkat</p>
+                        </div>
+
+                        <div class="bg-white dark:bg-slate-800 p-4 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center">
+                            <canvas id="miniChart" class="max-h-20"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                        <div class="lg:col-span-2 space-y-5">
+                            <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                                <h3 class="text-[11px] font-black uppercase mb-4 text-slate-400 tracking-widest italic">Input Transaksi Kas</h3>
+                                <form id="kasForm" class="space-y-3">
+                                    <div class="relative">
+                                        <input type="text" id="nama" list="listAnggota" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-teal-500 font-bold uppercase text-xs dark:text-white" placeholder="Nama Siswa" required autocomplete="off">
+                                        <datalist id="listAnggota"></datalist>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <select id="tipe" class="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs outline-none dark:text-white" onchange="sesuaikanFormOtomatis()">
+                                            <option value="Masuk">Masuk (+)</option>
+                                            <option value="Keluar">Keluar (-)</option>
+                                        </select>
+                                        <select id="kategori" class="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs outline-none dark:text-white" onchange="sesuaikanFormOtomatis()">
+                                            <option value="Iuran">Iuran</option>
+                                            <option value="Sosial">Sosial</option>
+                                            <option value="Alat Kelas">Alat Kelas</option>
+                                            <option value="Lainnya">Lainnya</option>
+                                        </select>
+                                    </div>
+
+                                    <div id="boxBayarSekaligus" class="p-3 bg-teal-50/80 dark:bg-teal-900/30 rounded-xl border border-teal-100 dark:border-teal-800">
+                                        <label class="text-[9px] font-black text-teal-600 dark:text-teal-400 uppercase ml-1">Bayar Berapa Bulan?</label>
+                                        <select id="jumlahBulanBayar" class="w-full bg-transparent font-bold text-xs outline-none cursor-pointer mt-0.5 dark:text-white" onchange="sesuaikanFormOtomatis()">
+                                            <option value="1">1 Bulan (Normal)</option>
+                                            <option value="2">2 Bulan Sekaligus</option>
+                                            <option value="3">3 Bulan Sekaligus</option>
+                                            <option value="4">4 Bulan Sekaligus</option>
+                                            <option value="5">5 Bulan Sekaligus</option>
+                                            <option value="6">6 Bulan Sekaligus</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <input type="text" id="keterangan" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none text-xs dark:text-white" placeholder="Keterangan transaksi..." required>
+                                    <input type="number" id="jumlah" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none font-black text-teal-600 dark:text-teal-400 text-sm" placeholder="Nominal Rp" required>
+                                    
+                                    <button type="submit" id="btnSimpan" class="w-full bg-teal-600 hover:bg-teal-700 active:scale-98 text-white font-black py-3 rounded-xl transition shadow-md shadow-teal-500/20 uppercase text-xs tracking-wider italic">Simpan Transaksi</button>
+                                </form>
+                            </div>
+
+                            <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                                <h3 class="text-[11px] font-black uppercase mb-3 text-slate-400 tracking-widest italic">Ringkasan Pengeluaran</h3>
+                                <div id="ringkasanKategori" class="space-y-2"></div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-3 bg-white dark:bg-slate-800 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
+                                <h3 class="text-[11px] font-black uppercase text-slate-400 tracking-widest italic">Riwayat Transaksi</h3>
+                                <div class="flex gap-2">
+                                    <button onclick="unduhCSV()" class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-lg font-bold text-[10px] border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-600 hover:text-white transition uppercase">Excel</button>
+                                    <button onclick="unduhPDF()" class="px-3 py-1.5 bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 rounded-lg font-bold text-[10px] border border-rose-200 dark:border-rose-800 hover:bg-rose-600 hover:text-white transition uppercase">Cetak PDF</button>
+                                </div>
+                            </div>
+                            <div class="overflow-y-auto max-h-[480px] custom-scrollbar">
+                                <table class="w-full text-left">
+                                    <tbody id="tabelBody" class="divide-y divide-slate-100 dark:divide-slate-700"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== PAGE 3: FITUR CEK KAS BAGI ANGGOTA (PUBLIK) ==================== -->
+                <section id="pageCekKas" class="hidden space-y-5">
+                    <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
+                            <span>←</span> Kembali ke Dashboard
+                        </button>
+                        <button onclick="copyPenunggak()" class="bg-teal-600 hover:bg-teal-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-black uppercase italic shadow-sm transition">📋 Salin ke WhatsApp</button>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 md:p-7 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b dark:border-slate-700 pb-4">
+                            <div>
+                                <h2 class="text-xl font-black uppercase italic">STATUS PEMBAYARAN <span class="text-teal-600 dark:text-teal-400">KAS KELAS</span></h2>
+                                <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Total Tagihan Aktif: <span id="labelTagihanPublik" class="text-teal-600 dark:text-teal-400 font-extrabold">0</span> Bulan (<span id="labelNominalTagihan" class="text-slate-700 dark:text-slate-300 font-extrabold">Rp 0</span> / Siswa)</p>
+                            </div>
+                            <input type="text" id="searchSiswa" onkeyup="renderCekKasPublik()" placeholder="🔍 Cari nama siswa..." class="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs outline-none w-full md:w-64 focus:ring-2 focus:ring-teal-500 dark:text-white">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <!-- KOLOM SUDAH LUNAS -->
+                            <div class="bg-emerald-50/40 dark:bg-emerald-950/20 p-5 rounded-2xl border border-emerald-100 dark:border-emerald-900/40">
+                                <h3 class="font-black text-emerald-800 dark:text-emerald-400 text-[11px] uppercase italic mb-3 flex items-center justify-between">
+                                    <span>🎉 LUNAS SEPENUHNYA</span>
+                                    <span id="countLunas" class="bg-emerald-200 dark:bg-emerald-900/80 text-emerald-900 dark:text-emerald-200 text-[9px] font-extrabold px-2.5 py-0.5 rounded-full">0</span>
+                                </h3>
+                                <div id="listSudahLunas" class="space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar"></div>
+                            </div>
+
+                            <!-- KOLOM BELUM LUNAS / TUNGGAKAN -->
+                            <div class="bg-rose-50/40 dark:bg-rose-950/20 p-5 rounded-2xl border border-rose-100 dark:border-rose-900/40">
+                                <h3 class="font-black text-rose-800 dark:text-rose-400 text-[11px] uppercase italic mb-3 flex items-center justify-between">
+                                    <span>⚠️ BELUM LUNAS / TUNGGAKAN</span>
+                                    <span id="countBelumLunas" class="bg-rose-200 dark:bg-rose-900/80 text-rose-900 dark:text-rose-200 text-[9px] font-extrabold px-2.5 py-0.5 rounded-full">0</span>
+                                </h3>
+                                <div id="listBelumLunas" class="space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== PAGE 4: FITUR PEMBAGI KELOMPOK ==================== -->
+                <section id="pageGeneratorKelompok" class="hidden space-y-5">
+                    <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
+                            <span>←</span> Kembali ke Dashboard
+                        </button>
+                        <h2 class="text-xs font-black uppercase italic text-purple-600 dark:text-purple-400 tracking-wider">PEMBAGI KELOMPOK OTOMATIS</h2>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b dark:border-slate-700 pb-4">
+                            <div>
+                                <h2 class="text-xl font-black uppercase italic text-purple-600 dark:text-purple-400">PEMBAGI <span class="text-slate-800 dark:text-white">KELOMPOK</span></h2>
+                                <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Acak siswa menjadi beberapa kelompok (Heterogen / Homogen)</p>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                                <div class="flex items-center gap-2">
+                                    <label class="text-xs font-bold text-slate-500 dark:text-slate-400">Mode:</label>
+                                    <select id="selectModePembagian" class="p-2.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-extrabold outline-none dark:text-white">
+                                        <option value="campuran">🔀 Acak Campuran (Heterogen)</option>
+                                        <option value="homogen">🚻 Homogen (Terpisah Putra & Putri)</option>
+                                        <option value="putra">👨 Khusus Putra Saja</option>
+                                        <option value="putri">👩 Khusus Putri Saja</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <label class="text-xs font-bold text-slate-500 dark:text-slate-400">Jumlah Kelompok:</label>
+                                    <select id="selectJmlKelompok" class="p-2.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-extrabold outline-none dark:text-white">
+                                        <option value="2">2 Kelompok</option>
+                                        <option value="3">3 Kelompok</option>
+                                        <option value="4" selected>4 Kelompok</option>
+                                        <option value="5">5 Kelompok</option>
+                                        <option value="6">6 Kelompok</option>
+                                        <option value="7">7 Kelompok</option>
+                                        <option value="8">8 Kelompok</option>
+                                    </select>
+                                </div>
+                                <button onclick="acakDanBuatKelompok()" class="bg-purple-600 hover:bg-purple-700 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs uppercase italic shadow-md transition">🎲 Acak Sekarang</button>
+                                <button onclick="copyHasilKelompokWA()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase italic shadow-md transition">📋 Salin ke WA</button>
+                            </div>
+                        </div>
+
+                        <div id="containerHasilKelompok" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="col-span-full py-12 text-center text-slate-400 font-medium text-xs">
+                                Klik tombol <b class="text-purple-600">"🎲 Acak Sekarang"</b> di atas untuk membagi kelompok siswa.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== PAGE 5: FITUR JADWAL PELAJARAN ==================== -->
+                <section id="pageJadwal" class="hidden space-y-5">
+                    <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
+                            <span>←</span> Kembali ke Dashboard
+                        </button>
+                        <h2 class="text-xs font-black uppercase italic text-amber-600 dark:text-amber-400 tracking-wider">JADWAL PELAJARAN</h2>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-5 md:p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center">
+                        <div class="w-full max-w-2xl overflow-hidden rounded-2xl border dark:border-slate-700 shadow-md bg-slate-50 dark:bg-slate-900 group relative">
+                            <img id="imgJadwal" src="jadwal_pelajaran.jpg" onerror="this.onerror=null; this.src='https://via.placeholder.com/1200x800/0d9488/ffffff?text=File+jadwal_pelajaran.jpg+Belum+Ada';" alt="Jadwal Pelajaran Kelas" class="w-full h-auto object-contain cursor-pointer transition transform group-hover:scale-102" onclick="bukaModalJadwal()">
+                        </div>
+                        <div class="mt-4 flex flex-col sm:flex-row items-center gap-2.5">
+                            <button onclick="bukaModalJadwal()" class="bg-teal-600 hover:bg-teal-700 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs uppercase italic shadow-sm transition flex items-center gap-1.5">
+                                <span>🔍 Perbesar Foto Jadwal</span>
                             </button>
+                            <a href="jadwal_pelajaran.jpg" download="Jadwal_Pelajaran.jpg" class="bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-extrabold px-5 py-2.5 rounded-xl text-xs uppercase italic border dark:border-slate-600 transition">
+                                📥 Unduh Foto
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== PAGE 6: POJOK LINK PENTING ==================== -->
+                <section id="pageQuickLinks" class="hidden space-y-5">
+                    <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
+                            <span>←</span> Kembali ke Dashboard
+                        </button>
+                        <h2 class="text-xs font-black uppercase italic text-purple-600 dark:text-purple-400 tracking-wider">POJOK LINK PENTING KELAS</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- LINK 1: ZOOM KELAS -->
+                        <a id="linkZoomBtn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-teal-300 transition-all duration-300 flex flex-col justify-between h-44 group">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-teal-500 to-cyan-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
+                                📹
+                            </div>
+                            <div>
+                                <span class="text-[8px] font-extrabold text-teal-600 dark:text-teal-400 uppercase tracking-widest bg-teal-50 dark:bg-teal-900/40 px-2 py-0.5 rounded-md border border-teal-100 dark:border-teal-800">Virtual Meeting</span>
+                                <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">ZOOM KELAS</h3>
+                                <p class="text-[10px] text-slate-400 font-medium mt-0.5">Tatap Muka Online</p>
+                            </div>
+                            <span class="text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka Zoom →</span>
+                        </a>
+
+                        <!-- LINK 2: LMS SEKOLAH -->
+                        <a id="linkLmsBtn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between h-44 group">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
+                                📚
+                            </div>
+                            <div>
+                                <span class="text-[8px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest bg-emerald-50 dark:bg-emerald-900/40 px-2 py-0.5 rounded-md border border-emerald-100 dark:border-emerald-800">E-Learning Portal</span>
+                                <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">LMS SEKOLAH</h3>
+                                <p class="text-[10px] text-slate-400 font-medium mt-0.5">Portal Pembelajaran & Tugas</p>
+                            </div>
+                            <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka LMS →</span>
+                        </a>
+
+                        <!-- LINK 3: LMS SEKOLAH 2 -->
+                        <a id="linkLms2Btn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-amber-300 transition-all duration-300 flex flex-col justify-between h-44 group">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
+                                🚀
+                            </div>
+                            <div>
+                                <span class="text-[8px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-widest bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-100 dark:border-amber-800">E-Learning Portal</span>
+                                <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">LMS SEKOLAH 2</h3>
+                                <p class="text-[10px] text-slate-400 font-medium mt-0.5">Portal Pembelajaran & Tugas</p>
+                            </div>
+                            <span class="text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka LMS SEKOLAH 2 →</span>
+                        </a>
+
+                        <!-- LINK 4: CBT ICLT -->
+                        <a id="linkCbtBtn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-purple-300 transition-all duration-300 flex flex-col justify-between h-44 group">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-500 to-indigo-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
+                                📝
+                            </div>
+                            <div>
+                                <span class="text-[8px] font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-widest bg-purple-50 dark:bg-purple-900/40 px-2 py-0.5 rounded-md border border-purple-100 dark:border-purple-800">Ujian & Asesmen</span>
+                                <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">CBT ICLT</h3>
+                                <p class="text-[10px] text-slate-400 font-medium mt-0.5">Sistem Ujian Komputer</p>
+                            </div>
+                            <span class="text-[10px] font-black text-purple-600 dark:text-purple-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka CBT ICLT →</span>
+                        </a>
+
+                        <!-- LINK 5: SI-ASRAM -->
+                        <a id="linkSiasramBtn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between h-44 group">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-600 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
+                                🏢
+                            </div>
+                            <div>
+                                <span class="text-[8px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest bg-emerald-50 dark:bg-emerald-900/40 px-2 py-0.5 rounded-md border border-emerald-100 dark:border-emerald-800">Sistem Asrama</span>
+                                <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">SI-ASRAM</h3>
+                                <p class="text-[10px] text-slate-400 font-medium mt-0.5">Sistem Informasi Asrama</p>
+                            </div>
+                            <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka SI-ASRAM →</span>
+                        </a>
+
+                        <!-- LINK 6: INSTAGRAM KELAS -->
+                        <a id="linkIgBtn" href="#" target="_blank" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-rose-300 transition-all duration-300 flex flex-col justify-between h-44 group">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-rose-500 via-purple-500 to-amber-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
+                                📸
+                            </div>
+                            <div>
+                                <span class="text-[8px] font-extrabold text-rose-600 dark:text-rose-400 uppercase tracking-widest bg-rose-50 dark:bg-rose-900/40 px-2 py-0.5 rounded-md border border-rose-100 dark:border-rose-800">Media Sosial</span>
+                                <h3 class="text-base font-black italic uppercase text-slate-800 dark:text-slate-100 mt-1 leading-tight">@Astravelis__</h3>
+                                <p class="text-[10px] text-slate-400 font-medium mt-0.5">Dokumentasi & Kegiatan</p>
+                            </div>
+                            <span class="text-[10px] font-black text-rose-600 dark:text-rose-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Kunjungi Instagram →</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- ==================== PAGE 7: GOOGLE DRIVE PREVIEW VIEW ==================== -->
+                <section id="pageGDriveView" class="hidden space-y-5">
+                    <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
+                            <span>←</span> Kembali ke Dashboard
+                        </button>
+                        <h2 id="gdriveTitle" class="text-xs font-black uppercase italic text-teal-600 dark:text-teal-400 tracking-wider">GOOGLE DRIVE KELAS</h2>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center text-center min-h-[350px]">
+                        <div class="w-16 h-16 bg-teal-50 dark:bg-teal-900/40 text-teal-600 dark:text-teal-400 rounded-2xl flex items-center justify-center text-3xl mb-3 shadow-inner border border-teal-100 dark:border-teal-800">
+                            📂
+                        </div>
+                        <h3 id="gdriveSubTitle" class="text-lg font-black text-slate-800 dark:text-slate-100 uppercase italic">Akses Folder Google Drive</h3>
+                        <p class="text-xs text-slate-400 font-medium max-w-sm mt-1 mb-5">
+                            Seluruh file, foto, dan dokumen tersimpan secara aman di Google Drive Resmi Astravelis.
+                        </p>
+                        <a id="btnBukaDrive" href="#" target="_blank" class="bg-teal-600 hover:bg-teal-700 active:scale-95 text-white font-extrabold px-6 py-3 rounded-xl text-xs uppercase italic tracking-wider shadow-md shadow-teal-500/20 transition flex items-center gap-2">
+                            <span>🚀 Buka Folder Google Drive</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- ==================== PAGE 8: PANEL KONTROL / SETTINGS ==================== -->
+                <!-- HANYA BISA DIAKSES SETELAH LOGIN PENGURUS -->
+                <section id="pageAdminPanel" class="space-y-6 hidden">
+
+                    <!-- Header Bar Panel Kontrol -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white dark:bg-slate-800 p-4 md:p-5 rounded-3xl border border-slate-200/80 dark:border-slate-700/80 shadow-sm gap-3">
+                        <button onclick="bukaHalaman('dashboard')" class="px-4 py-2.5 rounded-2xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs hover:bg-teal-50 dark:hover:bg-teal-900/40 hover:text-teal-600 dark:hover:text-teal-400 transition flex items-center gap-2">
+                            <svg class="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                            <span>Kembali ke Dashboard</span>
+                        </button>
+
+                        <div class="flex items-center gap-2">
+                            <span class="bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 font-extrabold text-[10px] px-3 py-1.5 rounded-xl border border-teal-100 dark:border-teal-800/50 uppercase tracking-widest flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                                <span id="panelRoleTitleText">🔑 AKSES ADMIN UTAMA</span>
+                            </span>
                         </div>
                     </div>
 
-                    <!-- BLOK 2: STUDENT DATA MANAGER (MANAJEMEN SISWA) -->
-                    <div id="blockSiswaManager" class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
-                        <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
-                            <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">👥 Student Data Manager (Manajemen Siswa)</h3>
-                            <span id="totalSiswaAdminBadge" class="bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-300 text-[10px] font-black px-2.5 py-0.5 rounded-full">0 Siswa</span>
+                    <!-- Kontainer Utama Settings -->
+                    <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700/80 shadow-sm space-y-8">
+                        
+                        <div class="border-b border-slate-100 dark:border-slate-700/80 pb-5">
+                            <h2 class="text-lg md:text-xl font-extrabold text-slate-800 dark:text-slate-100 flex items-center gap-2.5">
+                                <span class="w-3 h-6 rounded-full bg-teal-500 inline-block"></span>
+                                Pengaturan Kontrol & Sistem
+                            </h2>
+                            <p class="text-xs text-slate-400 dark:text-slate-400 mt-1">
+                                Pusat pengelolaan tautan cepat, data siswa, otentikasi PIN pengurus, dan rekam audit aktivitas.
+                            </p>
                         </div>
 
-                        <!-- FORM TAMBAH SISWA -->
-                        <div id="formTambahSiswa" class="flex gap-2">
-                            <input type="text" id="inputNamaSiswaBaru" placeholder="Masukkan Nama Siswa Baru..." class="p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none flex-1 dark:text-white uppercase">
-                            <button onclick="tambahSiswaBaruAdmin()" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase italic shadow-sm transition">+ Tambah</button>
+                        <!-- MODUL 1: KELOLA QUICK LINKS & IURAN -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div id="blockQuickLinks" class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60">
+                                <h3 class="text-xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-2 border-b pb-2 dark:border-slate-700">
+                                    <span>🔗</span> Edit Tautan Penting
+                                </h3>
+                                <div>
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Link Zoom Meeting</label>
+                                    <input type="text" id="adminZoomInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Link LMS Sekolah</label>
+                                    <input type="text" id="adminLmsInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Link LMS SEKOLAH 2</label>
+                                    <input type="text" id="adminLms2Input" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Link CBT ICLT</label>
+                                    <input type="text" id="adminCbtInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Link SI-ASRAM</label>
+                                    <input type="text" id="adminSiasramInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Link Instagram Kelas</label>
+                                    <input type="text" id="adminIgInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
+                                </div>
+                            </div>
+
+                            <div id="blockTargetKas" class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 flex flex-col justify-between">
+                                <div class="space-y-4">
+                                    <h3 class="text-xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 border-b pb-2 dark:border-slate-700 flex items-center gap-2">
+                                        <span>⚙️</span> Pengaturan Iuran & Laporan
+                                    </h3>
+                                    <div>
+                                        <label class="text-[10px] font-bold text-slate-400 uppercase">Nominal Iuran Kas Bulanan (Rp)</label>
+                                        <input type="number" id="adminIuranInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-black text-teal-600 dark:text-teal-400 outline-none">
+                                    </div>
+                                    <div class="pt-2">
+                                        <button onclick="copyLaporanSingkatWA()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl text-xs uppercase italic shadow-md transition flex items-center justify-center gap-2">
+                                            <span>📲 Salin Laporan WA Otomatis</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button id="btnSimpanPengaturan" onclick="simpanPengaturanAdmin()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-black py-3.5 rounded-xl text-xs uppercase italic tracking-wider shadow-md shadow-teal-500/20 transition">
+                                    💾 Simpan Semua Tautan & Iuran
+                                </button>
+                            </div>
                         </div>
 
-                        <!-- TABEL NAMA SISWA -->
-                        <div class="max-h-56 overflow-y-auto custom-scrollbar border rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2">
-                            <table class="w-full text-left text-xs">
-                                <thead>
-                                    <tr class="border-b dark:border-slate-700 text-[10px] uppercase text-slate-400 font-extrabold">
-                                        <th class="p-2">No</th>
-                                        <th class="p-2">Nama Siswa</th>
-                                        <th class="p-2 text-right">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabelSiswaAdmin" class="divide-y divide-slate-100 dark:divide-slate-700 font-bold"></tbody>
-                            </table>
+                        <!-- MODUL 2: STUDENT DATA MANAGER -->
+                        <div id="blockStudentData" class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60">
+                            <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
+                                <h3 class="text-xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-2">
+                                    <span>👥</span> Student Data Manager (Manajemen Siswa)
+                                </h3>
+                                <span id="totalSiswaAdminBadge" class="bg-teal-100 dark:bg-teal-900/60 text-teal-800 dark:text-teal-300 text-[10px] font-black px-2.5 py-0.5 rounded-full">0 Siswa</span>
+                            </div>
+
+                            <!-- FORM TAMBAH SISWA -->
+                            <div id="formTambahSiswa" class="flex gap-2">
+                                <input type="text" id="inputNamaSiswaBaru" placeholder="Masukkan Nama Siswa Baru..." class="p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none flex-1 dark:text-white uppercase">
+                                <button onclick="tambahSiswaBaruAdmin()" class="bg-teal-600 hover:bg-teal-700 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase italic shadow-sm transition">+ Tambah</button>
+                            </div>
+
+                            <!-- TABEL NAMA SISWA -->
+                            <div class="max-h-56 overflow-y-auto custom-scrollbar border rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2">
+                                <table class="w-full text-left text-xs">
+                                    <thead>
+                                        <tr class="border-b dark:border-slate-700 text-[10px] uppercase text-slate-400 font-extrabold">
+                                            <th class="p-2">No</th>
+                                            <th class="p-2">Nama Siswa</th>
+                                            <th class="p-2 text-right">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabelSiswaAdmin" class="divide-y divide-slate-100 dark:divide-slate-700 font-bold"></tbody>
+                                </table>
+                            </div>
                         </div>
+
+                        <!-- MODUL 3: MASTER CONTROL & RESET PIN PENGURUS -->
+                        <div id="blockMasterPin" class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 space-y-4">
+                            <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
+                                <h3 class="text-xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-2">
+                                    <span>🔑</span> Master Control & Status PIN Pengurus
+                                </h3>
+                                <button id="btnResetPinGlobal" onclick="resetSemuaPinKeDefault()" class="bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 text-[10px] font-extrabold px-3 py-1 rounded-lg hover:bg-rose-600 hover:text-white transition uppercase">⚠️ Reset Semua PIN ke Default</button>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <thead>
+                                        <tr class="border-b dark:border-slate-700 text-[10px] uppercase text-slate-400 font-extrabold">
+                                            <th class="p-3">Jabatan</th>
+                                            <th class="p-3">PIN Aktif</th>
+                                            <th class="p-3">Wewenang Akses</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabelPinAdmin" class="divide-y divide-slate-100 dark:divide-slate-700 font-bold"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- MODUL 4: AUDIT LOG SYSTEM -->
+                        <div id="blockAuditLog" class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60">
+                            <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
+                                <h3 class="text-xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-2">
+                                    <span>📜</span> Activity Audit Log System (Riwayat Aktivitas Pengurus)
+                                </h3>
+                                <button id="btnCleanLog" onclick="bersihkanAuditLog()" class="text-slate-400 hover:text-rose-500 text-[10px] font-bold transition">Bersihkan Log</button>
+                            </div>
+
+                            <div class="max-h-48 overflow-y-auto custom-scrollbar border rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 space-y-2 text-[11px]" id="containerAuditLog">
+                                <p class="text-slate-400 italic text-center text-xs">Memuat aktivitas global...</p>
+                            </div>
+                        </div>
+
                     </div>
+                </section>
 
-                    <!-- BLOK 3: MASTER CONTROL & RESET PIN PENGURUS -->
-                    <div id="blockMasterPin" class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
-                        <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
-                            <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">🔑 Master Control & Status PIN Pengurus</h3>
-                            <button id="btnResetPinGlobal" onclick="resetSemuaPinKeDefault()" class="bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 text-[10px] font-extrabold px-3 py-1 rounded-lg hover:bg-rose-600 hover:text-white transition uppercase">⚠️ Reset Semua PIN ke Default</button>
-                        </div>
+            </main>
 
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
-                                <thead>
-                                    <tr class="border-b dark:border-slate-700 text-[10px] uppercase text-slate-400 font-extrabold">
-                                        <th class="p-3">Jabatan</th>
-                                        <th class="p-3">PIN Aktif</th>
-                                        <th class="p-3">Wewenang Akses</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabelPinAdmin" class="divide-y divide-slate-100 dark:divide-slate-700 font-bold"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- BLOK 4: AUDIT LOG RIWAYAT AKTIVITAS PENGURUS -->
-                    <div id="blockAuditLog" class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
-                        <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
-                            <h3 class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">📜 Activity Audit Log (Riwayat Aktivitas Pengurus)</h3>
-                            <button id="btnCleanLog" onclick="bersihkanAuditLog()" class="text-slate-400 hover:text-rose-500 text-[10px] font-bold transition">Bersihkan Log</button>
-                        </div>
-
-                        <div class="max-h-48 overflow-y-auto custom-scrollbar border rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 space-y-2 text-[11px]" id="containerAuditLog">
-                            <p class="text-slate-400 italic text-center text-xs">Memuat aktivitas global...</p>
-                        </div>
-                    </div>
+            <!-- FOOTER LAYOUT -->
+            <footer class="max-w-7xl mx-auto w-full text-center py-6 px-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-3">
+                <p class="text-[11px] font-bold text-slate-400 dark:text-slate-500">© 2026 ASTRAVELIS — Manajemen Data dan Layanan Kelas by Aksara Senja</p>
+                <div class="flex items-center gap-3">
+                    <a id="footerIgBtn" href="#" target="_blank" class="text-xs text-rose-500 dark:text-rose-400 font-bold hover:underline flex items-center gap-1">📸 @Astravelis__</a>
                 </div>
-            </section>
-
-        </main>
+            </footer>
+        </div>
     </div>
 
-    <!-- FOOTER LAYOUT -->
-    <footer class="max-w-6xl mx-auto w-full text-center py-5 mt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-3">
-        <p class="text-[11px] font-bold text-slate-400">© 2026 ASTRAVELIS — Manajemen Data dan Layanan Kelas by Aksara Senja</p>
-        <div class="flex items-center gap-3">
-            <a id="footerIgBtn" href="#" target="_blank" class="text-xs text-rose-500 dark:text-rose-400 font-bold hover:underline flex items-center gap-1">📸 @Astravelis__</a>
-        </div>
-    </footer>
-
-    <!-- MODAL LOGIN PENGURUS -->
+    <!-- ==================== MODAL LOGIN PENGURUS ==================== -->
     <div id="modalLogin" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-white dark:bg-slate-800 w-full max-w-xs rounded-3xl shadow-2xl p-6 text-center space-y-4 border border-slate-200 dark:border-slate-700">
             <div>
-                <h3 class="font-black text-lg uppercase italic text-slate-900 dark:text-white">LOGIN <span class="text-blue-600 dark:text-blue-400">PENGURUS</span></h3>
+                <h3 class="font-black text-lg uppercase italic text-slate-900 dark:text-white">LOGIN <span class="text-teal-600 dark:text-teal-400">PENGURUS</span></h3>
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Masukkan PIN Otentikasi</p>
             </div>
             
-            <input type="password" id="loginPinInput" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-center font-black tracking-[0.4em] text-lg outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" placeholder="••••">
+            <input type="password" id="loginPinInput" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-center font-black tracking-[0.4em] text-lg outline-none focus:ring-2 focus:ring-teal-500 dark:text-white" placeholder="••••">
             
             <div class="flex gap-2">
-                <button onclick="prosesLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3 rounded-xl transition text-xs uppercase italic shadow-md shadow-blue-500/20">Masuk</button>
+                <button onclick="prosesLogin()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-black py-3 rounded-xl transition text-xs uppercase italic shadow-md shadow-teal-500/20">Masuk</button>
                 <button onclick="tutupModalLogin()" class="w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-600 dark:text-slate-300 font-bold py-3 rounded-xl transition text-xs uppercase italic">Batal</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL GANTI PIN PENGURUS -->
+    <!-- ==================== MODAL GANTI PIN PENGURUS ==================== -->
     <div id="modalGantiPin" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-white dark:bg-slate-800 w-full max-w-sm rounded-3xl shadow-2xl p-6 text-center space-y-4 border border-slate-200 dark:border-slate-700">
             <div>
-                <h3 class="font-black text-lg uppercase italic text-slate-900 dark:text-white">UBAH <span class="text-blue-600 dark:text-blue-400">PIN PENGURUS</span></h3>
+                <h3 class="font-black text-lg uppercase italic text-slate-900 dark:text-white">UBAH <span class="text-teal-600 dark:text-teal-400">PIN PENGURUS</span></h3>
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Perbarui PIN Akses Jabatan (Tersinkronisasi Cloud)</p>
             </div>
             
@@ -705,18 +907,18 @@
                 </div>
                 <div>
                     <label class="text-[10px] font-extrabold uppercase text-slate-400 block mb-1">PIN Baru (Min 4 Angka)</label>
-                    <input type="password" id="pinBaruInput" class="w-full p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-center font-black tracking-widest text-base outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" placeholder="••••">
+                    <input type="password" id="pinBaruInput" class="w-full p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-center font-black tracking-widest text-base outline-none focus:ring-2 focus:ring-teal-500 dark:text-white" placeholder="••••">
                 </div>
             </div>
             
             <div class="flex gap-2">
-                <button onclick="simpanPinBaru()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3 rounded-xl transition text-xs uppercase italic shadow-md shadow-blue-500/20">Simpan PIN</button>
+                <button onclick="simpanPinBaru()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-black py-3 rounded-xl transition text-xs uppercase italic shadow-md shadow-teal-500/20">Simpan PIN</button>
                 <button onclick="tutupModalGantiPin()" class="w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-600 dark:text-slate-300 font-bold py-3 rounded-xl transition text-xs uppercase italic">Batal</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL ZOOM JADWAL -->
+    <!-- ==================== MODAL ZOOM JADWAL ==================== -->
     <div id="modalJadwal" class="fixed inset-0 bg-slate-950/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md" onclick="tutupModalJadwal()">
         <div class="relative max-w-4xl w-full flex flex-col items-center">
             <img id="imgJadwalZoom" src="jadwal_pelajaran.jpg" alt="Zoom Jadwal" class="max-h-[80vh] w-auto object-contain rounded-xl shadow-2xl">
@@ -727,7 +929,7 @@
     <!-- IMPORT FILE KONFIGURASI PENTING TERPISAH -->
     <script src="config.js"></script>
 
-    <!-- SCRIPT UTAMA SISTEM -->
+    <!-- SCRIPT UTAMA SISTEM DATA & NAVIGATION -->
     <script>
         const DEFAULT_SISWA_BACKUP = [
             "AHMAD ADITYA RISKI PRATAMA",
@@ -767,10 +969,7 @@
         function isPutri(nama) {
             if(!nama) return false;
             const clean = nama.trim().toUpperCase();
-            
-            // Pengecekan eksplisit untuk memastikan BRILIAN terdeteksi sebagai putri
             if (clean.includes("BRILIAN")) return true;
-            
             return DAFTAR_PUTRI.some(p => clean === p || clean.includes(p) || p.includes(clean));
         }
 
@@ -797,6 +996,107 @@
         let myChart;
         let bulanAktif = 0;
         let hasilKelompokLokal = [];
+        let sidebarOpen = true;
+
+        // ==========================================
+        // TOGGLE SIDEBAR & NAVIGATION SYSTEM
+        // ==========================================
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (window.innerWidth < 768) {
+                sidebar.classList.toggle('-translate-x-full');
+                overlay.classList.toggle('hidden');
+            } else {
+                if (sidebarOpen) {
+                    sidebar.classList.add('-translate-x-full');
+                    mainContent.classList.remove('md:ml-64');
+                    mainContent.classList.add('md:ml-0');
+                    sidebarOpen = false;
+                } else {
+                    sidebar.classList.remove('-translate-x-full');
+                    mainContent.classList.remove('md:ml-0');
+                    mainContent.classList.add('md:ml-64');
+                    sidebarOpen = true;
+                }
+            }
+        }
+
+        function bukaHalaman(hal) {
+            const listPages = [
+                'pageDashboard', 'pageUangKas', 'pageCekKas', 
+                'pageGeneratorKelompok', 'pageJadwal', 'pageQuickLinks', 
+                'pageGDriveView', 'pageAdminPanel'
+            ];
+            
+            listPages.forEach(p => {
+                const el = document.getElementById(p);
+                if(el) el.classList.add('hidden');
+            });
+
+            if(hal === 'dashboard') {
+                document.getElementById('pageDashboard').classList.remove('hidden');
+            } else if(hal === 'uangKas') {
+                document.getElementById('pageUangKas').classList.remove('hidden');
+            } else if(hal === 'cekKas') {
+                renderCekKasPublik();
+                document.getElementById('pageCekKas').classList.remove('hidden');
+            } else if(hal === 'generatorKelompok') {
+                document.getElementById('pageGeneratorKelompok').classList.remove('hidden');
+            } else if(hal === 'jadwal') {
+                document.getElementById('pageJadwal').classList.remove('hidden');
+            } else if(hal === 'quickLinks') {
+                document.getElementById('linkZoomBtn').href = dynamicConfig.links.zoom || '#';
+                document.getElementById('linkLmsBtn').href = dynamicConfig.links.lms || '#';
+                document.getElementById('linkLms2Btn').href = dynamicConfig.links.lms2 || '#';
+                document.getElementById('linkCbtBtn').href = dynamicConfig.links.cbt || '#';
+                document.getElementById('linkSiasramBtn').href = dynamicConfig.links.siasram || '#';
+                document.getElementById('linkIgBtn').href = dynamicConfig.links.instagramClass || '#';
+                document.getElementById('pageQuickLinks').classList.remove('hidden');
+            } else if(hal === 'moment') {
+                document.getElementById('gdriveTitle').innerText = "GALLERY MOMENT KELAS";
+                document.getElementById('gdriveSubTitle').innerText = "Folder Foto & Memori Astravelis";
+                document.getElementById('btnBukaDrive').href = dynamicConfig.links.driveMoment || '#';
+                document.getElementById('pageGDriveView').classList.remove('hidden');
+            } else if(hal === 'materi') {
+                document.getElementById('gdriveTitle').innerText = "MATERI & TUGAS PELAJARAN";
+                document.getElementById('gdriveSubTitle').innerText = "Folder Bahan Belajar & Tugas";
+                document.getElementById('btnBukaDrive').href = dynamicConfig.links.driveMateri || '#';
+                document.getElementById('pageGDriveView').classList.remove('hidden');
+            } else if(hal === 'adminPanel') {
+                if(!currentRole) {
+                    alert("Akses Ditolak! Silakan Login Pengurus terlebih dahulu.");
+                    bukaModalLogin();
+                    return;
+                }
+                muatFormAdmin();
+                document.getElementById('pageAdminPanel').classList.remove('hidden');
+            }
+
+            if (window.innerWidth < 768 && !document.getElementById('sidebar').classList.contains('-translate-x-full')) {
+                toggleSidebar();
+            }
+        }
+
+        function aksesFitur(fitur) {
+            if(fitur === 'cekKas' || fitur === 'jadwal' || fitur === 'moment' || fitur === 'materi' || fitur === 'quickLinks' || fitur === 'generatorKelompok') {
+                bukaHalaman(fitur);
+                return;
+            }
+
+            if(!currentRole) {
+                alert("Fitur ini khusus Pengurus Kelas. Silakan Login terlebih dahulu!");
+                bukaModalLogin();
+                return;
+            }
+            if(!currentRole.access || !currentRole.access.includes(fitur)) {
+                alert(`Akses Ditolak! Jabatan ${currentRole.name} tidak memiliki wewenang pada fitur ini.`);
+                return;
+            }
+            bukaHalaman(fitur);
+        }
 
         // ==========================================
         // FITUR LOGGING AKTIVITAS PENGURUS (CLOUD REAL-TIME)
@@ -835,7 +1135,7 @@
             container.innerHTML = globalAuditLogs.map(l => `
                 <div class="border-b dark:border-slate-700/60 pb-1.5 flex justify-between items-start gap-2">
                     <div>
-                        <span class="font-extrabold text-purple-600 dark:text-purple-400">[${l[1]}]</span>
+                        <span class="font-extrabold text-teal-600 dark:text-teal-400">[${l[1]}]</span>
                         <span class="text-slate-700 dark:text-slate-200 font-medium">${l[2]}</span>
                     </div>
                     <span class="text-[9px] font-extrabold text-slate-400 whitespace-nowrap">${l[0]}</span>
@@ -884,7 +1184,7 @@
         }
 
         // ==========================================
-        // FITUR: GANTI & RESET PIN PENGURUS (CLOUD)
+        // FITUR: GANTI & RESET PIN PENGURUS
         // ==========================================
         function bukaModalGantiPin() { document.getElementById('modalGantiPin').classList.remove('hidden'); }
         function tutupModalGantiPin() { document.getElementById('modalGantiPin').classList.add('hidden'); document.getElementById('pinBaruInput').value = ''; }
@@ -942,7 +1242,7 @@
         }
 
         // ==========================================
-        // LOGIKA APLIKASI UTAMA
+        // LOGIKA APLIKASI & AUTENTIKASI
         // ==========================================
         function updateClock() {
             const now = new Date();
@@ -962,17 +1262,17 @@
                 currentRole = ROLES[pin];
                 document.getElementById('btnLogin').classList.add('hidden');
                 document.getElementById('userInfo').classList.remove('hidden');
-                document.getElementById('roleBadge').innerText = currentRole.name;
+                document.getElementById('roleBadgeText').innerText = currentRole.name.toUpperCase();
                 
-                if(currentRole.access && currentRole.access.includes("adminPanel")) {
-                    document.getElementById('btnAdminPanel').classList.remove('hidden');
-                } else {
-                    document.getElementById('btnAdminPanel').classList.add('hidden');
-                }
+                // MUNCULKAN PANEL KONTROL KHUSUS DI SIDEBAR
+                document.getElementById('btnSidebarPanelKontrol').classList.remove('hidden');
 
                 catatAuditLog(`Login ke sistem`);
                 tutupModalLogin();
                 alert(`Login Berhasil! Anda masuk sebagai ${currentRole.name}.`);
+                if(currentRole.access && currentRole.access.includes("adminPanel")) {
+                    bukaHalaman('adminPanel');
+                }
             } else {
                 alert("PIN Otentikasi Salah!");
             }
@@ -983,78 +1283,12 @@
             currentRole = null;
             document.getElementById('btnLogin').classList.remove('hidden');
             document.getElementById('userInfo').classList.add('hidden');
-            document.getElementById('btnAdminPanel').classList.add('hidden');
+            document.getElementById('btnSidebarPanelKontrol').classList.add('hidden');
             bukaHalaman('dashboard');
         }
 
-        function aksesFitur(fitur) {
-            if(fitur === 'cekKas' || fitur === 'jadwal' || fitur === 'moment' || fitur === 'materi' || fitur === 'quickLinks' || fitur === 'generatorKelompok') {
-                bukaHalaman(fitur);
-                return;
-            }
-
-            if(!currentRole) {
-                alert("Fitur ini khusus Pengurus Kelas. Silakan Login terlebih dahulu!");
-                bukaModalLogin();
-                return;
-            }
-            if(!currentRole.access || !currentRole.access.includes(fitur)) {
-                alert(`Akses Ditolak! Jabatan ${currentRole.name} tidak memiliki wewenang pada fitur ini.`);
-                return;
-            }
-            bukaHalaman(fitur);
-        }
-
-        function bukaHalaman(hal) {
-            document.getElementById('pageDashboard').classList.add('hidden');
-            document.getElementById('pageUangKas').classList.add('hidden');
-            document.getElementById('pageCekKas').classList.add('hidden');
-            document.getElementById('pageGeneratorKelompok').classList.add('hidden');
-            document.getElementById('pageJadwal').classList.add('hidden');
-            document.getElementById('pageQuickLinks').classList.add('hidden');
-            document.getElementById('pageGDriveView').classList.add('hidden');
-            document.getElementById('pageAdminPanel').classList.add('hidden');
-
-            if(hal === 'dashboard') document.getElementById('pageDashboard').classList.remove('hidden');
-            else if(hal === 'uangKas') document.getElementById('pageUangKas').classList.remove('hidden');
-            else if(hal === 'cekKas') {
-                renderCekKasPublik();
-                document.getElementById('pageCekKas').classList.remove('hidden');
-            }
-            else if(hal === 'generatorKelompok') {
-                document.getElementById('pageGeneratorKelompok').classList.remove('hidden');
-            }
-            else if(hal === 'jadwal') {
-                document.getElementById('pageJadwal').classList.remove('hidden');
-            }
-            else if(hal === 'quickLinks') {
-                document.getElementById('linkZoomBtn').href = dynamicConfig.links.zoom || '#';
-                document.getElementById('linkLmsBtn').href = dynamicConfig.links.lms || '#';
-                document.getElementById('linkLms2Btn').href = dynamicConfig.links.lms2 || '#';
-                document.getElementById('linkCbtBtn').href = dynamicConfig.links.cbt || '#';
-                document.getElementById('linkIgBtn').href = dynamicConfig.links.instagramClass || '#';
-                document.getElementById('pageQuickLinks').classList.remove('hidden');
-            }
-            else if(hal === 'moment') {
-                document.getElementById('gdriveTitle').innerText = "GALLERY MOMENT KELAS";
-                document.getElementById('gdriveSubTitle').innerText = "Folder Foto & Memori Astravelis";
-                document.getElementById('btnBukaDrive').href = dynamicConfig.links.driveMoment || '#';
-                document.getElementById('pageGDriveView').classList.remove('hidden');
-            }
-            else if(hal === 'materi') {
-                document.getElementById('gdriveTitle').innerText = "MATERI & TUGAS PELAJARAN";
-                document.getElementById('gdriveSubTitle').innerText = "Folder Bahan Belajar & Tugas";
-                document.getElementById('btnBukaDrive').href = dynamicConfig.links.driveMateri || '#';
-                document.getElementById('pageGDriveView').classList.remove('hidden');
-            }
-            else if(hal === 'adminPanel') {
-                muatFormAdmin();
-                document.getElementById('pageAdminPanel').classList.remove('hidden');
-            }
-        }
-
         // ==========================================
-        // FITUR: PEMBAGI KELOMPOK (HETEROGEN & HOMOGEN)
+        // FITUR: PEMBAGI KELOMPOK
         // ==========================================
         function acakDanBuatKelompok() {
             const targetSiswa = (listSiswa && listSiswa.length > 0) ? listSiswa : DEFAULT_SISWA_BACKUP;
@@ -1159,7 +1393,7 @@
                 'Putra': 'border-cyan-500 text-cyan-600',
                 'Putri': 'border-rose-500 text-rose-600'
             };
-            const defaultColors = ['border-blue-500 text-blue-600', 'border-purple-500 text-purple-600', 'border-emerald-500 text-emerald-600', 'border-rose-500 text-rose-600', 'border-amber-500 text-amber-600', 'border-cyan-500 text-cyan-600'];
+            const defaultColors = ['border-teal-500 text-teal-600', 'border-purple-500 text-purple-600', 'border-emerald-500 text-emerald-600', 'border-rose-500 text-rose-600', 'border-amber-500 text-amber-600', 'border-cyan-500 text-cyan-600'];
 
             container.innerHTML = hasilKelompokLokal.map((k, idx) => {
                 const colorClass = colors[k.tipe] || defaultColors[idx % defaultColors.length];
@@ -1207,36 +1441,37 @@
         }
 
         // ==========================================
-        // FITUR: PANEL PENGATURAN & KONTROL MULTI-JABATAN
+        // FITUR: PANEL PENGATURAN MULTI-JABATAN
         // ==========================================
         function muatFormAdmin() {
             document.getElementById('adminZoomInput').value = dynamicConfig.links.zoom || "";
             document.getElementById('adminLmsInput').value = dynamicConfig.links.lms || "";
             document.getElementById('adminLms2Input').value = dynamicConfig.links.lms2 || "";
             document.getElementById('adminCbtInput').value = dynamicConfig.links.cbt || "";
+            document.getElementById('adminSiasramInput').value = dynamicConfig.links.siasram || "";
             document.getElementById('adminIgInput').value = dynamicConfig.links.instagramClass || "";
             document.getElementById('adminIuranInput').value = dynamicConfig.nominalIuran;
 
             const roleName = currentRole ? currentRole.name : "Pengurus";
-            document.getElementById('panelRoleBadge').innerText = `AKSES: ${roleName.toUpperCase()}`;
+            document.getElementById('panelRoleTitleText').innerText = `🔑 AKSES: ${roleName.toUpperCase()}`;
 
-            const isAdmin = roleName.toLowerCase() === "admin";
+            const isAdmin = roleName.toLowerCase() === "admin" || roleName.toLowerCase().includes("admin");
             const isSekretaris = roleName.toLowerCase().includes("sekretaris");
             const isKetua = roleName.toLowerCase().includes("ketua") || roleName.toLowerCase().includes("wakil");
 
-            const blockLinks = document.getElementById('blockLinks');
-            if (blockLinks) {
-                blockLinks.style.display = (isAdmin || isSekretaris) ? "block" : "none";
+            const blockQuickLinks = document.getElementById('blockQuickLinks');
+            if (blockQuickLinks) {
+                blockQuickLinks.style.display = (isAdmin || isSekretaris) ? "block" : "none";
             }
 
-            const blockIuran = document.getElementById('blockIuran');
-            if (blockIuran) {
-                blockIuran.style.display = (isAdmin || isKetua) ? "flex" : "none";
+            const blockTargetKas = document.getElementById('blockTargetKas');
+            if (blockTargetKas) {
+                blockTargetKas.style.display = (isAdmin || isKetua) ? "flex" : "none";
             }
 
-            const blockSiswaManager = document.getElementById('blockSiswaManager');
-            if (blockSiswaManager) {
-                blockSiswaManager.style.display = (isAdmin || isSekretaris || isKetua) ? "block" : "none";
+            const blockStudentData = document.getElementById('blockStudentData');
+            if (blockStudentData) {
+                blockStudentData.style.display = (isAdmin || isSekretaris || isKetua) ? "block" : "none";
             }
 
             const blockMasterPin = document.getElementById('blockMasterPin');
@@ -1260,7 +1495,7 @@
             if(!body) return;
 
             const roleName = currentRole ? currentRole.name.toLowerCase() : "";
-            const canEditSiswa = roleName === "admin" || roleName.includes("sekretaris") || roleName.includes("ketua") || roleName.includes("wakil");
+            const canEditSiswa = roleName.includes("admin") || roleName.includes("sekretaris") || roleName.includes("ketua") || roleName.includes("wakil");
 
             badge.innerText = `${listSiswa.length} Siswa`;
             body.innerHTML = listSiswa.map((nama, idx) => `
@@ -1269,7 +1504,7 @@
                     <td class="p-2 dark:text-white uppercase">${nama}</td>
                     <td class="p-2 text-right">
                         ${canEditSiswa ? `
-                            <button onclick="editNamaSiswaAdmin(${idx})" class="text-blue-600 dark:text-blue-400 hover:underline mr-2">Edit</button>
+                            <button onclick="editNamaSiswaAdmin(${idx})" class="text-teal-600 dark:text-teal-400 hover:underline mr-2">Edit</button>
                             <button onclick="hapusSiswaAdmin(${idx})" class="text-rose-500 hover:underline">Hapus</button>
                         ` : `<span class="text-slate-400 text-[10px] italic">Lihat Saja</span>`}
                     </td>
@@ -1341,6 +1576,7 @@
                 lms: document.getElementById('adminLmsInput').value.trim(),
                 lms2: document.getElementById('adminLms2Input').value.trim(),
                 cbt: document.getElementById('adminCbtInput').value.trim(),
+                siasram: document.getElementById('adminSiasramInput').value.trim(),
                 driveMoment: dynamicConfig.links.driveMoment || "",
                 driveMateri: dynamicConfig.links.driveMateri || "",
                 instagramClass: document.getElementById('adminIgInput').value.trim()
@@ -1384,7 +1620,7 @@
         }
 
         // ==========================================
-        // DOKUMEN & SINKRONISASI DATA KAS & PIN
+        // DOKUMEN & SINKRONISASI DATA KAS
         // ==========================================
         async function muatData() {
             if(!scriptURL) {
@@ -1577,7 +1813,7 @@
         function renderMiniChart(data) {
             const ctx = document.getElementById('miniChart').getContext('2d');
             if(myChart) myChart.destroy();
-            myChart = new Chart(ctx, { type: 'line', data: { labels: data.map((_, i) => i), datasets: [{ data: data, borderColor: '#2563eb', fill: true, backgroundColor: 'rgba(37, 99, 235, 0.08)', tension: 0.4, pointRadius: 0 }] }, options: { scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false } } } });
+            myChart = new Chart(ctx, { type: 'line', data: { labels: data.map((_, i) => i), datasets: [{ data: data, borderColor: '#0d9488', fill: true, backgroundColor: 'rgba(13, 148, 136, 0.08)', tension: 0.4, pointRadius: 0 }] }, options: { scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false } } } });
         }
 
         function renderCekKasPublik() {
@@ -1661,7 +1897,7 @@
             doc.setTextColor('#64748b');
             doc.text(`Kas Bulan: ${namaBulan} ${tahun} | Tanggal Cetak: ${sekarang.toLocaleDateString('id-ID')} pukul ${jamCetakFormat}`, 14, 25);
             
-            doc.setDrawColor('#2563eb');
+            doc.setDrawColor('#0d9488');
             doc.setLineWidth(1);
             doc.line(14, 28, 196, 28);
 
@@ -1678,7 +1914,7 @@
                 body: rows,
                 startY: 32,
                 theme: 'striped',
-                headStyles: { fillColor: '#2563eb', textColor: '#ffffff', fontStyle: 'bold' },
+                headStyles: { fillColor: '#0d9488', textColor: '#ffffff', fontStyle: 'bold' },
                 columnStyles: { 4: { halign: 'right', fontStyle: 'bold' } }
             });
 
