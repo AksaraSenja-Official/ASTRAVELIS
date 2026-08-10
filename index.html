@@ -72,18 +72,14 @@
     <div class="flex flex-1 w-full">
         <!-- ==================== SIDEBAR NAVIGASI ==================== -->
         <aside id="sidebar" class="w-64 bg-white dark:bg-slate-800 border-r border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 flex flex-col fixed inset-y-0 left-0 z-50 transition-all-300 shadow-sm">
-            <!-- Brand Header -->
-            <div class="h-20 flex items-center justify-between px-5 border-b border-slate-100 dark:border-slate-700/50">
+            <!-- Brand Header (Tanda Panah Dihapus, Teks Dibuat Hanya ASTRAVELIS) -->
+            <div class="h-20 flex items-center px-5 border-b border-slate-100 dark:border-slate-700/50">
                 <div class="flex items-center gap-3 cursor-pointer" onclick="bukaHalaman('dashboard')">
                     <img id="logoApp" src="logo.jpg" onerror="this.src='https://via.placeholder.com/40?text=A'" alt="Logo" class="h-10 w-10 object-cover rounded-xl shadow-md border-2 border-teal-500 transition transform hover:scale-105">
                     <div>
                         <h1 class="text-base font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">ASTRAVELIS</h1>
-                        <span class="text-[10px] text-teal-600 dark:text-teal-400 font-bold uppercase tracking-widest mt-1 block">Portal Kelas Official</span>
                     </div>
                 </div>
-                <button onclick="toggleSidebar()" class="p-1.5 rounded-lg text-slate-400 hover:text-teal-600 hover:bg-slate-100 dark:hover:bg-slate-700">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>
-                </button>
             </div>
 
             <!-- Menu Navigasi Samping -->
@@ -155,7 +151,7 @@
         <!-- ==================== AREA UTAMA ==================== -->
         <div id="mainContent" class="flex-1 md:ml-64 flex flex-col min-h-screen transition-all-300">
             
-            <!-- Header Top Modern -->
+            <!-- Header Top Modern (Subteks Disesuaikan) -->
             <header class="h-20 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between px-4 md:px-8 sticky top-0 z-30 transition-colors duration-300">
                 <div class="flex items-center gap-3">
                     <!-- Tombol Garis 3 Minimalis -->
@@ -164,7 +160,7 @@
                     </button>
                     <div class="hidden sm:block">
                         <h2 class="text-xs font-bold text-slate-800 dark:text-slate-200">ASTRAVELIS Portal Kelas</h2>
-                        <p class="text-[10px] text-slate-400 dark:text-slate-500">Pusat Informasi & Administrasi Terpadu</p>
+                        <p class="text-[10px] text-slate-400 dark:text-slate-500">Pusat Informasi & Manajemen Kelas</p>
                     </div>
                 </div>
                 
@@ -1256,6 +1252,7 @@
         function bukaModalJadwal() { document.getElementById('modalJadwal').classList.remove('hidden'); }
         function tutupModalJadwal() { document.getElementById('modalJadwal').classList.add('hidden'); }
 
+        // PROSES LOGIN TANPA AUTO-REDIRECT KE PANEL KONTROL
         function prosesLogin() {
             const pin = document.getElementById('loginPinInput').value.trim();
             if(ROLES[pin]) {
@@ -1270,9 +1267,6 @@
                 catatAuditLog(`Login ke sistem`);
                 tutupModalLogin();
                 alert(`Login Berhasil! Anda masuk sebagai ${currentRole.name}.`);
-                if(currentRole.access && currentRole.access.includes("adminPanel")) {
-                    bukaHalaman('adminPanel');
-                }
             } else {
                 alert("PIN Otentikasi Salah!");
             }
