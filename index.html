@@ -147,7 +147,7 @@
                         <div>
                             <span class="text-[8px] font-bold uppercase tracking-widest opacity-60 block">Akses Publik</span>
                             <h3 class="text-sm font-black italic uppercase tracking-wide mt-0.5 leading-tight">PEMBAGI KELOMPOK</h3>
-                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Acak Kelompok Tugas Otomatis</p>
+                            <p class="text-[10px] opacity-75 font-medium mt-0.5 line-clamp-1">Acak Kelompok Heterogen / Homogen</p>
                         </div>
                     </div>
 
@@ -368,9 +368,19 @@
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b dark:border-slate-700 pb-4">
                         <div>
                             <h2 class="text-xl font-black uppercase italic text-purple-600 dark:text-purple-400">PEMBAGI <span class="text-slate-800 dark:text-white">KELOMPOK</span></h2>
-                            <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Acak siswa menjadi beberapa kelompok secara adil & instan</p>
+                            <p class="text-[11px] text-slate-400 font-bold uppercase mt-0.5">Acak siswa menjadi beberapa kelompok (Heterogen / Homogen)</p>
                         </div>
                         <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                            <!-- OPSI MODE PEMBAGIAN -->
+                            <div class="flex items-center gap-2">
+                                <label class="text-xs font-bold text-slate-500 dark:text-slate-400">Mode:</label>
+                                <select id="selectModePembagian" class="p-2.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-extrabold outline-none dark:text-white">
+                                    <option value="campuran">🔀 Acak Campuran (Heterogen)</option>
+                                    <option value="homogen">🚻 Homogen (Terpisah Putra & Putri)</option>
+                                    <option value="putra">👨 Khusus Putra Saja</option>
+                                    <option value="putri">👩 Khusus Putri Saja</option>
+                                </select>
+                            </div>
                             <div class="flex items-center gap-2">
                                 <label class="text-xs font-bold text-slate-500 dark:text-slate-400">Jumlah Kelompok:</label>
                                 <select id="selectJmlKelompok" class="p-2.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-extrabold outline-none dark:text-white">
@@ -745,6 +755,20 @@
             "ZAHRA MAULIDA"
         ];
 
+        // Daftar Nama Siswa Putri untuk Deteksi Gender Homogen/Heterogen
+        const DAFTAR_PUTRI = [
+            "AISYAH THAHIRA", "ALYNA ASRATIKAL LAIL", "AMALIYA AYUDIA PUTRI",
+            "AYATUL HUSNA", "BAIQ SALSABILA", "BRILIAN AURA MUHASSBAH",
+            "ESTETIK MUSTIKA CAHYANI", "NUR TSABITA FARHANI", "SYADZWINA RAMADHANI",
+            "SYIFA ILMIRA ABID", "TALITA SYIFA ARKENA", "TUHFATUL AHWAZIYA", "ZAHRA MAULIDA"
+        ];
+
+        function isPutri(nama) {
+            if(!nama) return false;
+            const clean = nama.trim().toUpperCase();
+            return DAFTAR_PUTRI.some(p => clean.includes(p) || p.includes(clean));
+        }
+
         function getDynamicConfig() {
             const savedLinks = localStorage.getItem('ASTRAVELIS_LINKS');
             const savedNominal = localStorage.getItem('ASTRAVELIS_NOMINAL');
@@ -1022,24 +1046,99 @@
         }
 
         // ==========================================
-        // FITUR: PEMBAGI KELOMPOK
+        // FITUR: PEMBAGI KELOMPOK (HETEROGEN & HOMOGEN PUTRA/PUTRI)
         // ==========================================
         function acakDanBuatKelompok() {
             const targetSiswa = (listSiswa && listSiswa.length > 0) ? listSiswa : DEFAULT_SISWA_BACKUP;
             const jmlKelompok = parseInt(document.getElementById('selectJmlKelompok').value) || 4;
-            let copySiswa = [...targetSiswa];
+            const mode = document.getElementById('selectModePembagian').value;
 
-            for (let i = copySiswa.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [copySiswa[i], copySiswa[j]] = [copySiswa[j], copySiswa[i]];
+            function shuffle(arr) {
+                let copy = [...arr];
+                for (let i = copy.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [copy[i], copy[j]] = [copy[j], copy[i]];
+                }
+                return copy;
             }
 
-            let kelompokArray = Array.from({ length: jmlKelompok }, () => []);
-            copySiswa.forEach((siswa, index) => {
-                kelompokArray[index % jmlKelompok].push(siswa);
-            });
+            let hasil = [];
 
-            hasilKelompokLokal = kelompokArray;
+            if (mode === 'campuran') {
+                let copySiswa = shuffle(targetSiswa);
+                let kelompokArray = Array.from({ length: jmlKelompok }, () => []);
+                copySiswa.forEach((siswa, index) => {
+                    kelompokArray[index % jmlKelompok].push(siswa);
+                });
+                hasil = kelompokArray.map((members, idx) => ({
+                    namaKelompok: `KELOMPOK ${idx + 1}`,
+                    tipe: 'Campuran',
+                    anggota: members
+                }));
+            } else if (mode === 'homogen') {
+                let listPutra = targetSiswa.filter(s => !isPutri(s));
+                let listPutri = targetSiswa.filter(s => isPutri(s));
+
+                let shufPutra = shuffle(listPutra);
+                let shufPutri = shuffle(listPutri);
+
+                let kelPutra = Array.from({ length: jmlKelompok }, () => []);
+                shufPutra.forEach((s, idx) => kelPutra[idx % jmlKelompok].push(s));
+
+                let kelPutri = Array.from({ length: jmlKelompok }, () => []);
+                shufPutri.forEach((s, idx) => kelPutri[idx % jmlKelompok].push(s));
+
+                kelPutra.forEach((m, idx) => {
+                    if (m.length > 0) {
+                        hasil.push({
+                            namaKelompok: `KELOMPOK ${idx + 1} (PUTRA)`,
+                            tipe: 'Putra',
+                            anggota: m
+                        });
+                    }
+                });
+                kelPutri.forEach((m, idx) => {
+                    if (m.length > 0) {
+                        hasil.push({
+                            namaKelompok: `KELOMPOK ${idx + 1} (PUTRI)`,
+                            tipe: 'Putri',
+                            anggota: m
+                        });
+                    }
+                });
+            } else if (mode === 'putra') {
+                let listPutra = targetSiswa.filter(s => !isPutri(s));
+                let shufPutra = shuffle(listPutra);
+                let kelPutra = Array.from({ length: jmlKelompok }, () => []);
+                shufPutra.forEach((s, idx) => kelPutra[idx % jmlKelompok].push(s));
+
+                kelPutra.forEach((m, idx) => {
+                    if (m.length > 0) {
+                        hasil.push({
+                            namaKelompok: `KELOMPOK ${idx + 1} (PUTRA)`,
+                            tipe: 'Putra',
+                            anggota: m
+                        });
+                    }
+                });
+            } else if (mode === 'putri') {
+                let listPutri = targetSiswa.filter(s => isPutri(s));
+                let shufPutri = shuffle(listPutri);
+                let kelPutri = Array.from({ length: jmlKelompok }, () => []);
+                shufPutri.forEach((s, idx) => kelPutri[idx % jmlKelompok].push(s));
+
+                kelPutri.forEach((m, idx) => {
+                    if (m.length > 0) {
+                        hasil.push({
+                            namaKelompok: `KELOMPOK ${idx + 1} (PUTRI)`,
+                            tipe: 'Putri',
+                            anggota: m
+                        });
+                    }
+                });
+            }
+
+            hasilKelompokLokal = hasil;
             renderHasilKelompok();
         }
 
@@ -1047,19 +1146,27 @@
             const container = document.getElementById('containerHasilKelompok');
             if(!hasilKelompokLokal || hasilKelompokLokal.length === 0) return;
 
-            const colors = ['border-blue-500 text-blue-600', 'border-purple-500 text-purple-600', 'border-emerald-500 text-emerald-600', 'border-rose-500 text-rose-600', 'border-amber-500 text-amber-600', 'border-cyan-500 text-cyan-600'];
+            const colors = {
+                'Campuran': 'border-purple-500 text-purple-600',
+                'Putra': 'border-cyan-500 text-cyan-600',
+                'Putri': 'border-rose-500 text-rose-600'
+            };
+            const defaultColors = ['border-blue-500 text-blue-600', 'border-purple-500 text-purple-600', 'border-emerald-500 text-emerald-600', 'border-rose-500 text-rose-600', 'border-amber-500 text-amber-600', 'border-cyan-500 text-cyan-600'];
 
             container.innerHTML = hasilKelompokLokal.map((k, idx) => {
-                const colorClass = colors[idx % colors.length];
+                const colorClass = colors[k.tipe] || defaultColors[idx % defaultColors.length];
+                const badgeIcon = k.tipe === 'Putra' ? '👨' : (k.tipe === 'Putri' ? '👩' : '🔀');
                 return `
                 <div class="bg-slate-50 dark:bg-slate-900/60 p-4 rounded-2xl border-t-4 ${colorClass} border-x border-b border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 dark:text-white">KELOMPOK ${idx + 1}</h3>
-                            <span class="text-[9px] font-extrabold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full">${k.length} Siswa</span>
+                            <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 dark:text-white flex items-center gap-1">
+                                <span>${badgeIcon}</span> ${k.namaKelompok}
+                            </h3>
+                            <span class="text-[9px] font-extrabold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full">${k.anggota.length} Siswa</span>
                         </div>
                         <ol class="list-decimal list-inside space-y-1 text-xs font-bold text-slate-700 dark:text-slate-300">
-                            ${k.map(nama => `<li class="truncate py-0.5">${nama}</li>`).join('')}
+                            ${k.anggota.map(nama => `<li class="truncate py-0.5">${nama}</li>`).join('')}
                         </ol>
                     </div>
                 </div>`;
@@ -1073,9 +1180,9 @@
             }
 
             let teks = "*📌 PEMBAGIAN KELOMPOK KELAS ASTRAVELIS*\n\n";
-            hasilKelompokLokal.forEach((k, idx) => {
-                teks += `*KELOMPOK ${idx + 1}* (${k.length} Siswa):\n`;
-                k.forEach((nama, nIdx) => {
+            hasilKelompokLokal.forEach((k) => {
+                teks += `*${k.namaKelompok}* (${k.anggota.length} Siswa):\n`;
+                k.anggota.forEach((nama, nIdx) => {
                     teks += `${nIdx + 1}. ${nama}\n`;
                 });
                 teks += `\n`;
@@ -1108,32 +1215,26 @@
             const isKetua = roleName.toLowerCase().includes("ketua") || roleName.toLowerCase().includes("wakil");
 
             // 3. Kontrol Visibilitas Modul/Blok Berdasarkan Jabatan
-
-            // BLOK 1: Kelola Links / Tautan Utama (Hanya Admin & Sekretaris)
             const blockLinks = document.getElementById('blockLinks');
             if (blockLinks) {
                 blockLinks.style.display = (isAdmin || isSekretaris) ? "block" : "none";
             }
 
-            // BLOK 2: Pengaturan Iuran & Progres Uang Kas Kelas (Hanya Admin & Ketua / Wakil Kelas)
             const blockIuran = document.getElementById('blockIuran');
             if (blockIuran) {
                 blockIuran.style.display = (isAdmin || isKetua) ? "flex" : "none";
             }
 
-            // BLOK 3: Student Data Manager / Edit Nama Siswa (Admin, Sekretaris, dan Ketua / Wakil Kelas)
             const blockSiswaManager = document.getElementById('blockSiswaManager');
             if (blockSiswaManager) {
                 blockSiswaManager.style.display = (isAdmin || isSekretaris || isKetua) ? "block" : "none";
             }
 
-            // BLOK 4: Master Control & Reset PIN Pengurus (Hanya Admin Utama)
             const blockMasterPin = document.getElementById('blockMasterPin');
             if (blockMasterPin) {
                 blockMasterPin.style.display = isAdmin ? "block" : "none";
             }
 
-            // BLOK 5: Activity Audit Log (Hanya Admin Utama)
             const blockAuditLog = document.getElementById('blockAuditLog');
             if (blockAuditLog) {
                 blockAuditLog.style.display = isAdmin ? "block" : "none";
@@ -1291,7 +1392,6 @@
 
                 bulanAktif = parseInt(json.bulanAktif) || 0;
 
-                // SINKRONISASI OTOMATIS: Penggabungan Hak Akses Config.js & Data Cloud
                 if(json.roles) {
                     Object.keys(json.roles).forEach(pin => {
                         const defaultRole = Object.values(window.APP_CONFIG.defaultRoles).find(r => r.name === json.roles[pin].name);
