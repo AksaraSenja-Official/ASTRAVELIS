@@ -15,6 +15,7 @@ window.APP_CONFIG = {
         lms: "https://lms.maniclotim.sch.id/",
         lms2: "https://sites.google.com/view/maniclotim-ski-lms/lms",
         cbt: "https://cbt.akademiksistem.my.id/",
+        siAsram: "https://sites.google.com/guru.paud.belajar.id/keasramaanmaniclomboktimur/si-asram?authuser=0",
         driveMoment: "https://drive.google.com/drive/folders/1xYiNCGUPes8LU2kJsKFFLTdGrFRTYXU0?usp=sharing",
         driveMateri: "https://drive.google.com/drive/folders/10tKD3rfBM5zUlNKjmgxngLJkD3JzQS8S?usp=sharing",
         instagramClass: "https://www.instagram.com/astravelis__?igsh=MWRlbG5haXR5bmV2NQ=="
