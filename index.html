@@ -70,16 +70,20 @@
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
 
     <div class="flex flex-1 w-full">
-        <!-- ==================== SIDEBAR NAVIGASI ==================== -->
-        <aside id="sidebar" class="w-64 bg-white dark:bg-slate-800 border-r border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 flex flex-col fixed inset-y-0 left-0 z-50 transition-all-300 shadow-sm">
-            <!-- Brand Header (Tanda Panah Dihapus, Teks Dibuat Hanya ASTRAVELIS) -->
-            <div class="h-20 flex items-center px-5 border-b border-slate-100 dark:border-slate-700/50">
+        <!-- ==================== SIDEBAR NAVIGASI (OPTIMIZED FOR HP) ==================== -->
+        <aside id="sidebar" class="-translate-x-full md:translate-x-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 flex flex-col fixed inset-y-0 left-0 z-50 transition-all-300 shadow-xl md:shadow-sm">
+            <!-- Brand Header -->
+            <div class="h-20 flex items-center justify-between px-5 border-b border-slate-100 dark:border-slate-700/50">
                 <div class="flex items-center gap-3 cursor-pointer" onclick="bukaHalaman('dashboard')">
                     <img id="logoApp" src="logo.jpg" onerror="this.src='https://via.placeholder.com/40?text=A'" alt="Logo" class="h-10 w-10 object-cover rounded-xl shadow-md border-2 border-teal-500 transition transform hover:scale-105">
                     <div>
                         <h1 class="text-base font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">ASTRAVELIS</h1>
                     </div>
                 </div>
+                <!-- Tombol Close Khusus HP -->
+                <button onclick="toggleSidebar()" class="md:hidden p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Tutup Navigasi">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
             </div>
 
             <!-- Menu Navigasi Samping -->
@@ -146,15 +150,14 @@
         </aside>
 
         <!-- Overlay Mobile -->
-        <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/20 backdrop-blur-xs z-40 hidden md:hidden"></div>
+        <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden md:hidden"></div>
 
         <!-- ==================== AREA UTAMA ==================== -->
         <div id="mainContent" class="flex-1 md:ml-64 flex flex-col min-h-screen transition-all-300">
             
-            <!-- Header Top Modern (Subteks Disesuaikan) -->
+            <!-- Header Top Modern -->
             <header class="h-20 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between px-4 md:px-8 sticky top-0 z-30 transition-colors duration-300">
                 <div class="flex items-center gap-3">
-                    <!-- Tombol Garis 3 Minimalis -->
                     <button onclick="toggleSidebar()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center justify-center" title="Toggle Navigasi">
                         <svg class="w-5 h-5 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
@@ -179,13 +182,11 @@
 
                     <!-- Auth Box Area -->
                     <div id="authBox">
-                        <!-- Tombol Login Pengurus (Jika Belum Login) -->
                         <button id="btnLogin" onclick="bukaModalLogin()" class="px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs transition shadow-sm shadow-teal-200 dark:shadow-none flex items-center gap-2">
                             <svg class="w-4 h-4 text-amber-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
                             <span>Login Pengurus</span>
                         </button>
 
-                        <!-- Informatif Role & Logout (Jika Sudah Login) -->
                         <div id="userInfo" class="hidden flex items-center gap-2">
                             <span id="roleBadgeText" class="bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 font-extrabold text-[10px] px-3 py-1.5 rounded-xl border border-teal-100 dark:border-teal-800/50 uppercase">
                                 TAMU
@@ -204,7 +205,6 @@
 
                 <!-- ==================== PAGE 1: BERANDA UTAMA (DASHBOARD) ==================== -->
                 <section id="pageDashboard" class="space-y-8">
-                    <!-- HERO FOTO KELAS UTAMA -->
                     <div class="relative rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-700/80 shadow-md min-h-[240px] sm:min-h-[300px] md:min-h-[340px] flex items-end p-6 md:p-8 group bg-slate-900">
                         <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('foto_kelas.jpg');"></div>
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent"></div>
@@ -223,7 +223,7 @@
                         </div>
                     </div>
 
-                    <!-- GRID KARTU FITUR UTAMA (6 MODUL BERJEJER) -->
+                    <!-- GRID KARTU FITUR UTAMA -->
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <h3 class="font-extrabold text-slate-800 dark:text-slate-100 text-base flex items-center gap-2">
@@ -699,7 +699,6 @@
                 </section>
 
                 <!-- ==================== PAGE 8: PANEL KONTROL / SETTINGS ==================== -->
-                <!-- HANYA BISA DIAKSES SETELAH LOGIN PENGURUS -->
                 <section id="pageAdminPanel" class="space-y-6 hidden">
 
                     <!-- Header Bar Panel Kontrol -->
@@ -759,6 +758,14 @@
                                 <div>
                                     <label class="text-[10px] font-bold text-slate-400 uppercase">Link Instagram Kelas</label>
                                     <input type="text" id="adminIgInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Link Drive Moments Kelas</label>
+                                    <input type="text" id="adminDriveMomentInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Link Drive Materi Pelajaran</label>
+                                    <input type="text" id="adminDriveMateriInput" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none dark:text-white">
                                 </div>
                             </div>
 
@@ -992,10 +999,10 @@
         let myChart;
         let bulanAktif = 0;
         let hasilKelompokLokal = [];
-        let sidebarOpen = true;
+        let sidebarOpen = window.innerWidth >= 768;
 
         // ==========================================
-        // TOGGLE SIDEBAR & NAVIGATION SYSTEM
+        // TOGGLE SIDEBAR & NAVIGATION SYSTEM (OPTIMIZED FOR HP)
         // ==========================================
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -1018,6 +1025,17 @@
                     sidebarOpen = true;
                 }
             }
+        }
+
+        function updateAllLinksUI() {
+            const links = dynamicConfig.links || {};
+            if (document.getElementById('linkZoomBtn')) document.getElementById('linkZoomBtn').href = links.zoom || '#';
+            if (document.getElementById('linkLmsBtn')) document.getElementById('linkLmsBtn').href = links.lms || '#';
+            if (document.getElementById('linkLms2Btn')) document.getElementById('linkLms2Btn').href = links.lms2 || '#';
+            if (document.getElementById('linkCbtBtn')) document.getElementById('linkCbtBtn').href = links.cbt || '#';
+            if (document.getElementById('linkSiasramBtn')) document.getElementById('linkSiasramBtn').href = links.siasram || '#';
+            if (document.getElementById('linkIgBtn')) document.getElementById('linkIgBtn').href = links.instagramClass || '#';
+            if (document.getElementById('footerIgBtn')) document.getElementById('footerIgBtn').href = links.instagramClass || '#';
         }
 
         function bukaHalaman(hal) {
@@ -1044,12 +1062,7 @@
             } else if(hal === 'jadwal') {
                 document.getElementById('pageJadwal').classList.remove('hidden');
             } else if(hal === 'quickLinks') {
-                document.getElementById('linkZoomBtn').href = dynamicConfig.links.zoom || '#';
-                document.getElementById('linkLmsBtn').href = dynamicConfig.links.lms || '#';
-                document.getElementById('linkLms2Btn').href = dynamicConfig.links.lms2 || '#';
-                document.getElementById('linkCbtBtn').href = dynamicConfig.links.cbt || '#';
-                document.getElementById('linkSiasramBtn').href = dynamicConfig.links.siasram || '#';
-                document.getElementById('linkIgBtn').href = dynamicConfig.links.instagramClass || '#';
+                updateAllLinksUI();
                 document.getElementById('pageQuickLinks').classList.remove('hidden');
             } else if(hal === 'moment') {
                 document.getElementById('gdriveTitle').innerText = "GALLERY MOMENT KELAS";
@@ -1071,6 +1084,7 @@
                 document.getElementById('pageAdminPanel').classList.remove('hidden');
             }
 
+            // Tutup sidebar otomatis di layar HP saat berpindah halaman
             if (window.innerWidth < 768 && !document.getElementById('sidebar').classList.contains('-translate-x-full')) {
                 toggleSidebar();
             }
@@ -1095,7 +1109,7 @@
         }
 
         // ==========================================
-        // FITUR LOGGING AKTIVITAS PENGURUS (CLOUD REAL-TIME)
+        // FITUR LOGGING AKTIVITAS PENGURUS
         // ==========================================
         async function catatAuditLog(pesan) {
             if (!scriptURL) return;
@@ -1153,7 +1167,7 @@
         }
 
         // ==========================================
-        // FITUR: DARK MODE TOGGLE
+        // FITUR: DARK MODE TOGGLE & CLOCK REAL-TIME
         // ==========================================
         function initTheme() {
             const savedTheme = localStorage.getItem('theme');
@@ -1176,6 +1190,22 @@
                 document.documentElement.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
                 document.getElementById('btnThemeToggle').innerText = '☀️';
+            }
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const clockEl = document.getElementById('realtimeClock');
+            if (clockEl) {
+                clockEl.innerText = now.toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                }).replace(/\./g, ':');
             }
         }
 
@@ -1240,19 +1270,12 @@
         // ==========================================
         // LOGIKA APLIKASI & AUTENTIKASI
         // ==========================================
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('realtimeClock').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-        }
-        setInterval(updateClock, 1000);
-
         function bukaModalLogin() { document.getElementById('modalLogin').classList.remove('hidden'); }
         function tutupModalLogin() { document.getElementById('modalLogin').classList.add('hidden'); document.getElementById('loginPinInput').value = ""; }
 
         function bukaModalJadwal() { document.getElementById('modalJadwal').classList.remove('hidden'); }
         function tutupModalJadwal() { document.getElementById('modalJadwal').classList.add('hidden'); }
 
-        // PROSES LOGIN TANPA AUTO-REDIRECT KE PANEL KONTROL
         function prosesLogin() {
             const pin = document.getElementById('loginPinInput').value.trim();
             if(ROLES[pin]) {
@@ -1261,7 +1284,6 @@
                 document.getElementById('userInfo').classList.remove('hidden');
                 document.getElementById('roleBadgeText').innerText = currentRole.name.toUpperCase();
                 
-                // MUNCULKAN PANEL KONTROL KHUSUS DI SIDEBAR
                 document.getElementById('btnSidebarPanelKontrol').classList.remove('hidden');
 
                 catatAuditLog(`Login ke sistem`);
@@ -1435,7 +1457,7 @@
         }
 
         // ==========================================
-        // FITUR: PANEL PENGATURAN MULTI-JABATAN
+        // FITUR: PANEL PENGATURAN MULTI-JABATAN & EDIT LINK/SISWA
         // ==========================================
         function muatFormAdmin() {
             document.getElementById('adminZoomInput').value = dynamicConfig.links.zoom || "";
@@ -1444,6 +1466,8 @@
             document.getElementById('adminCbtInput').value = dynamicConfig.links.cbt || "";
             document.getElementById('adminSiasramInput').value = dynamicConfig.links.siasram || "";
             document.getElementById('adminIgInput').value = dynamicConfig.links.instagramClass || "";
+            document.getElementById('adminDriveMomentInput').value = dynamicConfig.links.driveMoment || "";
+            document.getElementById('adminDriveMateriInput').value = dynamicConfig.links.driveMateri || "";
             document.getElementById('adminIuranInput').value = dynamicConfig.nominalIuran;
 
             const roleName = currentRole ? currentRole.name : "Pengurus";
@@ -1483,6 +1507,22 @@
             if (isAdmin) renderAuditLog();
         }
 
+        // SINKRONISASI MANAJEMEN SISWA KE CLOUD
+        async function simpanSiswaKeCloud() {
+            if (!scriptURL) return;
+            try {
+                await fetch(scriptURL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: "updateSiswa",
+                        siswa: listSiswa
+                    })
+                });
+            } catch (e) {
+                console.error("Gagal menyinkronkan data siswa ke cloud:", e);
+            }
+        }
+
         function renderTabelSiswaAdmin() {
             const body = document.getElementById('tabelSiswaAdmin');
             const badge = document.getElementById('totalSiswaAdminBadge');
@@ -1506,7 +1546,7 @@
             `).join('');
         }
 
-        function tambahSiswaBaruAdmin() {
+        async function tambahSiswaBaruAdmin() {
             const input = document.getElementById('inputNamaSiswaBaru');
             const namaBaru = input.value.trim().toUpperCase();
 
@@ -1522,29 +1562,33 @@
 
             listSiswa.push(namaBaru);
             input.value = "";
-            catatAuditLog(`Menambahkan siswa baru: ${namaBaru}`);
+            await simpanSiswaKeCloud();
+            await catatAuditLog(`Menambahkan siswa baru: ${namaBaru}`);
             document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
             renderTabelSiswaAdmin();
             updateUI();
         }
 
-        function editNamaSiswaAdmin(idx) {
+        async function editNamaSiswaAdmin(idx) {
             const namaLama = listSiswa[idx];
             const namaUbah = prompt("Edit Nama Siswa:", namaLama);
             if(namaUbah && namaUbah.trim() !== "") {
-                listSiswa[idx] = namaUbah.trim().toUpperCase();
-                catatAuditLog(`Mengubah nama siswa: ${namaLama} ➔ ${listSiswa[idx]}`);
+                const namaBaru = namaUbah.trim().toUpperCase();
+                listSiswa[idx] = namaBaru;
+                await simpanSiswaKeCloud();
+                await catatAuditLog(`Mengubah nama siswa: ${namaLama} ➔ ${namaBaru}`);
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
                 renderTabelSiswaAdmin();
                 updateUI();
             }
         }
 
-        function hapusSiswaAdmin(idx) {
+        async function hapusSiswaAdmin(idx) {
             const namaHapus = listSiswa[idx];
             if(confirm(`Yakin ingin menghapus ${namaHapus} dari daftar siswa?`)) {
                 listSiswa.splice(idx, 1);
-                catatAuditLog(`Menghapus siswa: ${namaHapus}`);
+                await simpanSiswaKeCloud();
+                await catatAuditLog(`Menghapus siswa: ${namaHapus}`);
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
                 renderTabelSiswaAdmin();
                 updateUI();
@@ -1564,15 +1608,21 @@
             `).join('');
         }
 
-        function simpanPengaturanAdmin() {
+        async function simpanPengaturanAdmin() {
+            const btn = document.getElementById('btnSimpanPengaturan');
+            if (btn) {
+                btn.innerText = "⏳ Menyimpan Pengaturan...";
+                btn.disabled = true;
+            }
+
             const updatedLinks = {
                 zoom: document.getElementById('adminZoomInput').value.trim(),
                 lms: document.getElementById('adminLmsInput').value.trim(),
                 lms2: document.getElementById('adminLms2Input').value.trim(),
                 cbt: document.getElementById('adminCbtInput').value.trim(),
                 siasram: document.getElementById('adminSiasramInput').value.trim(),
-                driveMoment: dynamicConfig.links.driveMoment || "",
-                driveMateri: dynamicConfig.links.driveMateri || "",
+                driveMoment: document.getElementById('adminDriveMomentInput').value.trim(),
+                driveMateri: document.getElementById('adminDriveMateriInput').value.trim(),
                 instagramClass: document.getElementById('adminIgInput').value.trim()
             };
 
@@ -1581,13 +1631,32 @@
             localStorage.setItem('ASTRAVELIS_LINKS', JSON.stringify(updatedLinks));
             localStorage.setItem('ASTRAVELIS_NOMINAL', updatedNominal.toString());
             
+            if (scriptURL) {
+                try {
+                    await fetch(scriptURL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: "updateConfig",
+                            links: updatedLinks,
+                            nominalIuran: updatedNominal
+                        })
+                    });
+                } catch (e) {
+                    console.error("Gagal menyinkronkan pengaturan ke cloud:", e);
+                }
+            }
+
             dynamicConfig = getDynamicConfig();
             NOMINAL_IURAN = dynamicConfig.nominalIuran;
 
-            document.getElementById('footerIgBtn').href = dynamicConfig.links.instagramClass || '#';
+            updateAllLinksUI();
 
-            catatAuditLog(`Memperbarui Konfigurasi Tautan & Nominal Iuran Kas`);
-            alert("Semua pengaturan berhasil disimpan!");
+            await catatAuditLog(`Memperbarui Konfigurasi Tautan & Nominal Iuran Kas`);
+            alert("Semua pengaturan tautan dan iuran berhasil disimpan!");
+            if (btn) {
+                btn.innerText = "💾 Simpan Semua Tautan & Iuran";
+                btn.disabled = false;
+            }
             bukaHalaman('dashboard');
         }
 
@@ -1630,6 +1699,16 @@
                 const rawSiswa = json.Siswa || json.siswa || json.anggota;
                 if(rawSiswa && Array.isArray(rawSiswa) && rawSiswa.length > 0) {
                     listSiswa = rawSiswa.map(n => n.toString().trim()).filter(n => n !== "");
+                }
+
+                if (json.links || json.config) {
+                    const cloudLinks = json.links || (json.config && json.config.links);
+                    if (cloudLinks) localStorage.setItem('ASTRAVELIS_LINKS', JSON.stringify(cloudLinks));
+                    const cloudNominal = json.nominalIuran || (json.config && json.config.nominalIuran);
+                    if (cloudNominal) localStorage.setItem('ASTRAVELIS_NOMINAL', cloudNominal.toString());
+                    dynamicConfig = getDynamicConfig();
+                    NOMINAL_IURAN = dynamicConfig.nominalIuran;
+                    updateAllLinksUI();
                 }
 
                 bulanAktif = parseInt(json.bulanAktif) || 0;
@@ -1923,15 +2002,17 @@
             doc.save(`Laporan_Kas_Astravelis_${namaBulan}_${tahun}.pdf`);
         }
 
-        // Auto-refresh data setiap 60 detik (1 menit)
+        // Auto-refresh data real-time setiap 30 detik
         setInterval(() => {
             if (!document.getElementById('pageUangKas').classList.contains('hidden') || !document.getElementById('pageAdminPanel').classList.contains('hidden')) {
                 muatData();
             }
-        }, 60000);
+        }, 30000);
 
         // Inisialisasi awal
-        document.getElementById('footerIgBtn').href = dynamicConfig.links.instagramClass || '#';
+        updateClock();
+        setInterval(updateClock, 1000);
+        updateAllLinksUI();
         initTheme();
         muatData();
     </script>
