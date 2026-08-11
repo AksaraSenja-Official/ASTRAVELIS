@@ -70,7 +70,7 @@
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
 
     <div class="flex flex-1 w-full">
-        <!-- ==================== SIDEBAR NAVIGASI (OPTIMIZED FOR HP) ==================== -->
+        <!-- ==================== SIDEBAR NAVIGASI ==================== -->
         <aside id="sidebar" class="-translate-x-full md:translate-x-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 flex flex-col fixed inset-y-0 left-0 z-50 transition-all-300 shadow-xl md:shadow-sm">
             <!-- Brand Header -->
             <div class="h-20 flex items-center justify-between px-5 border-b border-slate-100 dark:border-slate-700/50">
@@ -80,13 +80,13 @@
                         <h1 class="text-base font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">ASTRAVELIS</h1>
                     </div>
                 </div>
-                <!-- Tombol Close Khusus HP -->
+                <!-- Tombol Close HP -->
                 <button onclick="toggleSidebar()" class="md:hidden p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Tutup Navigasi">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
 
-            <!-- Menu Navigasi Samping -->
+            <!-- Menu Navigasi -->
             <nav class="flex-1 px-4 py-6 space-y-6 overflow-y-auto text-xs font-semibold custom-scrollbar">
                 <!-- Nav Utama -->
                 <div class="space-y-1">
@@ -98,7 +98,7 @@
                         <span class="w-2 h-2 rounded-full bg-teal-500"></span>
                     </button>
                     
-                    <!-- PANEL KONTROL SIDEBAR (HANYA MUNCUL DI SIDEBAR SETELAH LOGIN) -->
+                    <!-- PANEL KONTROL SIDEBAR -->
                     <button id="btnSidebarPanelKontrol" onclick="bukaHalaman('adminPanel')" class="w-full hidden flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 font-bold border border-purple-100 dark:border-purple-800/40 hover:bg-purple-100 dark:hover:bg-purple-900/60 transition">
                         <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         <span>⚙️ Panel Kontrol</span>
@@ -365,7 +365,7 @@
                         </button>
                         <div class="flex items-center gap-2">
                             <span id="infoBulan" class="text-xs font-bold text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-xl border border-teal-100 dark:border-teal-800">Menghubungkan...</span>
-                            <button onclick="muatData()" class="p-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 rounded-xl border transition">🔄</button>
+                            <button onclick="muatData()" class="p-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 rounded-xl border transition" title="Muat Ulang Data">🔄</button>
                         </div>
                     </div>
 
@@ -471,7 +471,7 @@
                     </div>
                 </section>
 
-                <!-- ==================== PAGE 3: FITUR CEK KAS BAGI ANGGOTA (PUBLIK) ==================== -->
+                <!-- ==================== PAGE 3: FITUR CEK KAS BAGI ANGGOTA ==================== -->
                 <section id="pageCekKas" class="hidden space-y-5">
                     <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                         <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
@@ -499,7 +499,7 @@
                                 <div id="listSudahLunas" class="space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar"></div>
                             </div>
 
-                            <!-- KOLOM BELUM LUNAS / TUNGGAKAN -->
+                            <!-- KOLOM BELUM LUNAS -->
                             <div class="bg-rose-50/40 dark:bg-rose-950/20 p-5 rounded-2xl border border-rose-100 dark:border-rose-900/40">
                                 <h3 class="font-black text-rose-800 dark:text-rose-400 text-[11px] uppercase italic mb-3 flex items-center justify-between">
                                     <span>⚠️ BELUM LUNAS / TUNGGAKAN</span>
@@ -902,7 +902,7 @@
                 <div>
                     <label class="text-[10px] font-extrabold uppercase text-slate-400 block mb-1">Pilih Jabatan</label>
                     <select id="pinRoleSelect" class="w-full p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs outline-none dark:text-white">
-                        <option value="0101">Admin</option>
+                        <option value="0101">Admin Utama</option>
                         <option value="2222">Bendahara</option>
                         <option value="3333">Sekretaris</option>
                         <option value="4444">Ketua/Wakil Kelas</option>
@@ -960,7 +960,14 @@
             "ZAHRA MAULIDA"
         ];
 
-        // Daftar Nama Siswa Putri Lengkap
+        // Fallback default roles jika config.js belum termuat
+        const DEFAULT_ROLES_FALLBACK = {
+            "0101": { name: "Admin Utama", access: ["uangKas", "cekKas", "generatorKelompok", "jadwal", "quickLinks", "moment", "materi", "adminPanel"] },
+            "2222": { name: "Bendahara", access: ["uangKas", "cekKas"] },
+            "3333": { name: "Sekretaris", access: ["generatorKelompok", "jadwal", "quickLinks", "moment", "materi", "adminPanel"] },
+            "4444": { name: "Ketua/Wakil Kelas", access: ["uangKas", "cekKas", "generatorKelompok", "jadwal", "quickLinks", "moment", "materi", "adminPanel"] }
+        };
+
         const DAFTAR_PUTRI = [
             "AISYAH THAHIRA", "ALYNA ASRATIKAL LAIL", "AMALIYA AYUDIA PUTRI",
             "AYATUL HUSNA", "BAIQ SALSABILA", "BRILIAN AURA MUHASSBAH",
@@ -991,7 +998,7 @@
         const scriptURL = dynamicConfig.scriptURL;
         let NOMINAL_IURAN = dynamicConfig.nominalIuran;
 
-        let ROLES = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : {};
+        let ROLES = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : DEFAULT_ROLES_FALLBACK;
         let currentRole = null;
         let dataLokal = [];
         let listSiswa = [...DEFAULT_SISWA_BACKUP];
@@ -1002,7 +1009,7 @@
         let sidebarOpen = window.innerWidth >= 768;
 
         // ==========================================
-        // TOGGLE SIDEBAR & NAVIGATION SYSTEM (OPTIMIZED FOR HP)
+        // TOGGLE SIDEBAR & NAVIGATION SYSTEM
         // ==========================================
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -1084,7 +1091,6 @@
                 document.getElementById('pageAdminPanel').classList.remove('hidden');
             }
 
-            // Tutup sidebar otomatis di layar HP saat berpindah halaman
             if (window.innerWidth < 768 && !document.getElementById('sidebar').classList.contains('-translate-x-full')) {
                 toggleSidebar();
             }
@@ -1145,10 +1151,10 @@
             container.innerHTML = globalAuditLogs.map(l => `
                 <div class="border-b dark:border-slate-700/60 pb-1.5 flex justify-between items-start gap-2">
                     <div>
-                        <span class="font-extrabold text-teal-600 dark:text-teal-400">[${l[1]}]</span>
-                        <span class="text-slate-700 dark:text-slate-200 font-medium">${l[2]}</span>
+                        <span class="font-extrabold text-teal-600 dark:text-teal-400">[${l[1] || 'Sistem'}]</span>
+                        <span class="text-slate-700 dark:text-slate-200 font-medium">${l[2] || ''}</span>
                     </div>
-                    <span class="text-[9px] font-extrabold text-slate-400 whitespace-nowrap">${l[0]}</span>
+                    <span class="text-[9px] font-extrabold text-slate-400 whitespace-nowrap">${l[0] || ''}</span>
                 </div>
             `).join('');
         }
@@ -1224,7 +1230,7 @@
                 return;
             }
 
-            const defaultRoles = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : {};
+            const defaultRoles = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : DEFAULT_ROLES_FALLBACK;
             let currentRoles = { ...ROLES };
             Object.keys(currentRoles).forEach(k => {
                 if(currentRoles[k].name === defaultRoles[roleKey]?.name) {
@@ -1250,7 +1256,7 @@
         }
 
         async function resetSemuaPinKeDefault() {
-            const defaultRoles = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : {};
+            const defaultRoles = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : DEFAULT_ROLES_FALLBACK;
             if(confirm("Yakin ingin mengembalikan seluruh PIN Pengurus ke PIN bawaan default di Cloud?")) {
                 try {
                     await fetch(scriptURL, { 
@@ -1452,12 +1458,16 @@
                 teks += `\n`; 
             });
 
-            navigator.clipboard.writeText(teks.trim()); 
-            alert("Hasil pembagian kelompok berhasil disalin ke WhatsApp!"); 
+            try {
+                navigator.clipboard.writeText(teks.trim()); 
+                alert("Hasil pembagian kelompok berhasil disalin ke WhatsApp!"); 
+            } catch(e) {
+                alert("Gagal menyalin otomatis. Silakan salin manual!");
+            }
         }
 
         // ==========================================
-        // FITUR: PANEL PENGATURAN MULTI-JABATAN & EDIT LINK/SISWA
+        // FITUR: PANEL PENGATURAN
         // ==========================================
         function muatFormAdmin() {
             document.getElementById('adminZoomInput').value = dynamicConfig.links.zoom || "";
@@ -1507,7 +1517,6 @@
             if (isAdmin) renderAuditLog();
         }
 
-        // SINKRONISASI MANAJEMEN SISWA KE CLOUD
         async function simpanSiswaKeCloud() {
             if (!scriptURL) return;
             try {
@@ -1677,9 +1686,13 @@
             teks += `🔹 Saldo Fisik : *Rp ${(mTotal - kTotal).toLocaleString('id-ID')}*\n\n`;
             teks += `Cek rincian transaksi lengkap di portal resmi:\nhttps://astravelis-official.github.io/ASTRAVELIS/`;
 
-            navigator.clipboard.writeText(teks);
-            catatAuditLog(`Menyalin Ringkasan Laporan Kas ke WA`);
-            alert("Laporan Kas WhatsApp berhasil disalin!");
+            try {
+                navigator.clipboard.writeText(teks);
+                catatAuditLog(`Menyalin Ringkasan Laporan Kas ke WA`);
+                alert("Laporan Kas WhatsApp berhasil disalin!");
+            } catch(e) {
+                alert("Gagal menyalin otomatis ke Clipboard!");
+            }
         }
 
         // ==========================================
@@ -1713,7 +1726,7 @@
 
                 bulanAktif = parseInt(json.bulanAktif) || 0;
 
-                const defaultRoles = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : {};
+                const defaultRoles = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : DEFAULT_ROLES_FALLBACK;
                 if(json.roles) {
                     Object.keys(json.roles).forEach(pin => {
                         const defaultRole = Object.values(defaultRoles).find(r => r.name === json.roles[pin].name);
@@ -1836,13 +1849,13 @@
             });
 
             document.getElementById('ringkasanKategori').innerHTML = Object.entries(pengeluaranKategori).map(([k, v]) => `
-                <div class="flex justify-between border-b dark:border-slate-700 pb-1 text-xs"><span>${k}</span><span class="font-bold text-rose-500">Rp ${v.toLocaleString()}</span></div>
+                <div class="flex justify-between border-b dark:border-slate-700 pb-1 text-xs"><span>${k}</span><span class="font-bold text-rose-500">Rp ${v.toLocaleString('id-ID')}</span></div>
             `).join('');
 
             const target = bulanAktif * NOMINAL_IURAN;
             let piutang = 0;
             listSiswa.forEach(n => {
-                const bayar = dataLokal.filter(t => t[1] && t[1].toString().trim() === n && t[4] === 'Masuk' && t[2].includes("[Iuran]")).reduce((a, b) => a + (parseInt(b[3]) || 0), 0);
+                const bayar = dataLokal.filter(t => t[1] && t[1].toString().trim().toUpperCase() === n.trim().toUpperCase() && t[4] === 'Masuk' && (t[2] || '').includes("[Iuran]")).reduce((a, b) => a + (parseInt(b[3]) || 0), 0);
                 if(bayar < target) piutang += (target - bayar);
             });
 
@@ -1858,18 +1871,21 @@
 
         function renderTabel() {
             const body = document.getElementById('tabelBody');
-            const dataValid = dataLokal.filter(r => r[0] && r[1] && r[3]);
-            if (dataValid.length === 0) {
+            const dataValidWithIndex = dataLokal.map((r, index) => ({ r, index })).filter(item => item.r[0] && item.r[1] && item.r[3]);
+            
+            if (dataValidWithIndex.length === 0) {
                 body.innerHTML = `<tr><td colspan="3" class="py-6 text-center text-slate-400 italic text-xs">Belum ada riwayat transaksi aktif.</td></tr>`;
                 return;
             }
-            body.innerHTML = dataValid.slice().reverse().map((r) => {
-                const realIdx = dataLokal.findIndex(originalRow => originalRow === r);
+            
+            body.innerHTML = dataValidWithIndex.slice().reverse().map((item) => {
+                const r = item.r;
+                const realIdx = item.index;
                 const nominal = parseInt(r[3]) || 0;
                 return `<tr class="border-b border-slate-100 dark:border-slate-700 text-xs">
-                    <td class="py-2.5"><b>${r[1]}</b><br><small class="text-slate-400">${r[2]}</small></td>
+                    <td class="py-2.5"><b>${r[1]}</b><br><small class="text-slate-400">${r[2] || ''}</small></td>
                     <td class="text-right font-extrabold ${r[4] === 'Masuk' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">Rp ${nominal.toLocaleString('id-ID')}</td>
-                    <td class="text-right"><button onclick="hapusData(${realIdx})" class="text-slate-300 hover:text-rose-500 transition px-2">✕</button></td>
+                    <td class="text-right"><button onclick="hapusData(${realIdx})" class="text-slate-300 hover:text-rose-500 transition px-2" title="Hapus Item">✕</button></td>
                 </tr>`;
             }).join('');
         }
@@ -1902,7 +1918,7 @@
             listSiswa.forEach(n => {
                 if(filterKeyword && !n.toUpperCase().includes(filterKeyword)) return;
 
-                const bayar = dataLokal.filter(t => t[1] && t[1].toString().trim() === n && t[4] === 'Masuk' && t[2].includes("[Iuran]")).reduce((a, b) => a + (parseInt(b[3]) || 0), 0);
+                const bayar = dataLokal.filter(t => t[1] && t[1].toString().trim().toUpperCase() === n.trim().toUpperCase() && t[4] === 'Masuk' && (t[2] || '').includes("[Iuran]")).reduce((a, b) => a + (parseInt(b[3]) || 0), 0);
                 const tunggakan = target - bayar;
 
                 if(tunggakan <= 0) {
@@ -1935,7 +1951,7 @@
             let adaPenunggak = false;
             
             listSiswa.forEach(n => {
-                const bayar = dataLokal.filter(t => t[1] && t[1].toString().trim() === n && t[4] === 'Masuk' && t[2].includes("[Iuran]")).reduce((a, b) => a + (parseInt(b[3]) || 0), 0);
+                const bayar = dataLokal.filter(t => t[1] && t[1].toString().trim().toUpperCase() === n.trim().toUpperCase() && t[4] === 'Masuk' && (t[2] || '').includes("[Iuran]")).reduce((a, b) => a + (parseInt(b[3]) || 0), 0);
                 const tunggakan = target - bayar;
                 if(tunggakan > 0) {
                     teks += `🔹 *${n}* (Kurang: Rp ${tunggakan.toLocaleString('id-ID')})\n`;
@@ -1943,9 +1959,14 @@
                 }
             });
             if(!adaPenunggak) teks += "Alhamdulillah, seluruh anggota kelas sudah melunasi kas! 🎉";
-            navigator.clipboard.writeText(teks);
-            catatAuditLog(`Menyalin Daftar Tunggakan Siswa ke WA`);
-            alert("Daftar tunggakan disalin ke Clipboard WhatsApp!");
+            
+            try {
+                navigator.clipboard.writeText(teks);
+                catatAuditLog(`Menyalin Daftar Tunggakan Siswa ke WA`);
+                alert("Daftar tunggakan disalin ke Clipboard WhatsApp!");
+            } catch(e) {
+                alert("Gagal menyalin otomatis ke Clipboard!");
+            }
         }
 
         function unduhCSV() { 
@@ -1979,7 +2000,7 @@
                 const nominal = parseInt(r[3]) || 0;
                 const tipeFormat = r[4] === 'Masuk' ? 'Masuk' : 'Keluar';
                 if(r[4] === 'Masuk') totalMasuk += nominal; else totalKeluar += nominal;
-                return [r[0], tipeFormat, r[1], r[2], `Rp ${nominal.toLocaleString('id-ID')}`];
+                return [r[0], tipeFormat, r[1], r[2] || '', `Rp ${nominal.toLocaleString('id-ID')}`];
             });
 
             doc.autoTable({
