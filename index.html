@@ -69,7 +69,7 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
 
-    <div class="flex flex-1 w-full">
+    <div class="flex flex-1 w-full relative">
         <!-- ==================== SIDEBAR NAVIGASI ==================== -->
         <aside id="sidebar" class="-translate-x-full md:translate-x-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 flex flex-col fixed inset-y-0 left-0 z-50 transition-all-300 shadow-xl md:shadow-sm">
             <!-- Brand Header -->
@@ -1028,10 +1028,12 @@
         let myChart;
         let bulanAktif = 0;
         let hasilKelompokLokal = [];
-        let sidebarOpen = window.innerWidth >= 768;
+
+        // Status Sidebar Desktop (Default Tampil di Laptop/Desktop)
+        let sidebarDesktopOpen = true;
 
         // ==========================================
-        // TOGGLE SIDEBAR & NAVIGATION SYSTEM
+        // TOGGLE SIDEBAR & NAVIGATION SYSTEM (PERBAIKAN PERSEPSIONAL DESKTOP)
         // ==========================================
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -1039,19 +1041,33 @@
             const overlay = document.getElementById('sidebarOverlay');
 
             if (window.innerWidth < 768) {
-                sidebar.classList.toggle('-translate-x-full');
-                overlay.classList.toggle('hidden');
-            } else {
-                if (sidebarOpen) {
+                // Tampilan HP / Mobile
+                const isHidden = sidebar.classList.contains('-translate-x-full');
+                if (isHidden) {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('hidden');
+                } else {
                     sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                }
+            } else {
+                // Tampilan Laptop / Desktop (>= 768px)
+                overlay.classList.add('hidden'); // Selalu sembunyikan overlay di desktop
+                
+                if (sidebarDesktopOpen) {
+                    // Sembunyikan Sidebar sepenuhnya di Laptop/Desktop
+                    sidebar.classList.remove('md:translate-x-0');
+                    sidebar.classList.add('md:-translate-x-full');
                     mainContent.classList.remove('md:ml-64');
                     mainContent.classList.add('md:ml-0');
-                    sidebarOpen = false;
+                    sidebarDesktopOpen = false;
                 } else {
-                    sidebar.classList.remove('-translate-x-full');
+                    // Tampilkan Sidebar kembali di Laptop/Desktop
+                    sidebar.classList.remove('md:-translate-x-full');
+                    sidebar.classList.add('md:translate-x-0');
                     mainContent.classList.remove('md:ml-0');
                     mainContent.classList.add('md:ml-64');
-                    sidebarOpen = true;
+                    sidebarDesktopOpen = true;
                 }
             }
         }
@@ -1124,8 +1140,12 @@
                 document.getElementById('pageAdminPanel').classList.remove('hidden');
             }
 
-            if (window.innerWidth < 768 && !document.getElementById('sidebar').classList.contains('-translate-x-full')) {
-                toggleSidebar();
+            // Tutup sidebar otomatis hanya saat pengguna di layar ponsel/HP (<768px)
+            if (window.innerWidth < 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebarOverlay');
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
             }
         }
 
@@ -1638,7 +1658,7 @@
             if(confirm(`Yakin ingin menghapus ${namaHapus} dari daftar siswa?`)) {
                 listSiswa.splice(idx, 1);
                 await simpanSiswaKeCloud();
-                await catatAuditLog(`Menghapus siswa: ${namaHapus}`);
+                await catatAuditLog(`Men menghapus siswa: ${namaHapus}`);
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
                 renderTabelSiswaAdmin();
                 updateUI();
