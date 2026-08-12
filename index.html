@@ -1077,7 +1077,7 @@
         function getScriptURL() { return dynamicConfig.scriptURL || ""; }
         let NOMINAL_IURAN = dynamicConfig.nominalIuran;
 
-        let ROLES = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : DEFAULT_ROLES_FALLBACK;
+        let ROLES = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? JSON.parse(JSON.stringify(window.APP_CONFIG.defaultRoles)) : JSON.parse(JSON.stringify(DEFAULT_ROLES_FALLBACK));
         let currentRole = null;
         let dataLokal = [];
         let listSiswa = [...DEFAULT_SISWA_BACKUP];
@@ -1554,30 +1554,46 @@
             }
 
             const defaultRoles = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : DEFAULT_ROLES_FALLBACK;
+            const targetRoleName = defaultRoles[roleKey]?.name || "Pengurus";
+
             let currentRoles = { ...ROLES };
+            
+            // Hapus PIN lama untuk jabatan terkait
             Object.keys(currentRoles).forEach(k => {
-                if(currentRoles[k].name === defaultRoles[roleKey]?.name) {
+                if(currentRoles[k] && currentRoles[k].name === targetRoleName) {
                     delete currentRoles[k];
                 }
             });
 
-            currentRoles[pinBaru] = defaultRoles[roleKey] || { name: "Pengurus", access: ["uangKas", "cekKas"] };
-            
+            const baseTemplate = defaultRoles[roleKey] || { name: targetRoleName, access: ["uangKas", "cekKas"] };
+
+            // Tetapkan PIN baru
+            currentRoles[pinBaru] = {
+                name: targetRoleName,
+                access: [...(baseTemplate.access || [])]
+            };
+
             const targetURL = getScriptURL();
             if (targetURL && targetURL.trim() !== "") {
                 try {
                     await fetch(targetURL, { 
                         method: 'POST', 
-                        body: JSON.stringify({ action: "updatePIN", newRoles: currentRoles }) 
+                        body: JSON.stringify({ action: "updatePIN", newRoles: currentRoles, roles: currentRoles }) 
                     });
                 } catch (e) {
-                    console.error("Gagal sync PIN ke Cloud");
+                    console.error("Gagal sync PIN ke Cloud", e);
                 }
             }
 
             ROLES = currentRoles;
-            await catatAuditLog(`Mengubah PIN Akses Jabatan`);
-            alert("PIN Berhasil diperbarui!");
+
+            // Jika role yang sedang aktif diubah PIN-nya, perbarui referensi currentRole
+            if (currentRole && currentRole.name === targetRoleName) {
+                currentRole = ROLES[pinBaru];
+            }
+
+            await catatAuditLog(`Mengubah PIN Akses Jabatan ${targetRoleName}`);
+            alert(`PIN Jabatan ${targetRoleName} Berhasil diperbarui dan tersimpan di Cloud!`);
             tutupModalGantiPin();
             if(currentRole && currentRole.access.includes('adminPanel')) muatFormAdmin();
         }
@@ -1590,11 +1606,17 @@
                     try {
                         await fetch(targetURL, { 
                             method: 'POST', 
-                            body: JSON.stringify({ action: "updatePIN", newRoles: defaultRoles }) 
+                            body: JSON.stringify({ action: "updatePIN", newRoles: defaultRoles, roles: defaultRoles }) 
                         });
-                    } catch(e) {}
+                    } catch(e) {
+                        console.error("Gagal reset PIN di Cloud", e);
+                    }
                 }
-                ROLES = defaultRoles;
+                ROLES = JSON.parse(JSON.stringify(defaultRoles));
+                if (currentRole) {
+                    const activePin = Object.keys(ROLES).find(p => ROLES[p].name === currentRole.name);
+                    if (activePin) currentRole = ROLES[activePin];
+                }
                 await catatAuditLog(`Melakukan Reset Master PIN Pengurus ke Default`);
                 alert("Seluruh PIN Pengurus telah dikembalikan ke PIN Default!");
                 muatFormAdmin();
@@ -2080,14 +2102,20 @@
                 bulanAktif = parseInt(json.bulanAktif) || 0;
 
                 const defaultRoles = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : DEFAULT_ROLES_FALLBACK;
-                if(json.roles) {
+                if(json.roles && typeof json.roles === 'object' && Object.keys(json.roles).length > 0) {
                     Object.keys(json.roles).forEach(pin => {
                         const defaultRole = Object.values(defaultRoles).find(r => r.name === json.roles[pin].name);
                         if (defaultRole) {
-                            json.roles[pin].access = Array.from(new Set([...(json.roles[pin].access || []), ...defaultRole.access]));
+                            json.roles[pin].access = Array.from(new Set([...(json.roles[pin].access || []), ...(defaultRole.access || [])]));
                         }
                     });
                     ROLES = json.roles;
+
+                    // Perbarui referensi currentRole jika pengurus sedang aktif login
+                    if (currentRole) {
+                        const activePin = Object.keys(ROLES).find(p => ROLES[p].name === currentRole.name);
+                        if (activePin) currentRole = ROLES[activePin];
+                    }
                 }
 
                 if(json.auditLogs) {
