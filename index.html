@@ -7,16 +7,16 @@
     
     <!-- OPEN GRAPH / PREVIEW TAUTAN WHATSAPP & SOSIAL MEDIA -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://astravelis-official.github.io/ASTRAVELIS/">
+    <meta property="og:url" content="https://aksarasenja-official.github.io/ASTRAVELIS/">
     <meta property="og:title" content="ASTRAVELIS - Portal Resmi Manajemen Kelas">
     <meta property="og:description" content="Portal Layanan Informasi Kelas Astravelis: Transaksi Kas, Jadwal Pelajaran, Group Generator, Bahan Belajar & Link Penting.">
-    <meta property="og:image" content="https://astravelis-official.github.io/ASTRAVELIS/foto_kelas.jpg">
+    <meta property="og:image" content="https://aksarasenja-official.github.io/ASTRAVELIS/foto_kelas.jpg">
     
     <!-- TWITTER CARD PREVIEW -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="ASTRAVELIS - Portal Resmi Kelas">
     <meta name="twitter:description" content="Portal Layanan Informasi Kelas Astravelis.">
-    <meta name="twitter:image" content="https://astravelis-official.github.io/ASTRAVELIS/foto_kelas.jpg">
+    <meta name="twitter:image" content="https://aksarasenja-official.github.io/ASTRAVELIS/foto_kelas.jpg">
 
     <link rel="manifest" href='data:application/manifest+json,{
       "name": "ASTRAVELIS",
@@ -69,7 +69,10 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
 
-    <!-- ==================== OVERLAY TERKUNCI TOTAL SAAT WEB DITUTUP ==================== -->
+    <!-- CONTAINER TOAST NOTIFICATION UI -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-[200] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
+
+    <!-- OVERLAY TERKUNCI TOTAL SAAT WEB DITUTUP -->
     <div id="lockedOverlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] hidden flex flex-col items-center justify-center p-6 text-center text-white transition-opacity duration-300">
         <div class="max-w-md w-full bg-slate-900/90 border border-slate-700/80 p-8 rounded-3xl shadow-2xl space-y-6">
             <div class="w-20 h-20 bg-rose-500/20 border-2 border-rose-500 text-rose-500 rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-lg animate-bounce">
@@ -94,9 +97,8 @@
     </div>
 
     <div class="flex flex-1 w-full relative">
-        <!-- ==================== SIDEBAR NAVIGASI ==================== -->
+        <!-- SIDEBAR NAVIGASI -->
         <aside id="sidebar" class="-translate-x-full md:translate-x-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 flex flex-col fixed inset-y-0 left-0 z-50 transition-all-300 shadow-xl md:shadow-sm">
-            <!-- Brand Header -->
             <div class="h-20 flex items-center justify-between px-5 border-b border-slate-100 dark:border-slate-700/50">
                 <div class="flex items-center gap-3 cursor-pointer" onclick="bukaHalaman('dashboard')">
                     <img id="logoApp" src="logo.jpg" onerror="this.src='https://via.placeholder.com/40?text=A'" alt="Logo" class="h-10 w-10 object-cover rounded-xl shadow-md border-2 border-teal-500 transition transform hover:scale-105">
@@ -104,15 +106,12 @@
                         <h1 class="text-base font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">ASTRAVELIS</h1>
                     </div>
                 </div>
-                <!-- Tombol Close HP -->
                 <button onclick="toggleSidebar()" class="md:hidden p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Tutup Navigasi">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
 
-            <!-- Menu Navigasi -->
             <nav class="flex-1 px-4 py-6 space-y-6 overflow-y-auto text-xs font-semibold custom-scrollbar">
-                <!-- Nav Utama -->
                 <div class="space-y-1">
                     <button onclick="bukaHalaman('dashboard')" class="w-full flex items-center justify-between px-3.5 py-3 rounded-2xl bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 font-bold border border-teal-100 dark:border-teal-800/50">
                         <div class="flex items-center gap-3">
@@ -122,14 +121,12 @@
                         <span class="w-2 h-2 rounded-full bg-teal-500"></span>
                     </button>
                     
-                    <!-- PANEL KONTROL SIDEBAR -->
                     <button id="btnSidebarPanelKontrol" onclick="bukaHalaman('adminPanel')" class="w-full hidden flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 font-bold border border-purple-100 dark:border-purple-800/40 hover:bg-purple-100 dark:hover:bg-purple-900/60 transition">
                         <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         <span>⚙️ Panel Kontrol</span>
                     </button>
                 </div>
 
-                <!-- Kategori 1: Manajemen Keuangan -->
                 <div>
                     <p class="px-3.5 text-[10px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Manajemen Keuangan</p>
                     <div class="space-y-1">
@@ -144,7 +141,6 @@
                     </div>
                 </div>
 
-                <!-- Kategori 2: Layanan & Akademik -->
                 <div>
                     <p class="px-3.5 text-[10px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Layanan & Akademik</p>
                     <div class="space-y-1">
@@ -176,7 +172,7 @@
         <!-- Overlay Mobile -->
         <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden md:hidden"></div>
 
-        <!-- ==================== AREA UTAMA ==================== -->
+        <!-- AREA UTAMA -->
         <div id="mainContent" class="flex-1 md:ml-64 flex flex-col min-h-screen transition-all-300">
             
             <!-- Header Top Modern -->
@@ -191,26 +187,21 @@
                     </div>
                 </div>
                 
-                <!-- Sisi Kanan Header -->
                 <div class="flex items-center gap-3">
-                    <!-- Status Saklar Buka/Tutup Web Indicator Badge -->
                     <div id="badgeStatusHeader" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800">
                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                         <span id="textHeaderStatusWeb">WEB BUKA</span>
                     </div>
 
-                    <!-- Display Jam Realtime -->
                     <div class="hidden md:flex flex-col text-right pr-2 border-r border-slate-200 dark:border-slate-700">
                         <span id="realtimeClock" class="text-xs font-extrabold text-teal-600 dark:text-teal-400">Memuat jam...</span>
                         <span class="text-[9px] font-semibold text-slate-400 dark:text-slate-500">Waktu Real-time</span>
                     </div>
 
-                    <!-- Tombol Toggle Dark Mode -->
                     <button id="btnThemeToggle" onclick="toggleDarkMode()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition text-sm">
                         🌙
                     </button>
 
-                    <!-- Auth Box Area -->
                     <div id="authBox">
                         <button id="btnLogin" onclick="bukaModalLogin()" class="px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs transition shadow-sm shadow-teal-200 dark:shadow-none flex items-center gap-2">
                             <svg class="w-4 h-4 text-amber-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
@@ -230,7 +221,6 @@
                 </div>
             </header>
 
-            <!-- BANNER INTI: NOTIFIKASI SAKLAR BUKA/TUTUP WEB (MODE LIBUR) -->
             <div id="bannerWebTutup" class="hidden bg-rose-500 text-white p-3.5 px-6 text-center text-xs font-bold shadow-inner flex flex-col sm:flex-row items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
                     <span class="text-base">📢</span>
@@ -244,7 +234,7 @@
             <!-- Isi Konten Utama -->
             <main class="p-4 md:p-8 space-y-8 flex-1 max-w-7xl mx-auto w-full">
 
-                <!-- ==================== PAGE 1: BERANDA UTAMA (DASHBOARD) ==================== -->
+                <!-- PAGE 1: BERANDA UTAMA (DASHBOARD) -->
                 <section id="pageDashboard" class="space-y-8">
                     <div class="relative rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-700/80 shadow-md min-h-[240px] sm:min-h-[300px] md:min-h-[340px] flex items-end p-6 md:p-8 group bg-slate-900">
                         <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('foto_kelas.jpg');"></div>
@@ -264,7 +254,6 @@
                         </div>
                     </div>
 
-                    <!-- GRID KARTU FITUR UTAMA -->
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <h3 class="font-extrabold text-slate-800 dark:text-slate-100 text-base flex items-center gap-2">
@@ -275,7 +264,6 @@
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                            <!-- 1. Uang Kas Kelas -->
                             <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
                                 <div class="space-y-4">
                                     <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-800/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-105 transition">
@@ -295,7 +283,6 @@
                                 </div>
                             </div>
 
-                            <!-- 2. Cek Kas Anggota -->
                             <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
                                 <div class="space-y-4">
                                     <div class="w-12 h-12 rounded-2xl bg-teal-50 dark:bg-teal-950/40 border border-teal-100 dark:border-teal-800/40 flex items-center justify-center text-teal-600 dark:text-teal-400 group-hover:scale-105 transition">
@@ -315,7 +302,6 @@
                                 </div>
                             </div>
 
-                            <!-- 3. Bagi Kelompok -->
                             <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
                                 <div class="space-y-4">
                                     <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-800/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:scale-105 transition">
@@ -335,7 +321,6 @@
                                 </div>
                             </div>
 
-                            <!-- 4. Pojok Link Penting -->
                             <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
                                 <div class="space-y-4">
                                     <div class="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950/40 border border-purple-100 dark:border-purple-800/40 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-105 transition">
@@ -355,7 +340,6 @@
                                 </div>
                             </div>
 
-                            <!-- 5. Moments -->
                             <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
                                 <div class="space-y-4">
                                     <div class="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-800/40 flex items-center justify-center text-rose-600 dark:text-rose-400 group-hover:scale-105 transition">
@@ -375,7 +359,6 @@
                                 </div>
                             </div>
 
-                            <!-- 6. Materi Pelajaran -->
                             <div class="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-6 rounded-3xl shadow-sm hover:shadow-md transition group flex flex-col justify-between">
                                 <div class="space-y-4">
                                     <div class="w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-100 dark:border-sky-800/40 flex items-center justify-center text-sky-600 dark:text-sky-400 group-hover:scale-105 transition">
@@ -398,7 +381,7 @@
                     </div>
                 </section>
 
-                <!-- ==================== PAGE 2: FITUR UANG KAS ==================== -->
+                <!-- PAGE 2: FITUR UANG KAS -->
                 <section id="pageUangKas" class="hidden space-y-5">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                         <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
@@ -406,11 +389,12 @@
                         </button>
                         <div class="flex items-center gap-2">
                             <span id="infoBulan" class="text-xs font-bold text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-xl border border-teal-100 dark:border-teal-800">Menghubungkan...</span>
-                            <button onclick="muatData()" class="p-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 rounded-xl border transition" title="Muat Ulang Data">🔄</button>
+                            <button id="btnRefreshData" onclick="muatData()" class="p-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl border transition flex items-center justify-center" title="Muat Ulang Data">
+                                <span id="iconRefreshData" class="inline-block">🔄</span>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- KONTROL STATUS KAS & EDIT TAGIHAN -->
                     <div class="flex gap-2.5 items-center justify-end">
                         <button onclick="kurangiBulan()" class="px-3 py-2 bg-white dark:bg-slate-800 text-red-500 rounded-xl shadow-sm border border-red-100 dark:border-red-900/40 hover:bg-red-50 transition text-[11px] font-bold uppercase italic">➖ Edit Tagihan</button>
                         <div class="bg-white dark:bg-slate-800 px-3.5 py-2 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2">
@@ -494,10 +478,10 @@
 
                         <div class="lg:col-span-3 bg-white dark:bg-slate-800 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
                             <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
-                                <h3 class="text-[11px] font-black uppercase text-slate-400 tracking-widest italic">Riwayat Transaksi</h3>
+                                <h3 class="text-[11px] font-black uppercase text-slate-400 tracking-widest italic">Riwayat Transaksi (50 Terbaru)</h3>
                                 <div class="flex gap-2">
                                     <button onclick="unduhCSV()" class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-lg font-bold text-[10px] border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-600 hover:text-white transition uppercase">Excel</button>
-                                    <button onclick="unduhPDF()" class="px-3 py-1.5 bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 rounded-lg font-bold text-[10px] border border-rose-200 dark:border-rose-800 hover:bg-rose-600 hover:text-white transition uppercase">Cetak PDF</button>
+                                    <button onclick="bukaModalPDF()" class="px-3 py-1.5 bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 rounded-lg font-bold text-[10px] border border-rose-200 dark:border-rose-800 hover:bg-rose-600 hover:text-white transition uppercase">Cetak PDF</button>
                                 </div>
                             </div>
                             <div class="overflow-y-auto max-h-[480px] custom-scrollbar">
@@ -509,7 +493,7 @@
                     </div>
                 </section>
 
-                <!-- ==================== PAGE 3: FITUR CEK KAS BAGI ANGGOTA ==================== -->
+                <!-- PAGE 3: FITUR CEK KAS BAGI ANGGOTA -->
                 <section id="pageCekKas" class="hidden space-y-5">
                     <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                         <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
@@ -528,7 +512,6 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <!-- KOLOM SUDAH LUNAS -->
                             <div class="bg-emerald-50/40 dark:bg-emerald-950/20 p-5 rounded-2xl border border-emerald-100 dark:border-emerald-900/40">
                                 <h3 class="font-black text-emerald-800 dark:text-emerald-400 text-[11px] uppercase italic mb-3 flex items-center justify-between">
                                     <span>🎉 LUNAS SEPENUHNYA</span>
@@ -537,7 +520,6 @@
                                 <div id="listSudahLunas" class="space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar"></div>
                             </div>
 
-                            <!-- KOLOM BELUM LUNAS -->
                             <div class="bg-rose-50/40 dark:bg-rose-950/20 p-5 rounded-2xl border border-rose-100 dark:border-rose-900/40">
                                 <h3 class="font-black text-rose-800 dark:text-rose-400 text-[11px] uppercase italic mb-3 flex items-center justify-between">
                                     <span>⚠️ BELUM LUNAS / TUNGGAKAN</span>
@@ -549,7 +531,7 @@
                     </div>
                 </section>
 
-                <!-- ==================== PAGE 4: FITUR PEMBAGI KELOMPOK ==================== -->
+                <!-- PAGE 4: FITUR PEMBAGI KELOMPOK -->
                 <section id="pageGeneratorKelompok" class="hidden space-y-5">
                     <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                         <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
@@ -599,7 +581,7 @@
                     </div>
                 </section>
 
-                <!-- ==================== PAGE 5: FITUR JADWAL PELAJARAN ==================== -->
+                <!-- PAGE 5: FITUR JADWAL PELAJARAN -->
                 <section id="pageJadwal" class="hidden space-y-5">
                     <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                         <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
@@ -623,7 +605,7 @@
                     </div>
                 </section>
 
-                <!-- ==================== PAGE 6: POJOK LINK PENTING ==================== -->
+                <!-- PAGE 6: POJOK LINK PENTING -->
                 <section id="pageQuickLinks" class="hidden space-y-5">
                     <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                         <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
@@ -633,7 +615,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <!-- LINK 1: ZOOM KELAS -->
                         <a id="linkZoomBtn" href="https://zoom.us" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-teal-300 transition-all duration-300 flex flex-col justify-between h-44 group">
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-teal-500 to-cyan-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
                                 📹
@@ -646,7 +627,6 @@
                             <span class="text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka Zoom →</span>
                         </a>
 
-                        <!-- LINK 2: LMS SEKOLAH -->
                         <a id="linkLmsBtn" href="https://lms.sch.id" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between h-44 group">
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
                                 📚
@@ -659,7 +639,6 @@
                             <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka LMS →</span>
                         </a>
 
-                        <!-- LINK 3: LMS SEKOLAH 2 -->
                         <a id="linkLms2Btn" href="https://lms2.sch.id" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-amber-300 transition-all duration-300 flex flex-col justify-between h-44 group">
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
                                 🚀
@@ -672,7 +651,6 @@
                             <span class="text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka LMS SEKOLAH 2 →</span>
                         </a>
 
-                        <!-- LINK 4: CBT ICLT -->
                         <a id="linkCbtBtn" href="https://cbt.sch.id" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-purple-300 transition-all duration-300 flex flex-col justify-between h-44 group">
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-500 to-indigo-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
                                 📝
@@ -685,7 +663,6 @@
                             <span class="text-[10px] font-black text-purple-600 dark:text-purple-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka CBT ICLT →</span>
                         </a>
 
-                        <!-- LINK 5: SI-ASRAM -->
                         <a id="linkSiasramBtn" href="https://siasram.sch.id" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between h-44 group">
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-600 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
                                 🏢
@@ -698,7 +675,6 @@
                             <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">Buka SI-ASRAM →</span>
                         </a>
 
-                        <!-- LINK 6: INSTAGRAM KELAS -->
                         <a id="linkIgBtn" href="https://www.instagram.com/Astravelis__" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-rose-300 transition-all duration-300 flex flex-col justify-between h-44 group">
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-rose-500 via-purple-500 to-amber-500 text-white flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition">
                                 📸
@@ -713,7 +689,7 @@
                     </div>
                 </section>
 
-                <!-- ==================== PAGE 7: GOOGLE DRIVE PREVIEW VIEW ==================== -->
+                <!-- PAGE 7: GOOGLE DRIVE PREVIEW VIEW -->
                 <section id="pageGDriveView" class="hidden space-y-5">
                     <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                         <button onclick="bukaHalaman('dashboard')" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-teal-600 transition flex items-center gap-1.5">
@@ -736,10 +712,9 @@
                     </div>
                 </section>
 
-                <!-- ==================== PAGE 8: PANEL KONTROL / SETTINGS ==================== -->
+                <!-- PAGE 8: PANEL KONTROL / SETTINGS -->
                 <section id="pageAdminPanel" class="space-y-6 hidden">
 
-                    <!-- Header Bar Panel Kontrol -->
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white dark:bg-slate-800 p-4 md:p-5 rounded-3xl border border-slate-200/80 dark:border-slate-700/80 shadow-sm gap-3">
                         <button onclick="bukaHalaman('dashboard')" class="px-4 py-2.5 rounded-2xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs hover:bg-teal-50 dark:hover:bg-teal-900/40 hover:text-teal-600 dark:hover:text-teal-400 transition flex items-center gap-2">
                             <svg class="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
@@ -754,7 +729,6 @@
                         </div>
                     </div>
 
-                    <!-- Kontainer Utama Settings -->
                     <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700/80 shadow-sm space-y-8">
                         
                         <div class="border-b border-slate-100 dark:border-slate-700/80 pb-5">
@@ -767,7 +741,6 @@
                             </p>
                         </div>
 
-                        <!-- MODUL KONTROL SAKLAR STATUS WEB DIBUKA / DITUTUP (KHUSUS ADMIN UTAMA & KETUA/WAKIL) -->
                         <div id="blockSaklarWeb" class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                             <div>
                                 <h3 class="text-xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-2">
@@ -786,7 +759,6 @@
                             </div>
                         </div>
 
-                        <!-- MODUL 1: KELOLA QUICK LINKS & IURAN -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div id="blockQuickLinks" class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60">
                                 <h3 class="text-xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-2 border-b pb-2 dark:border-slate-700">
@@ -848,7 +820,6 @@
                             </div>
                         </div>
 
-                        <!-- MODUL 2: STUDENT DATA MANAGER -->
                         <div id="blockStudentData" class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60">
                             <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
                                 <h3 class="text-xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-2">
@@ -857,13 +828,11 @@
                                 <span id="totalSiswaAdminBadge" class="bg-teal-100 dark:bg-teal-900/60 text-teal-800 dark:text-teal-300 text-[10px] font-black px-2.5 py-0.5 rounded-full">0 Siswa</span>
                             </div>
 
-                            <!-- FORM TAMBAH SISWA -->
                             <div id="formTambahSiswa" class="flex gap-2">
                                 <input type="text" id="inputNamaSiswaBaru" placeholder="Masukkan Nama Siswa Baru..." class="p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold outline-none flex-1 dark:text-white uppercase">
-                                <button onclick="tambahSiswaBaruAdmin()" class="bg-teal-600 hover:bg-teal-700 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase italic shadow-sm transition">+ Tambah</button>
+                                <button id="btnTambahSiswa" onclick="tambahSiswaBaruAdmin()" class="bg-teal-600 hover:bg-teal-700 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase italic shadow-sm transition">+ Tambah</button>
                             </div>
 
-                            <!-- TABEL NAMA SISWA -->
                             <div class="max-h-56 overflow-y-auto custom-scrollbar border rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2">
                                 <table class="w-full text-left text-xs">
                                     <thead>
@@ -878,7 +847,6 @@
                             </div>
                         </div>
 
-                        <!-- MODUL 3: MASTER CONTROL & RESET PIN PENGURUS -->
                         <div id="blockMasterPin" class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 space-y-4">
                             <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
                                 <h3 class="text-xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-2">
@@ -901,7 +869,6 @@
                             </div>
                         </div>
 
-                        <!-- MODUL 4: AUDIT LOG SYSTEM -->
                         <div id="blockAuditLog" class="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60">
                             <div class="flex justify-between items-center border-b pb-2 dark:border-slate-700">
                                 <h3 class="text-xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-2">
@@ -930,7 +897,36 @@
         </div>
     </div>
 
-    <!-- ==================== MODAL LOGIN PENGURUS ==================== -->
+    <!-- MODAL FILTER CETAK PDF -->
+    <div id="modalCetakPDF" class="fixed inset-0 bg-slate-900/60 hidden z-[110] flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-sm rounded-3xl shadow-2xl p-6 space-y-5 border border-slate-200 dark:border-slate-700">
+            <div class="text-center">
+                <h3 class="font-black text-lg uppercase italic text-slate-900 dark:text-white">CETAK LAPORAN <span class="text-rose-600 dark:text-rose-400">PDF</span></h3>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Pilih Periode Data Kas Yang Ingin Diunduh</p>
+            </div>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="text-[10px] font-extrabold uppercase text-slate-400 block mb-1">1. Pilih Tahun</label>
+                    <select id="pdfSelectTahun" onchange="updateDropdownBulanPDF()" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs outline-none dark:text-white">
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-[10px] font-extrabold uppercase text-slate-400 block mb-1">2. Pilih Bulan</label>
+                    <select id="pdfSelectBulan" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs outline-none dark:text-white">
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="eksekusiCetakPDF()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-black py-3 rounded-xl transition text-xs uppercase italic shadow-md shadow-rose-500/20">📄 Download PDF</button>
+                <button onclick="tutupModalPDF()" class="w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-600 dark:text-slate-300 font-bold py-3 rounded-xl transition text-xs uppercase italic">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL LOGIN PENGURUS -->
     <div id="modalLogin" class="fixed inset-0 bg-slate-900/60 hidden z-[110] flex items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-white dark:bg-slate-800 w-full max-w-xs rounded-3xl shadow-2xl p-6 text-center space-y-4 border border-slate-200 dark:border-slate-700">
             <div>
@@ -947,7 +943,7 @@
         </div>
     </div>
 
-    <!-- ==================== MODAL GANTI PIN PENGURUS ==================== -->
+    <!-- MODAL GANTI PIN PENGURUS -->
     <div id="modalGantiPin" class="fixed inset-0 bg-slate-900/60 hidden z-[110] flex items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-white dark:bg-slate-800 w-full max-w-sm rounded-3xl shadow-2xl p-6 text-center space-y-4 border border-slate-200 dark:border-slate-700">
             <div>
@@ -972,13 +968,13 @@
             </div>
             
             <div class="flex gap-2">
-                <button onclick="simpanPinBaru()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-black py-3 rounded-xl transition text-xs uppercase italic shadow-md shadow-teal-500/20">Simpan PIN</button>
+                <button id="btnSimpanPin" onclick="simpanPinBaru()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-black py-3 rounded-xl transition text-xs uppercase italic shadow-md shadow-teal-500/20">Simpan PIN</button>
                 <button onclick="tutupModalGantiPin()" class="w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-600 dark:text-slate-300 font-bold py-3 rounded-xl transition text-xs uppercase italic">Batal</button>
             </div>
         </div>
     </div>
 
-    <!-- ==================== MODAL ZOOM JADWAL ==================== -->
+    <!-- MODAL ZOOM JADWAL -->
     <div id="modalJadwal" class="fixed inset-0 bg-slate-950/80 hidden z-[110] flex items-center justify-center p-4 backdrop-blur-md" onclick="tutupModalJadwal()">
         <div class="relative max-w-4xl w-full flex flex-col items-center">
             <img id="imgJadwalZoom" src="jadwal_pelajaran.jpg" alt="Zoom Jadwal" class="max-h-[80vh] w-auto object-contain rounded-xl shadow-2xl">
@@ -991,6 +987,67 @@
 
     <!-- SCRIPT UTAMA SISTEM DATA & NAVIGATION -->
     <script>
+        // ==========================================
+        // SYSTEM TOAST NOTIFICATION & SPINNER UI
+        // ==========================================
+        function showToast(message, type = 'info', duration = 3500) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return null;
+
+            const bgColors = {
+                success: 'bg-emerald-600 text-white border-emerald-500 shadow-emerald-500/20',
+                error: 'bg-rose-600 text-white border-rose-500 shadow-rose-500/20',
+                warning: 'bg-amber-500 text-white border-amber-400 shadow-amber-500/20',
+                info: 'bg-teal-600 text-white border-teal-500 shadow-teal-500/20',
+                loading: 'bg-slate-900 text-teal-300 border-teal-500/50 shadow-teal-500/20'
+            };
+
+            const spinnerSVG = `<svg class="animate-spin w-4 h-4 text-teal-400 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️',
+                loading: spinnerSVG
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl border text-xs font-bold transform transition-all duration-300 translate-y-4 opacity-0 ${bgColors[type] || bgColors.info}`;
+            toast.innerHTML = `<span class="flex items-center justify-center">${icons[type] || 'ℹ️'}</span><span class="flex-1">${escapeHTML(message)}</span>`;
+
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-4', 'opacity-0');
+            });
+
+            if (duration > 0) {
+                setTimeout(() => {
+                    removeToast(toast);
+                }, duration);
+            }
+
+            return toast;
+        }
+
+        function removeToast(toastElement) {
+            if (toastElement && toastElement.parentNode) {
+                toastElement.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toastElement.remove(), 300);
+            }
+        }
+
+        function escapeHTML(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         const DEFAULT_SISWA_BACKUP = [
             "AHMAD ADITYA RISKI PRATAMA",
             "AHMAD DONI ILYASA",
@@ -1085,14 +1142,12 @@
         let myChart = null;
         let bulanAktif = 0;
         let hasilKelompokLokal = [];
+        let mapDataTahunBulan = {};
 
-        // STATUS OPERASIONAL WEB (BUKA / TUTUP)
         let isWebOpen = localStorage.getItem('ASTRAVELIS_STATUS_WEB') !== 'tutup';
-
-        // Status Sidebar Desktop
         let sidebarDesktopOpen = true;
+        let isFetchingData = false;
 
-        // HELPER PERIZINAN KHUSUS UNTUK MEMBUKA & MENUTUP SAKLAR WEB (ADMIN UTAMA & KETUA/WAKIL KELAS)
         function checkCanToggleWeb() {
             if (!currentRole) return false;
             const roleName = (currentRole.name || "").toLowerCase();
@@ -1105,9 +1160,6 @@
             return roleName.includes("admin");
         }
 
-        // ==========================================
-        // HELPER SIKRONISASI CLIPBOARD UNIVERSAL
-        // ==========================================
         async function copyToClipboard(text, successMsg) {
             try {
                 if (navigator.clipboard && window.isSecureContext) {
@@ -1123,15 +1175,12 @@
                     document.execCommand('copy');
                     textArea.remove();
                 }
-                alert(successMsg || "Berhasil disalin ke clipboard!");
+                showToast(successMsg || "Berhasil disalin ke clipboard!", "success");
             } catch (err) {
-                alert("Gagal menyalin otomatis. Silakan salin teks secara manual.");
+                showToast("Gagal menyalin otomatis. Silakan salin teks secara manual.", "error");
             }
         }
 
-        // ==========================================
-        // LOGIKA STATUS OPERASIONAL BUKA/TUTUP WEB (HARD LOCK REALTIME)
-        // ==========================================
         function perbaruiUIStatusWeb() {
             const statusSaklarText = document.getElementById('statusSaklar');
             const btnAdminSaklar = document.getElementById('btnAdminSaklarWeb');
@@ -1142,7 +1191,6 @@
             const lockedOverlay = document.getElementById('lockedOverlay');
 
             if (isWebOpen) {
-                // WEB DIBUKA - Buka kuncian secara instan
                 if (lockedOverlay) lockedOverlay.classList.add('hidden');
                 
                 if (statusSaklarText) {
@@ -1160,11 +1208,9 @@
                     badgeHeader.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800";
                 }
             } else {
-                // WEB DITUTUP - Kunci web secara instan jika pengguna bukan Admin Utama / Ketua / Wakil
                 if (!checkCanToggleWeb()) {
                     if (lockedOverlay) lockedOverlay.classList.remove('hidden');
                 } else {
-                    // Jika Admin Utama / Ketua / Wakil sedang login -> buka layar pengunci agar bisa mengakses Panel Kontrol
                     if (lockedOverlay) lockedOverlay.classList.add('hidden');
                 }
 
@@ -1186,10 +1232,9 @@
         }
 
         async function simpanStatusWeb(statusBuka) {
+            const loadingToast = showToast("Updating status web...", "loading", 0);
             isWebOpen = statusBuka;
             localStorage.setItem('ASTRAVELIS_STATUS_WEB', statusBuka ? 'buka' : 'tutup');
-            
-            // Lakukan update UI lokal seketika tanpa me-refresh halaman
             perbaruiUIStatusWeb();
 
             const targetURL = getScriptURL();
@@ -1203,12 +1248,14 @@
                     console.error("Gagal sinkron status web ke cloud");
                 }
             }
+            removeToast(loadingToast);
+            showToast(`Status web berhasil diubah ke: ${statusBuka ? 'DIBUKA' : 'DITUTUP'}`, "success");
             await catatAuditLog(`Mengubah status operasional web menjadi: ${statusBuka ? 'DIBUKA' : 'DITUTUP (MODE LIBUR)'}`);
         }
 
         async function toggleStatusWebAdmin() {
             if (!checkCanToggleWeb()) {
-                alert("Akses Ditolak! Hanya Admin Utama dan Ketua / Wakil Kelas yang memiliki wewenang untuk membuka atau menutup status operasional web.");
+                showToast("Akses Ditolak! Hanya Admin Utama & Ketua/Wakil yang berhak membuka/menutup web.", "warning");
                 perbaruiUIStatusWeb();
                 if (!currentRole) bukaModalLogin();
                 return;
@@ -1218,9 +1265,6 @@
             await simpanStatusWeb(statusBaru);
         }
 
-        // ==========================================
-        // EVENT LISTENER MULTI-TAB SYNC (TANPA REFRESH)
-        // ==========================================
         window.addEventListener('storage', (e) => {
             if (e.key === 'ASTRAVELIS_STATUS_WEB') {
                 isWebOpen = e.newValue !== 'tutup';
@@ -1228,9 +1272,15 @@
             }
         });
 
-        // ==========================================
-        // FITUR DETEKSI PERANGKAT PENGUNJUNG
-        // ==========================================
+        // Event listener status koneksi jaringan
+        window.addEventListener('online', () => {
+            showToast("Koneksi internet terhubung kembali!", "success");
+            muatData();
+        });
+        window.addEventListener('offline', () => {
+            showToast("Anda sedang offline. Beberapa fitur tersinkron ditunda.", "warning");
+        });
+
         function dapatkanDetailPerangkat() {
             const ua = navigator.userAgent;
             let merkPerangkat = "Laptop/PC";
@@ -1286,9 +1336,6 @@
             }
         }
 
-        // ==========================================
-        // TOGGLE SIDEBAR & NAVIGATION SYSTEM
-        // ==========================================
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('mainContent');
@@ -1344,7 +1391,6 @@
         }
 
         function bukaHalaman(hal) {
-            // JIKA WEB DITUTUP & BUKAN ADMIN UTAMA ATAU KETUA/WAKIL KELAS -> TERKUNCI TOTAL
             if (!isWebOpen && !checkCanToggleWeb()) {
                 perbaruiUIStatusWeb();
                 return;
@@ -1388,7 +1434,7 @@
                 document.getElementById('pageGDriveView').classList.remove('hidden');
             } else if(hal === 'adminPanel') {
                 if(!currentRole) {
-                    alert("Akses Ditolak! Silakan Login Pengurus terlebih dahulu.");
+                    showToast("Akses Ditolak! Silakan Login Pengurus terlebih dahulu.", "error");
                     bukaModalLogin();
                     return;
                 }
@@ -1405,10 +1451,9 @@
         }
 
         function aksesFitur(fitur) {
-            // PEMERIKSAAN KONTROL WEB DITUTUP
             if (!isWebOpen && !checkCanToggleWeb()) {
                 perbaruiUIStatusWeb();
-                alert("Portal sedang DITUTUP. Hanya Admin Utama dan Ketua / Wakil Kelas yang berhak membuka web ini!");
+                showToast("Portal sedang DITUTUP. Hanya Admin Utama & Ketua/Wakil yang berhak membuka!", "warning");
                 if (!currentRole) bukaModalLogin();
                 return;
             }
@@ -1419,20 +1464,17 @@
             }
 
             if(!currentRole) {
-                alert("Fitur ini khusus Pengurus Kelas. Silakan Login terlebih dahulu!");
+                showToast("Fitur ini khusus Pengurus Kelas. Silakan Login terlebih dahulu!", "warning");
                 bukaModalLogin();
                 return;
             }
             if(!currentRole.access || !currentRole.access.includes(fitur)) {
-                alert(`Akses Ditolak! Jabatan ${currentRole.name} tidak memiliki wewenang pada fitur ini.`);
+                showToast(`Akses Ditolak! Jabatan ${currentRole.name} tidak memiliki wewenang pada fitur ini.`, "error");
                 return;
             }
             bukaHalaman(fitur);
         }
 
-        // ==========================================
-        // FITUR LOGGING AKTIVITAS PENGURUS
-        // ==========================================
         async function catatAuditLog(pesan) {
             const targetURL = getScriptURL();
             if (!targetURL || targetURL.trim() === "") return;
@@ -1468,36 +1510,41 @@
             container.innerHTML = globalAuditLogs.map(l => `
                 <div class="border-b dark:border-slate-700/60 pb-1.5 flex justify-between items-start gap-2">
                     <div>
-                        <span class="font-extrabold text-teal-600 dark:text-teal-400">[${l[1] || 'Sistem'}]</span>
-                        <span class="text-slate-700 dark:text-slate-200 font-medium">${l[2] || ''}</span>
+                        <span class="font-extrabold text-teal-600 dark:text-teal-400">[${escapeHTML(l[1] || 'Sistem')}]</span>
+                        <span class="text-slate-700 dark:text-slate-200 font-medium">${escapeHTML(l[2] || '')}</span>
                     </div>
-                    <span class="text-[9px] font-extrabold text-slate-400 whitespace-nowrap">${l[0] || ''}</span>
+                    <span class="text-[9px] font-extrabold text-slate-400 whitespace-nowrap">${escapeHTML(l[0] || '')}</span>
                 </div>
             `).join('');
         }
 
         async function bersihkanAuditLog() {
+            const btn = document.getElementById('btnCleanLog');
             const targetURL = getScriptURL();
+
             if(!targetURL || targetURL.trim() === "") {
                 globalAuditLogs = [];
                 renderAuditLog();
                 return;
             }
             if(confirm("Bersihkan semua riwayat log aktivitas global?")) {
+                const loadingToast = showToast("Membersihkan log server...", "loading", 0);
+                if (btn) btn.disabled = true;
                 try {
                     await fetch(targetURL, { method: 'POST', body: JSON.stringify({ action: "clearLogs" }) });
                     globalAuditLogs = [];
                     renderAuditLog();
-                    alert("Log aktivitas berhasil dibersihkan!");
+                    removeToast(loadingToast);
+                    showToast("Log aktivitas berhasil dibersihkan!", "success");
                 } catch (e) {
-                    alert("Gagal membersihkan log.");
+                    removeToast(loadingToast);
+                    showToast("Gagal membersihkan log.", "error");
+                } finally {
+                    if (btn) btn.disabled = false;
                 }
             }
         }
 
-        // ==========================================
-        // FITUR: DARK MODE TOGGLE & CLOCK REAL-TIME
-        // ==========================================
         function initTheme() {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -1538,18 +1585,16 @@
             }
         }
 
-        // ==========================================
-        // FITUR: GANTI & RESET PIN PENGURUS
-        // ==========================================
         function bukaModalGantiPin() { document.getElementById('modalGantiPin').classList.remove('hidden'); }
         function tutupModalGantiPin() { document.getElementById('modalGantiPin').classList.add('hidden'); document.getElementById('pinBaruInput').value = ''; }
 
         async function simpanPinBaru() {
             const roleKey = document.getElementById('pinRoleSelect').value;
             const pinBaru = document.getElementById('pinBaruInput').value.trim();
+            const btn = document.getElementById('btnSimpanPin');
 
             if(!pinBaru || pinBaru.length < 4) {
-                alert("PIN Baru minimal harus 4 angka!");
+                showToast("PIN Baru minimal harus 4 angka!", "warning");
                 return;
             }
 
@@ -1558,7 +1603,6 @@
 
             let currentRoles = { ...ROLES };
             
-            // Hapus PIN lama untuk jabatan terkait
             Object.keys(currentRoles).forEach(k => {
                 if(currentRoles[k] && currentRoles[k].name === targetRoleName) {
                     delete currentRoles[k];
@@ -1567,11 +1611,13 @@
 
             const baseTemplate = defaultRoles[roleKey] || { name: targetRoleName, access: ["uangKas", "cekKas"] };
 
-            // Tetapkan PIN baru
             currentRoles[pinBaru] = {
                 name: targetRoleName,
                 access: [...(baseTemplate.access || [])]
             };
+
+            const loadingToast = showToast(`Memperbarui PIN ${targetRoleName}...`, "loading", 0);
+            if (btn) btn.disabled = true;
 
             const targetURL = getScriptURL();
             if (targetURL && targetURL.trim() !== "") {
@@ -1587,13 +1633,14 @@
 
             ROLES = currentRoles;
 
-            // Jika role yang sedang aktif diubah PIN-nya, perbarui referensi currentRole
             if (currentRole && currentRole.name === targetRoleName) {
                 currentRole = ROLES[pinBaru];
             }
 
             await catatAuditLog(`Mengubah PIN Akses Jabatan ${targetRoleName}`);
-            alert(`PIN Jabatan ${targetRoleName} Berhasil diperbarui dan tersimpan di Cloud!`);
+            removeToast(loadingToast);
+            showToast(`PIN Jabatan ${targetRoleName} Berhasil diperbarui!`, "success");
+            if (btn) btn.disabled = false;
             tutupModalGantiPin();
             if(currentRole && currentRole.access.includes('adminPanel')) muatFormAdmin();
         }
@@ -1601,6 +1648,7 @@
         async function resetSemuaPinKeDefault() {
             const defaultRoles = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : DEFAULT_ROLES_FALLBACK;
             if(confirm("Yakin ingin mengembalikan seluruh PIN Pengurus ke PIN bawaan default?")) {
+                const loadingToast = showToast("Mereset PIN pengurus...", "loading", 0);
                 const targetURL = getScriptURL();
                 if (targetURL && targetURL.trim() !== "") {
                     try {
@@ -1618,14 +1666,12 @@
                     if (activePin) currentRole = ROLES[activePin];
                 }
                 await catatAuditLog(`Melakukan Reset Master PIN Pengurus ke Default`);
-                alert("Seluruh PIN Pengurus telah dikembalikan ke PIN Default!");
+                removeToast(loadingToast);
+                showToast("Seluruh PIN Pengurus telah dikembalikan ke PIN Default!", "success");
                 muatFormAdmin();
             }
         }
 
-        // ==========================================
-        // LOGIKA APLIKASI & AUTENTIKASI
-        // ==========================================
         function bukaModalLogin() { document.getElementById('modalLogin').classList.remove('hidden'); }
         function tutupModalLogin() { document.getElementById('modalLogin').classList.add('hidden'); document.getElementById('loginPinInput').value = ""; }
 
@@ -1644,19 +1690,19 @@
 
                 catatAuditLog(`Login ke sistem`);
                 tutupModalLogin();
-                perbaruiUIStatusWeb(); // Refresh UI Kunci Web secara instan
+                perbaruiUIStatusWeb();
                 
                 if (!isWebOpen) {
                     if (checkCanToggleWeb()) {
-                        alert(`Login Berhasil sebagai ${currentRole.name}.\n\n⚠️ Status web saat ini DITUTUP. Silakan ganti Saklar Operasional di Panel Kontrol ke DIBUKA agar siswa dapat menggunakan portal.`);
+                        showToast(`Login Berhasil sebagai ${currentRole.name}. Web saat ini DITUTUP.`, "warning");
                     } else {
-                        alert(`Akses Terbatas! Anda masuk sebagai ${currentRole.name}.\n\n🔴 Web saat ini sedang DITUTUP. Hanya Admin Utama dan Ketua / Wakil Kelas yang memiliki wewenang untuk membuka saklar operasional web.`);
+                        showToast(`Akses Terbatas! Anda masuk sebagai ${currentRole.name}. Web DITUTUP.`, "info");
                     }
                 } else {
-                    alert(`Login Berhasil! Anda masuk sebagai ${currentRole.name}.`);
+                    showToast(`Selamat datang, ${currentRole.name}!`, "success");
                 }
             } else {
-                alert("PIN Otentikasi Salah!");
+                showToast("PIN Otentikasi Salah!", "error");
             }
         }
 
@@ -1667,13 +1713,11 @@
             document.getElementById('userInfo').classList.add('hidden');
             document.getElementById('btnSidebarPanelKontrol').classList.add('hidden');
             
-            perbaruiUIStatusWeb(); // Kunci otomatis saat logout jika web ditutup
+            perbaruiUIStatusWeb();
+            showToast("Berhasil Logout dari sistem Pengurus.", "info");
             bukaHalaman('dashboard');
         }
 
-        // ==========================================
-        // FITUR: PEMBAGI KELOMPOK
-        // ==========================================
         function acakDanBuatKelompok() {
             const targetSiswa = (listSiswa && listSiswa.length > 0) ? listSiswa : DEFAULT_SISWA_BACKUP;
             const jmlKelompok = parseInt(document.getElementById('selectJmlKelompok').value) || 4;
@@ -1766,6 +1810,7 @@
 
             hasilKelompokLokal = hasil;
             renderHasilKelompok();
+            showToast("Berhasil mengacak kelompok belajar!", "success");
         }
 
         function renderHasilKelompok() {
@@ -1787,12 +1832,12 @@
                     <div>
                         <div class="flex justify-between items-center mb-3">
                             <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 dark:text-white flex items-center gap-1">
-                                <span>${badgeIcon}</span> ${k.namaKelompok}
+                                <span>${badgeIcon}</span> ${escapeHTML(k.namaKelompok)}
                             </h3>
                             <span class="text-[9px] font-extrabold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full">${k.anggota.length} Siswa</span>
                         </div>
                         <ol class="list-decimal list-inside space-y-1 text-xs font-bold text-slate-700 dark:text-slate-300">
-                            ${k.anggota.map(nama => `<li class="truncate py-0.5">${nama}</li>`).join('')}
+                            ${k.anggota.map(nama => `<li class="truncate py-0.5">${escapeHTML(nama)}</li>`).join('')}
                         </ol>
                     </div>
                 </div>`;
@@ -1801,7 +1846,7 @@
 
         async function copyHasilKelompokWA() { 
             if(!hasilKelompokLokal || hasilKelompokLokal.length === 0) { 
-                alert("Silakan klik 'Acak Sekarang' terlebih dahulu!"); 
+                showToast("Silakan klik 'Acak Sekarang' terlebih dahulu!", "warning"); 
                 return; 
             }
 
@@ -1823,9 +1868,6 @@
             await copyToClipboard(teks.trim(), "Hasil pembagian kelompok berhasil disalin ke WhatsApp!");
         }
 
-        // ==========================================
-        // FITUR: PANEL PENGATURAN
-        // ==========================================
         function muatFormAdmin() {
             document.getElementById('adminZoomInput').value = dynamicConfig.links.zoom || "";
             document.getElementById('adminLmsInput').value = dynamicConfig.links.lms || "";
@@ -1909,7 +1951,7 @@
             body.innerHTML = listSiswa.map((nama, idx) => `
                 <tr>
                     <td class="p-2 text-slate-400 font-extrabold">${idx + 1}</td>
-                    <td class="p-2 dark:text-white uppercase">${nama}</td>
+                    <td class="p-2 dark:text-white uppercase">${escapeHTML(nama)}</td>
                     <td class="p-2 text-right">
                         ${canEditSiswa ? `
                             <button onclick="editNamaSiswaAdmin(${idx})" class="text-teal-600 dark:text-teal-400 hover:underline mr-2">Edit</button>
@@ -1922,25 +1964,32 @@
 
         async function tambahSiswaBaruAdmin() {
             const input = document.getElementById('inputNamaSiswaBaru');
+            const btn = document.getElementById('btnTambahSiswa');
             const namaBaru = input.value.trim().toUpperCase();
 
             if(!namaBaru) {
-                alert("Masukkan nama siswa terlebih dahulu!");
+                showToast("Masukkan nama siswa terlebih dahulu!", "warning");
                 return;
             }
 
             if(listSiswa.includes(namaBaru)) {
-                alert("Nama siswa ini sudah ada di dalam daftar!");
+                showToast("Nama siswa ini sudah ada di dalam daftar!", "warning");
                 return;
             }
+
+            const loadingToast = showToast(`Menambahkan ${namaBaru}...`, "loading", 0);
+            if (btn) btn.disabled = true;
 
             listSiswa.push(namaBaru);
             input.value = "";
             await simpanSiswaKeCloud();
             await catatAuditLog(`Menambahkan siswa baru: ${namaBaru}`);
-            document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
+            document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${escapeHTML(n)}">`).join('');
             renderTabelSiswaAdmin();
             updateUI();
+            removeToast(loadingToast);
+            showToast(`Siswa ${namaBaru} berhasil ditambahkan!`, "success");
+            if (btn) btn.disabled = false;
         }
 
         async function editNamaSiswaAdmin(idx) {
@@ -1948,24 +1997,30 @@
             const namaUbah = prompt("Edit Nama Siswa:", namaLama);
             if(namaUbah && namaUbah.trim() !== "") {
                 const namaBaru = namaUbah.trim().toUpperCase();
+                const loadingToast = showToast("Memperbarui nama siswa...", "loading", 0);
                 listSiswa[idx] = namaBaru;
                 await simpanSiswaKeCloud();
                 await catatAuditLog(`Mengubah nama siswa: ${namaLama} ➔ ${namaBaru}`);
-                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
+                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${escapeHTML(n)}">`).join('');
                 renderTabelSiswaAdmin();
                 updateUI();
+                removeToast(loadingToast);
+                showToast(`Nama siswa diperbarui!`, "success");
             }
         }
 
         async function hapusSiswaAdmin(idx) {
             const namaHapus = listSiswa[idx];
             if(confirm(`Yakin ingin menghapus ${namaHapus} dari daftar siswa?`)) {
+                const loadingToast = showToast("Menghapus data siswa...", "loading", 0);
                 listSiswa.splice(idx, 1);
                 await simpanSiswaKeCloud();
                 await catatAuditLog(`Menghapus siswa: ${namaHapus}`);
-                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
+                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${escapeHTML(n)}">`).join('');
                 renderTabelSiswaAdmin();
                 updateUI();
+                removeToast(loadingToast);
+                showToast(`Siswa ${namaHapus} dihapus.`, "info");
             }
         }
 
@@ -1975,9 +2030,9 @@
 
             body.innerHTML = Object.entries(ROLES).map(([pin, data]) => `
                 <tr>
-                    <td class="p-3 text-purple-600 dark:text-purple-400 italic">${data.name}</td>
-                    <td class="p-3 tracking-widest font-mono text-slate-800 dark:text-white">•••• (${pin})</td>
-                    <td class="p-3 text-[10px] text-slate-400 font-bold uppercase">${(data.access || []).join(', ')}</td>
+                    <td class="p-3 text-purple-600 dark:text-purple-400 italic">${escapeHTML(data.name)}</td>
+                    <td class="p-3 tracking-widest font-mono text-slate-800 dark:text-white">•••• (${escapeHTML(pin)})</td>
+                    <td class="p-3 text-[10px] text-slate-400 font-bold uppercase">${escapeHTML((data.access || []).join(', '))}</td>
                 </tr>
             `).join('');
         }
@@ -1988,6 +2043,8 @@
                 btn.innerText = "⏳ Menyimpan Pengaturan...";
                 btn.disabled = true;
             }
+
+            const loadingToast = showToast("Menyimpan pengaturan ke cloud...", "loading", 0);
 
             const updatedLinks = {
                 zoom: document.getElementById('adminZoomInput').value.trim(),
@@ -2027,7 +2084,8 @@
             updateAllLinksUI();
 
             await catatAuditLog(`Memperbarui Konfigurasi Tautan & Nominal Iuran Kas`);
-            alert("Semua pengaturan tautan dan iuran berhasil disimpan!");
+            removeToast(loadingToast);
+            showToast("Semua pengaturan tautan dan iuran berhasil disimpan!", "success");
             if (btn) {
                 btn.innerText = "💾 Simpan Semua Tautan & Iuran";
                 btn.disabled = false;
@@ -2050,29 +2108,45 @@
             teks += `🔹 Pemasukan : Rp ${mTotal.toLocaleString('id-ID')}\n`;
             teks += `🔹 Pengeluaran : Rp ${kTotal.toLocaleString('id-ID')}\n`;
             teks += `🔹 Saldo Fisik : *Rp ${(mTotal - kTotal).toLocaleString('id-ID')}*\n\n`;
-            teks += `Cek rincian transaksi lengkap di portal resmi:\nhttps://astravelis-official.github.io/ASTRAVELIS/`;
+            teks += `Cek rincian transaksi lengkap di portal resmi:\nhttps://aksarasenja-official.github.io/ASTRAVELIS/`;
 
             await copyToClipboard(teks, "Laporan Kas WhatsApp berhasil disalin!");
             await catatAuditLog(`Menyalin Ringkasan Laporan Kas ke WA`);
         }
 
-        // ==========================================
-        // DOKUMEN & SINKRONISASI DATA KAS
-        // ==========================================
         async function muatData() {
+            if (isFetchingData) return;
+            isFetchingData = true;
+
+            const refreshBtn = document.getElementById('btnRefreshData');
+            const refreshIcon = document.getElementById('iconRefreshData');
+            const infoBulan = document.getElementById('infoBulan');
+
+            if (refreshBtn) refreshBtn.disabled = true;
+            if (refreshIcon) refreshIcon.classList.add('animate-spin');
+            if (infoBulan) infoBulan.innerText = "MENYINGKRONKAN...";
+
             const targetURL = getScriptURL();
             if(!targetURL || targetURL.trim() === "") {
-                document.getElementById('infoBulan').innerText = "MODE LOKAL";
-                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
+                if (infoBulan) infoBulan.innerText = "MODE LOKAL";
+                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${escapeHTML(n)}">`).join('');
                 updateUI();
                 sesuaikanFormOtomatis();
                 perbaruiUIStatusWeb();
+                if (refreshBtn) refreshBtn.disabled = false;
+                if (refreshIcon) refreshIcon.classList.remove('animate-spin');
+                isFetchingData = false;
                 return;
             }
-            document.getElementById('infoBulan').innerText = "MENYINGKRONKAN...";
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 12000);
+
             try {
-                const res = await fetch(targetURL + (targetURL.includes('?') ? '&' : '?') + "t=" + Date.now());
+                const res = await fetch(targetURL + (targetURL.includes('?') ? '&' : '?') + "t=" + Date.now(), { signal: controller.signal });
+                clearTimeout(timeoutId);
                 const json = await res.json();
+                
                 dataLokal = json.transaksi || [];
                 
                 const rawSiswa = json.Siswa || json.siswa || json.anggota;
@@ -2085,7 +2159,7 @@
                     if (isWebOpen !== statusCloud) {
                         isWebOpen = statusCloud;
                         localStorage.setItem('ASTRAVELIS_STATUS_WEB', json.statusWeb);
-                        perbaruiUIStatusWeb(); // Update kuncian web secara otomatis tanpa refresh
+                        perbaruiUIStatusWeb();
                     }
                 }
 
@@ -2111,7 +2185,6 @@
                     });
                     ROLES = json.roles;
 
-                    // Perbarui referensi currentRole jika pengurus sedang aktif login
                     if (currentRole) {
                         const activePin = Object.keys(ROLES).find(p => ROLES[p].name === currentRole.name);
                         if (activePin) currentRole = ROLES[activePin];
@@ -2123,28 +2196,41 @@
                     renderAuditLog();
                 }
 
-                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
+                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${escapeHTML(n)}">`).join('');
                 updateUI();
                 sesuaikanFormOtomatis();
             } catch (e) { 
-                document.getElementById('infoBulan').innerText = "OFFLINE"; 
-                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
+                if (infoBulan) infoBulan.innerText = "OFFLINE"; 
+                document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${escapeHTML(n)}">`).join('');
                 updateUI();
                 perbaruiUIStatusWeb();
+            } finally {
+                if (refreshBtn) refreshBtn.disabled = false;
+                if (refreshIcon) refreshIcon.classList.remove('animate-spin');
+                isFetchingData = false;
             }
         }
 
         async function sinkronBulanKeCloud(nilaiBaru) {
-            document.getElementById('infoBulan').innerText = "MENYIMPAN...";
+            const infoBulan = document.getElementById('infoBulan');
+            if (infoBulan) infoBulan.innerText = "MENYIMPAN...";
+            const loadingToast = showToast("Updating tagihan periode...", "loading", 0);
+
             const targetURL = getScriptURL();
             if (targetURL && targetURL.trim() !== "") {
                 try {
                     await fetch(targetURL, { method: 'POST', body: JSON.stringify({ action: "updateBulan", nilai: nilaiBaru }) });
                     await catatAuditLog(`Mengubah Periode Tagihan Bulan Kas menjadi ${nilaiBaru} Bulan`);
-                    muatData();
-                } catch (e) { alert("Gagal koneksi cloud!"); }
+                    removeToast(loadingToast);
+                    showToast("Periode tagihan kas diperbarui!", "success");
+                    await muatData();
+                } catch (e) { 
+                    removeToast(loadingToast);
+                    showToast("Gagal koneksi cloud!", "error"); 
+                }
             } else {
                 bulanAktif = nilaiBaru;
+                removeToast(loadingToast);
                 updateUI();
             }
         }
@@ -2181,16 +2267,19 @@
         document.getElementById('kasForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!isWebOpen && !currentRole) {
-                alert("Transaksi tidak dapat disimpan karena Status Web sedang DITUTUP (MODE LIBUR/OFF).");
+                showToast("Status Web DITUTUP. Transaksi tidak dapat disimpan.", "warning");
                 return;
             }
 
             const namaInput = document.getElementById('nama').value.trim();
             const namaValid = listSiswa.find(n => n.toUpperCase() === namaInput.toUpperCase());
-            if(!namaValid) { alert("NAMA TIDAK TERDAFTAR!"); return; }
+            if(!namaValid) { showToast("NAMA SISWA TIDAK TERDAFTAR!", "error"); return; }
 
             const btn = document.getElementById('btnSimpan');
-            btn.innerText = "PROSES..."; btn.disabled = true;
+            btn.innerText = "⏳ PROSES..."; 
+            btn.disabled = true;
+
+            const loadingToast = showToast("Menyimpan transaksi kas ke server...", "loading", 0);
 
             const payload = { 
                 nama: namaValid, 
@@ -2208,16 +2297,27 @@
                     document.getElementById('nama').value = "";
                     document.getElementById('keterangan').value = "";
                     document.getElementById('jumlah').value = "";
-                    muatData();
-                } catch (e) { alert("Gagal Simpan ke Cloud!"); }
-                finally { btn.innerText = "Simpan Transaksi"; btn.disabled = false; }
+                    removeToast(loadingToast);
+                    showToast("Transaksi Kas Berhasil Disimpan!", "success");
+                    await muatData();
+                } catch (e) { 
+                    removeToast(loadingToast);
+                    showToast("Gagal Simpan ke Cloud! Periksa koneksi internet.", "error"); 
+                }
+                finally { 
+                    btn.innerText = "Simpan Transaksi"; 
+                    btn.disabled = false; 
+                }
             } else {
                 dataLokal.push([new Date().toISOString(), payload.nama, payload.keterangan, payload.jumlah, payload.tipe]);
                 document.getElementById('nama').value = "";
                 document.getElementById('keterangan').value = "";
                 document.getElementById('jumlah').value = "";
                 updateUI();
-                btn.innerText = "Simpan Transaksi"; btn.disabled = false;
+                removeToast(loadingToast);
+                showToast("Transaksi Berhasil Disimpan (Lokal)", "success");
+                btn.innerText = "Simpan Transaksi"; 
+                btn.disabled = false;
             }
         });
 
@@ -2253,7 +2353,7 @@
             const ringkasanEl = document.getElementById('ringkasanKategori');
             if (ringkasanEl) {
                 ringkasanEl.innerHTML = Object.entries(pengeluaranKategori).map(([k, v]) => `
-                    <div class="flex justify-between border-b dark:border-slate-700 pb-1 text-xs"><span>${k}</span><span class="font-bold text-rose-500">Rp ${v.toLocaleString('id-ID')}</span></div>
+                    <div class="flex justify-between border-b dark:border-slate-700 pb-1 text-xs"><span>${escapeHTML(k)}</span><span class="font-bold text-rose-500">Rp ${v.toLocaleString('id-ID')}</span></div>
                 `).join('');
             }
 
@@ -2279,19 +2379,23 @@
             const body = document.getElementById('tabelBody');
             if (!body) return;
 
-            const dataValidWithIndex = dataLokal.map((r, index) => ({ r, index })).filter(item => item.r[0] && item.r[1] && item.r[3]);
+            const dataValidWithIndex = dataLokal
+                .map((r, index) => ({ r, index }))
+                .filter(item => item.r[0] && item.r[1] && item.r[3]);
             
             if (dataValidWithIndex.length === 0) {
                 body.innerHTML = `<tr><td colspan="3" class="py-6 text-center text-slate-400 italic text-xs">Belum ada riwayat transaksi aktif.</td></tr>`;
                 return;
             }
-            
-            body.innerHTML = dataValidWithIndex.slice().reverse().map((item) => {
+
+            const data50Terbaru = dataValidWithIndex.slice(-50).reverse();
+
+            body.innerHTML = data50Terbaru.map((item) => {
                 const r = item.r;
                 const realIdx = item.index;
                 const nominal = parseInt(r[3]) || 0;
                 return `<tr class="border-b border-slate-100 dark:border-slate-700 text-xs">
-                    <td class="py-2.5"><b>${r[1]}</b><br><small class="text-slate-400">${r[2] || ''}</small></td>
+                    <td class="py-2.5"><b>${escapeHTML(r[1])}</b><br><small class="text-slate-400">${escapeHTML(r[2] || '')}</small></td>
                     <td class="text-right font-extrabold ${r[4] === 'Masuk' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">Rp ${nominal.toLocaleString('id-ID')}</td>
                     <td class="text-right"><button onclick="hapusData(${realIdx})" class="text-slate-300 hover:text-rose-500 transition px-2" title="Hapus Item">✕</button></td>
                 </tr>`;
@@ -2301,13 +2405,23 @@
         async function hapusData(idx) {
             const dataHapus = dataLokal[idx];
             if(confirm("Hapus transaksi ini?")) {
+                const loadingToast = showToast("Menghapus transaksi...", "loading", 0);
                 const targetURL = getScriptURL();
                 if (targetURL && targetURL.trim() !== "") {
-                    await fetch(targetURL, { method: 'POST', body: JSON.stringify({action: 'delete', row: idx}) });
-                    if(dataHapus) await catatAuditLog(`Menghapus transaksi: ${dataHapus[1]} (Rp ${parseInt(dataHapus[3] || 0).toLocaleString('id-ID')})`);
-                    muatData();
+                    try {
+                        await fetch(targetURL, { method: 'POST', body: JSON.stringify({action: 'delete', row: idx}) });
+                        if(dataHapus) await catatAuditLog(`Menghapus transaksi: ${dataHapus[1]} (Rp ${parseInt(dataHapus[3] || 0).toLocaleString('id-ID')})`);
+                        removeToast(loadingToast);
+                        showToast("Transaksi berhasil dihapus.", "info");
+                        await muatData();
+                    } catch (e) {
+                        removeToast(loadingToast);
+                        showToast("Gagal menghapus transaksi dari server.", "error");
+                    }
                 } else {
                     dataLokal.splice(idx, 1);
+                    removeToast(loadingToast);
+                    showToast("Transaksi dihapus secara lokal.", "info");
                     updateUI();
                 }
             }
@@ -2360,14 +2474,14 @@
                 if(tunggakan <= 0) {
                     countLunas++;
                     listLunasHTML += `<div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-emerald-100 dark:border-emerald-900/40 flex justify-between items-center text-xs shadow-sm">
-                        <span class="font-bold text-slate-800 dark:text-slate-200">${n}</span>
+                        <span class="font-bold text-slate-800 dark:text-slate-200">${escapeHTML(n)}</span>
                         <span class="text-[9px] font-black text-emerald-700 dark:text-emerald-300 bg-emerald-100/80 dark:bg-emerald-900/60 px-2 py-0.5 rounded-md">LUNAS</span>
                     </div>`;
                 } else {
                     countBelum++;
                     listBelumHTML += `<div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-rose-100 dark:border-rose-900/40 flex justify-between items-center text-xs shadow-sm">
                         <div>
-                            <p class="font-bold text-slate-800 dark:text-slate-200">${n}</p>
+                            <p class="font-bold text-slate-800 dark:text-slate-200">${escapeHTML(n)}</p>
                             <p class="text-[9px] text-slate-400 font-medium">Terbayar: Rp ${bayar.toLocaleString('id-ID')}</p>
                         </div>
                         <span class="text-[9px] font-black text-rose-600 dark:text-rose-400 bg-rose-100/80 dark:bg-rose-900/60 px-2 py-0.5 rounded-md">-Rp ${tunggakan.toLocaleString('id-ID')}</span>
@@ -2405,70 +2519,308 @@
             if (targetURL && targetURL.trim() !== "") {
                 window.open(targetURL + (targetURL.includes('?') ? '&' : '?') + "action=export"); 
             } else {
-                alert("Pengunduhan Excel memerlukan Google Sheets AppScript URL.");
+                showToast("Pengunduhan Excel memerlukan Google Sheets AppScript URL.", "warning");
             }
         }
 
-        function unduhPDF() {
-            if (!window.jspdf || !window.jspdf.jsPDF) {
-                alert("Pustaka jsPDF sedang dimuat, silakan coba lagi.");
+        // ==========================================
+        // DYNAMIC FILTER MODAL & LOGIC CETAK PDF
+        // ==========================================
+        function bukaModalPDF() {
+            populateFilterPDF();
+            document.getElementById('modalCetakPDF').classList.remove('hidden');
+        }
+
+        function tutupModalPDF() {
+            document.getElementById('modalCetakPDF').classList.add('hidden');
+        }
+
+        function populateFilterPDF() {
+            mapDataTahunBulan = {};
+
+            dataLokal.forEach(r => {
+                if(!r[0]) return;
+                const d = new Date(r[0]);
+                if(isNaN(d.getTime())) return;
+
+                const yr = d.getFullYear();
+                const mo = d.getMonth();
+
+                if(!mapDataTahunBulan[yr]) {
+                    mapDataTahunBulan[yr] = new Set();
+                }
+                mapDataTahunBulan[yr].add(mo);
+            });
+
+            const selectTahun = document.getElementById('pdfSelectTahun');
+            selectTahun.innerHTML = '';
+
+            const years = Object.keys(mapDataTahunBulan).sort((a,b) => b - a);
+
+            if(years.length === 0) {
+                const nowYr = new Date().getFullYear();
+                selectTahun.innerHTML = `<option value="${nowYr}">${nowYr}</option>`;
+                mapDataTahunBulan[nowYr] = new Set([new Date().getMonth()]);
+            } else {
+                selectTahun.innerHTML = `<option value="ALL">Semua Tahun</option>`;
+                years.forEach(yr => {
+                    selectTahun.innerHTML += `<option value="${yr}">${yr}</option>`;
+                });
+            }
+
+            updateDropdownBulanPDF();
+        }
+
+        function updateDropdownBulanPDF() {
+            const selectTahun = document.getElementById('pdfSelectTahun').value;
+            const selectBulan = document.getElementById('pdfSelectBulan');
+            selectBulan.innerHTML = '';
+
+            const namaBulanList = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni", 
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+
+            if(selectTahun === 'ALL') {
+                selectBulan.innerHTML = `<option value="ALL">Semua Bulan (Keseluruhan Data)</option>`;
                 return;
             }
+
+            selectBulan.innerHTML = `<option value="ALL">Semua Bulan di Tahun ${selectTahun}</option>`;
+
+            const monthsSet = mapDataTahunBulan[selectTahun];
+            if(monthsSet) {
+                const sortedMonths = Array.from(monthsSet).sort((a,b) => a - b);
+                sortedMonths.forEach(mIdx => {
+                    selectBulan.innerHTML += `<option value="${mIdx}">${namaBulanList[mIdx]} ${selectTahun}</option>`;
+                });
+            }
+        }
+
+        function eksekusiCetakPDF() {
+            tutupModalPDF();
+
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                showToast("Pustaka jsPDF sedang dimuat, silakan coba lagi.", "error");
+                return;
+            }
+
+            const selectedTahun = document.getElementById('pdfSelectTahun').value;
+            const selectedBulan = document.getElementById('pdfSelectBulan').value;
+
+            // Filter Data Berdasarkan Pilihan
+            const filteredData = dataLokal.filter(r => {
+                if(!r[0] || !r[1]) return false;
+                const d = new Date(r[0]);
+                if(isNaN(d.getTime())) return true;
+
+                if(selectedTahun !== 'ALL') {
+                    if(d.getFullYear() !== parseInt(selectedTahun)) return false;
+                }
+                if(selectedBulan !== 'ALL') {
+                    if(d.getMonth() !== parseInt(selectedBulan)) return false;
+                }
+                return true;
+            });
+
+            if(filteredData.length === 0) {
+                showToast("Tidak ada data transaksi pada periode yang dipilih!", "warning");
+                return;
+            }
+
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'mm', 'a4');
             const sekarang = new Date();
-            const namaBulan = sekarang.toLocaleDateString('id-ID', { month: 'long' });
+
+            const namaBulanList = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni", 
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+            const bulanRomawi = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+            
+            const bulanIndex = sekarang.getMonth();
             const tahun = sekarang.getFullYear();
-            const jamCetakFormat = sekarang.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
+            const tglStr = `${sekarang.getDate()} ${namaBulanList[bulanIndex]} ${tahun}`;
+            const noSurat = `001/AST-KAS/${bulanRomawi[bulanIndex]}/${tahun}`;
 
-            doc.setFont("helvetica", "bold");
-            doc.setTextColor('#1a365d');
-            doc.setFontSize(20);
-            doc.text("LAPORAN KAS ASTRAVELIS", 14, 18);
-            
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(9);
-            doc.setTextColor('#64748b');
-            doc.text(`Kas Bulan: ${namaBulan} ${tahun} | Tanggal Cetak: ${sekarang.toLocaleDateString('id-ID')} pukul ${jamCetakFormat}`, 14, 25);
-            
-            doc.setDrawColor('#0d9488');
-            doc.setLineWidth(1);
-            doc.line(14, 28, 196, 28);
+            // Penentuan Judul Perihal PDF
+            let textPerihal = "Laporan Kas Astravelis";
+            let filenameSuffix = "Keseluruhan";
 
-            let totalMasuk = 0, totalKeluar = 0;
-            const rows = dataLokal.filter(r => r[0] && r[1]).map(r => {
-                const nominal = parseInt(r[3]) || 0;
-                const tipeFormat = r[4] === 'Masuk' ? 'Masuk' : 'Keluar';
-                if(r[4] === 'Masuk') totalMasuk += nominal; else totalKeluar += nominal;
-                return [r[0], tipeFormat, r[1], r[2] || '', `Rp ${nominal.toLocaleString('id-ID')}`];
-            });
+            if (selectedTahun !== 'ALL' && selectedBulan !== 'ALL') {
+                const namaBln = namaBulanList[parseInt(selectedBulan)];
+                textPerihal = `Laporan Kas Bulan ${namaBln} ${selectedTahun}`;
+                filenameSuffix = `${namaBln}_${selectedTahun}`;
+            } else if (selectedTahun !== 'ALL') {
+                textPerihal = `Laporan Kas Tahun ${selectedTahun}`;
+                filenameSuffix = `Tahun_${selectedTahun}`;
+            }
 
-            doc.autoTable({
-                head: [['Tanggal', 'Tipe', 'Nama', 'Keterangan', 'Jumlah']],
-                body: rows,
-                startY: 32,
-                theme: 'striped',
-                headStyles: { fillColor: '#0d9488', textColor: '#ffffff', fontStyle: 'bold' },
-                columnStyles: { 4: { halign: 'right', fontStyle: 'bold' } }
-            });
+            const generateDocBody = (logoBase64) => {
+                if (logoBase64) {
+                    try {
+                        doc.addImage(logoBase64, 'JPEG', 14, 10, 18, 18);
+                    } catch(e) {
+                        console.error("Gagal menambahkan logo ke PDF:", e);
+                    }
+                }
 
-            const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 8 : 40;
-            doc.setFontSize(9);
-            doc.text(`Total Pemasukan: Rp ${totalMasuk.toLocaleString('id-ID')}`, 110, finalY);
-            doc.text(`Total Pengeluaran: Rp ${totalKeluar.toLocaleString('id-ID')}`, 110, finalY + 5);
-            doc.setFont("helvetica", "bold");
-            doc.text(`Sisa Saldo Bersih: Rp ${(totalMasuk - totalKeluar).toLocaleString('id-ID')}`, 110, finalY + 11);
+                // KOP SURAT
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(16);
+                doc.setTextColor('#0f172a');
+                doc.text("ASTRAVELIS", 110, 15, { align: "center" });
 
-            catatAuditLog(`Mengunduh File PDF Laporan Kas`);
-            doc.save(`Laporan_Kas_Astravelis_${namaBulan}_${tahun}.pdf`);
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(8.5);
+                doc.setTextColor('#334155');
+                doc.text("Jl. Soekarno-Hatta, Kenaoy Baru - Suwangi Timur Sakra Lombok Timur - NTB: 83671", 110, 20, { align: "center" });
+                doc.text("Website: https://aksarasenja-official.github.io/ASTRAVELIS/", 110, 24, { align: "center" });
+
+                // Garis Kop Surat
+                doc.setDrawColor('#0f172a');
+                doc.setLineWidth(0.8);
+                doc.line(14, 28, 196, 28);
+                doc.setLineWidth(0.2);
+                doc.line(14, 29, 196, 29);
+
+                // METADATA SURAT
+                doc.setFontSize(9);
+                doc.setFont("helvetica", "normal");
+                doc.setTextColor('#0f172a');
+
+                doc.text(`Nomor     : ${noSurat}`, 14, 37);
+                doc.text(`Lampiran : -`, 14, 42);
+                doc.text(`Perihal    : ${textPerihal}`, 14, 47);
+
+                doc.text(`Sakra, ${tglStr}`, 196, 37, { align: "right" });
+
+                // TABEL TRANSAKSI
+                let totalMasuk = 0, totalKeluar = 0;
+
+                const rows = filteredData.map(r => {
+                    const nominal = parseInt(r[3]) || 0;
+                    const tipeFormat = r[4] === 'Masuk' ? 'Pemasukan' : (r[4] === 'Keluar' ? 'Pengeluaran' : r[4]);
+
+                    if (r[4] === 'Masuk') totalMasuk += nominal;
+                    else if (r[4] === 'Keluar') totalKeluar += nominal;
+
+                    let tglTx = r[0];
+                    try {
+                        const d = new Date(r[0]);
+                        if (!isNaN(d.getTime())) {
+                            tglTx = d.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                        }
+                    } catch (e) {}
+
+                    return [tglTx, tipeFormat, r[1], r[2] || '', `Rp ${nominal.toLocaleString('id-ID')}`];
+                });
+
+                doc.autoTable({
+                    head: [['Tanggal', 'Tipe', 'Nama', 'Keterangan', 'Jumlah']],
+                    body: rows,
+                    startY: 53,
+                    theme: 'grid',
+                    headStyles: {
+                        fillColor: '#ffffff',
+                        textColor: '#0f172a',
+                        fontStyle: 'bold',
+                        halign: 'left',
+                        lineWidth: 0.1,
+                        borderColor: '#94a3b8'
+                    },
+                    bodyStyles: {
+                        textColor: '#1e293b',
+                        fontSize: 8,
+                        lineWidth: 0.1,
+                        borderColor: '#cbd5e1'
+                    },
+                    columnStyles: {
+                        0: { cellWidth: 25 },
+                        1: { cellWidth: 28 },
+                        2: { cellWidth: 42 },
+                        3: { cellWidth: 53 },
+                        4: { cellWidth: 34, halign: 'right', fontStyle: 'bold' }
+                    }
+                });
+
+                let finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 8 : 65;
+
+                if (finalY > 230) {
+                    doc.addPage();
+                    finalY = 20;
+                }
+
+                // RINGKASAN TOTAL
+                const saldoBersih = totalMasuk - totalKeluar;
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(9);
+
+                doc.text("Total Pemasukan:", 120, finalY);
+                doc.setFont("helvetica", "bold");
+                doc.text(`Rp ${totalMasuk.toLocaleString('id-ID')}`, 196, finalY, { align: "right" });
+
+                doc.setFont("helvetica", "normal");
+                doc.text("Total Pengeluaran:", 120, finalY + 5);
+                doc.setFont("helvetica", "bold");
+                doc.text(`Rp ${totalKeluar.toLocaleString('id-ID')}`, 196, finalY + 5, { align: "right" });
+
+                doc.setFont("helvetica", "normal");
+                doc.text("Sisa Saldo Bersih:", 120, finalY + 10);
+                doc.setFont("helvetica", "bold");
+                doc.text(`Rp ${saldoBersih.toLocaleString('id-ID')}`, 196, finalY + 10, { align: "right" });
+
+                // TANDA TANGAN BENDAHARA
+                const signY = finalY + 22;
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(9);
+                doc.text("Tertanda", 160, signY, { align: "center" });
+                doc.text("Bendahara Kelas", 160, signY + 5, { align: "center" });
+
+                doc.setFont("helvetica", "bold");
+                doc.text("Lalu Abdurrahman Mas'ud", 160, signY + 25, { align: "center" });
+                doc.setFont("helvetica", "normal");
+                doc.text("NISN. 0111206658", 160, signY + 30, { align: "center" });
+
+                if (typeof catatAuditLog === 'function') {
+                    catatAuditLog(`Mengunduh File PDF (${textPerihal})`);
+                }
+                showToast("File PDF berhasil dibuat dan diunduh!", "success");
+                doc.save(`Laporan_Kas_Astravelis_${filenameSuffix}.pdf`);
+            };
+
+            const imgEl = document.getElementById('logoApp');
+            if (imgEl && imgEl.complete && imgEl.naturalWidth !== 0) {
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = imgEl.naturalWidth;
+                    canvas.height = imgEl.naturalHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(imgEl, 0, 0);
+                    generateDocBody(canvas.toDataURL('image/jpeg'));
+                } catch(e) {
+                    generateDocBody(null);
+                }
+            } else {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    generateDocBody(canvas.toDataURL('image/jpeg'));
+                };
+                img.onerror = function() { generateDocBody(null); };
+                img.src = 'logo.jpg';
+            }
         }
 
-        // AUTO-POLLING BACKGROUND REALTIME (Setiap 3 detik cek status & data ke cloud)
         setInterval(() => {
             muatData();
-        }, 3000);
+        }, 5000);
 
-        // Inisialisasi awal
         updateClock();
         setInterval(updateClock, 1000);
         updateAllLinksUI();
