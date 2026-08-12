@@ -1033,7 +1033,66 @@
         let sidebarDesktopOpen = true;
 
         // ==========================================
-        // TOGGLE SIDEBAR & NAVIGATION SYSTEM (PERBAIKAN PERSEPSIONAL DESKTOP)
+        // FITUR DETEKSI PERANGKAT PENGUNJUNG
+        // ==========================================
+        function dapatkanDetailPerangkat() {
+            const ua = navigator.userAgent;
+            let merkPerangkat = "Laptop/PC";
+
+            if (/Android/i.test(ua)) {
+                const match = ua.match(/Android\s+[\d\.]+;\s*([^;\)]+)/i);
+                merkPerangkat = match ? `Android (${match[1].trim()})` : "Android Device";
+            } else if (/iPhone/i.test(ua)) {
+                merkPerangkat = "iPhone";
+            } else if (/iPad/i.test(ua)) {
+                merkPerangkat = "iPad";
+            } else if (/Windows/i.test(ua)) {
+                merkPerangkat = "Windows PC/Laptop";
+            } else if (/Macintosh/i.test(ua)) {
+                merkPerangkat = "MacBook/Mac";
+            } else if (/Linux/i.test(ua)) {
+                merkPerangkat = "Linux Device";
+            }
+
+            let browser = "Browser Lain";
+            if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Chrome";
+            else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
+            else if (ua.includes("Edg")) browser = "Edge";
+            else if (ua.includes("Firefox")) browser = "Firefox";
+
+            return `${merkPerangkat} [${browser} - ${window.screen.width}x${window.screen.height}px]`;
+        }
+
+        async function catatKunjunganOtomatis() {
+            // Gunakan sessionStorage agar hanya mencatat 1 kali per sesi browser
+            if (sessionStorage.getItem('astravelis_visited')) return;
+
+            const targetURL = getDynamicConfig().scriptURL;
+            if (!targetURL || targetURL.trim() === "") return;
+
+            const infoPerangkat = dapatkanDetailPerangkat();
+            const waktu = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            const tanggal = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+            const timestampFormatted = `${tanggal}, ${waktu}`;
+
+            try {
+                await fetch(targetURL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: "addLog",
+                        timestamp: timestampFormatted,
+                        user: "Pengunjung Anonim",
+                        actionText: `Membuka web via ${infoPerangkat}`
+                    })
+                });
+                sessionStorage.setItem('astravelis_visited', 'true');
+            } catch (e) {
+                console.error("Gagal mencatat log kunjungan perangkat:", e);
+            }
+        }
+
+        // ==========================================
+        // TOGGLE SIDEBAR & NAVIGATION SYSTEM
         // ==========================================
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -1041,7 +1100,6 @@
             const overlay = document.getElementById('sidebarOverlay');
 
             if (window.innerWidth < 768) {
-                // Tampilan HP / Mobile
                 const isHidden = sidebar.classList.contains('-translate-x-full');
                 if (isHidden) {
                     sidebar.classList.remove('-translate-x-full');
@@ -1051,18 +1109,15 @@
                     overlay.classList.add('hidden');
                 }
             } else {
-                // Tampilan Laptop / Desktop (>= 768px)
-                overlay.classList.add('hidden'); // Selalu sembunyikan overlay di desktop
+                overlay.classList.add('hidden');
                 
                 if (sidebarDesktopOpen) {
-                    // Sembunyikan Sidebar sepenuhnya di Laptop/Desktop
                     sidebar.classList.remove('md:translate-x-0');
                     sidebar.classList.add('md:-translate-x-full');
                     mainContent.classList.remove('md:ml-64');
                     mainContent.classList.add('md:ml-0');
                     sidebarDesktopOpen = false;
                 } else {
-                    // Tampilkan Sidebar kembali di Laptop/Desktop
                     sidebar.classList.remove('md:-translate-x-full');
                     sidebar.classList.add('md:translate-x-0');
                     mainContent.classList.remove('md:ml-0');
@@ -1140,7 +1195,6 @@
                 document.getElementById('pageAdminPanel').classList.remove('hidden');
             }
 
-            // Tutup sidebar otomatis hanya saat pengguna di layar ponsel/HP (<768px)
             if (window.innerWidth < 768) {
                 const sidebar = document.getElementById('sidebar');
                 const overlay = document.getElementById('sidebarOverlay');
@@ -2131,6 +2185,7 @@
         updateAllLinksUI();
         initTheme();
         muatData();
+        catatKunjunganOtomatis(); // Deteksi & catat perangkat pengunjung secara otomatis
     </script>
 </body>
 </html>
