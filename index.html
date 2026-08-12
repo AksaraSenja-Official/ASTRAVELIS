@@ -70,7 +70,7 @@
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
 
     <!-- ==================== OVERLAY TERKUNCI TOTAL SAAT WEB DITUTUP ==================== -->
-    <div id="lockedOverlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] hidden flex flex-col items-center justify-center p-6 text-center text-white">
+    <div id="lockedOverlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] hidden flex flex-col items-center justify-center p-6 text-center text-white transition-opacity duration-300">
         <div class="max-w-md w-full bg-slate-900/90 border border-slate-700/80 p-8 rounded-3xl shadow-2xl space-y-6">
             <div class="w-20 h-20 bg-rose-500/20 border-2 border-rose-500 text-rose-500 rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-lg animate-bounce">
                 🔒
@@ -1130,7 +1130,7 @@
         }
 
         // ==========================================
-        // LOGIKA STATUS OPERASIONAL BUKA/TUTUP WEB (HARD LOCK)
+        // LOGIKA STATUS OPERASIONAL BUKA/TUTUP WEB (HARD LOCK REALTIME)
         // ==========================================
         function perbaruiUIStatusWeb() {
             const statusSaklarText = document.getElementById('statusSaklar');
@@ -1142,7 +1142,7 @@
             const lockedOverlay = document.getElementById('lockedOverlay');
 
             if (isWebOpen) {
-                // WEB DIBUKA
+                // WEB DIBUKA - Buka kuncian secara instan
                 if (lockedOverlay) lockedOverlay.classList.add('hidden');
                 
                 if (statusSaklarText) {
@@ -1160,11 +1160,11 @@
                     badgeHeader.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800";
                 }
             } else {
-                // WEB DITUTUP (KUNCI TOTAL JIKA BUKAN ADMIN UTAMA ATAU KETUA/WAKIL KELAS)
+                // WEB DITUTUP - Kunci web secara instan jika pengguna bukan Admin Utama / Ketua / Wakil
                 if (!checkCanToggleWeb()) {
                     if (lockedOverlay) lockedOverlay.classList.remove('hidden');
                 } else {
-                    // Admin atau Ketua/Wakil sedang login -> buka layar pengunci agar mereka dapat mengubah Saklar di Panel Kontrol
+                    // Jika Admin Utama / Ketua / Wakil sedang login -> buka layar pengunci agar bisa mengakses Panel Kontrol
                     if (lockedOverlay) lockedOverlay.classList.add('hidden');
                 }
 
@@ -1188,6 +1188,8 @@
         async function simpanStatusWeb(statusBuka) {
             isWebOpen = statusBuka;
             localStorage.setItem('ASTRAVELIS_STATUS_WEB', statusBuka ? 'buka' : 'tutup');
+            
+            // Lakukan update UI lokal seketika tanpa me-refresh halaman
             perbaruiUIStatusWeb();
 
             const targetURL = getScriptURL();
@@ -1214,8 +1216,17 @@
             const btnAdminSaklar = document.getElementById('btnAdminSaklarWeb');
             const statusBaru = btnAdminSaklar ? btnAdminSaklar.checked : !isWebOpen;
             await simpanStatusWeb(statusBaru);
-            alert(`Status web berhasil diubah menjadi: ${statusBaru ? 'DIBUKA' : 'DITUTUP (TERKUNCI)'}`);
         }
+
+        // ==========================================
+        // EVENT LISTENER MULTI-TAB SYNC (TANPA REFRESH)
+        // ==========================================
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'ASTRAVELIS_STATUS_WEB') {
+                isWebOpen = e.newValue !== 'tutup';
+                perbaruiUIStatusWeb();
+            }
+        });
 
         // ==========================================
         // FITUR DETEKSI PERANGKAT PENGUNJUNG
@@ -1611,7 +1622,7 @@
 
                 catatAuditLog(`Login ke sistem`);
                 tutupModalLogin();
-                perbaruiUIStatusWeb(); // Refresh UI Kunci Web
+                perbaruiUIStatusWeb(); // Refresh UI Kunci Web secara instan
                 
                 if (!isWebOpen) {
                     if (checkCanToggleWeb()) {
@@ -2048,8 +2059,12 @@
                 }
 
                 if (json.statusWeb) {
-                    isWebOpen = json.statusWeb !== 'tutup';
-                    localStorage.setItem('ASTRAVELIS_STATUS_WEB', json.statusWeb);
+                    const statusCloud = json.statusWeb !== 'tutup';
+                    if (isWebOpen !== statusCloud) {
+                        isWebOpen = statusCloud;
+                        localStorage.setItem('ASTRAVELIS_STATUS_WEB', json.statusWeb);
+                        perbaruiUIStatusWeb(); // Update kuncian web secara otomatis tanpa refresh
+                    }
                 }
 
                 if (json.links || json.config) {
@@ -2083,7 +2098,6 @@
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
                 updateUI();
                 sesuaikanFormOtomatis();
-                perbaruiUIStatusWeb();
             } catch (e) { 
                 document.getElementById('infoBulan').innerText = "OFFLINE"; 
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
@@ -2421,14 +2435,10 @@
             doc.save(`Laporan_Kas_Astravelis_${namaBulan}_${tahun}.pdf`);
         }
 
-        // Auto-refresh data real-time setiap 30 detik
+        // AUTO-POLLING BACKGROUND REALTIME (Setiap 3 detik cek status & data ke cloud)
         setInterval(() => {
-            const isKasVisible = !document.getElementById('pageUangKas').classList.contains('hidden');
-            const isAdminVisible = !document.getElementById('pageAdminPanel').classList.contains('hidden');
-            if (isKasVisible || isAdminVisible) {
-                muatData();
-            }
-        }, 30000);
+            muatData();
+        }, 3000);
 
         // Inisialisasi awal
         updateClock();
