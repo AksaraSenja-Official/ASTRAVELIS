@@ -69,6 +69,30 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
 
+    <!-- ==================== OVERLAY TERKUNCI TOTAL SAAT WEB DITUTUP ==================== -->
+    <div id="lockedOverlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] hidden flex flex-col items-center justify-center p-6 text-center text-white">
+        <div class="max-w-md w-full bg-slate-900/90 border border-slate-700/80 p-8 rounded-3xl shadow-2xl space-y-6">
+            <div class="w-20 h-20 bg-rose-500/20 border-2 border-rose-500 text-rose-500 rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-lg animate-bounce">
+                🔒
+            </div>
+            <div class="space-y-2">
+                <h2 class="text-2xl font-black italic uppercase tracking-wider text-white">PORTAL DITUTUP</h2>
+                <p class="text-xs text-slate-300 leading-relaxed font-medium">
+                    Seluruh fitur & layanan <b class="text-teal-400">ASTRAVELIS</b> saat ini sedang <b class="text-rose-400 uppercase">DITUTUP / MODE LIBUR</b> oleh Pengurus Kelas.
+                </p>
+            </div>
+            <div class="pt-4 border-t border-slate-800 space-y-3">
+                <button onclick="bukaModalLogin()" class="w-full py-3.5 bg-teal-500 hover:bg-teal-600 active:scale-98 text-white font-black text-xs uppercase tracking-wider rounded-2xl transition shadow-lg shadow-teal-500/20 flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4 text-amber-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                    <span>Login Pengurus / Admin</span>
+                </button>
+                <p class="text-[10px] text-slate-400 font-medium italic">
+                    *Hanya Admin Utama yang berhak membuka saklar penutup web ini.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <div class="flex flex-1 w-full relative">
         <!-- ==================== SIDEBAR NAVIGASI ==================== -->
         <aside id="sidebar" class="-translate-x-full md:translate-x-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 flex flex-col fixed inset-y-0 left-0 z-50 transition-all-300 shadow-xl md:shadow-sm">
@@ -169,6 +193,12 @@
                 
                 <!-- Sisi Kanan Header -->
                 <div class="flex items-center gap-3">
+                    <!-- Status Saklar Buka/Tutup Web Indicator Badge -->
+                    <div id="badgeStatusHeader" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span id="textHeaderStatusWeb">WEB BUKA</span>
+                    </div>
+
                     <!-- Display Jam Realtime -->
                     <div class="hidden md:flex flex-col text-right pr-2 border-r border-slate-200 dark:border-slate-700">
                         <span id="realtimeClock" class="text-xs font-extrabold text-teal-600 dark:text-teal-400">Memuat jam...</span>
@@ -199,6 +229,17 @@
                     </div>
                 </div>
             </header>
+
+            <!-- BANNER INTI: NOTIFIKASI SAKLAR BUKA/TUTUP WEB (MODE LIBUR) -->
+            <div id="bannerWebTutup" class="hidden bg-rose-500 text-white p-3.5 px-6 text-center text-xs font-bold shadow-inner flex flex-col sm:flex-row items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                    <span class="text-base">📢</span>
+                    <span><b>PERHATIAN:</b> Portal / Layanan Kelas saat ini sedang <b>DITUTUP (MODE LIBUR/OFF)</b>.</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] bg-rose-700 px-2.5 py-1 rounded-lg font-mono">Buka di Panel Kontrol / Header (Khusus Admin)</span>
+                </div>
+            </div>
 
             <!-- Isi Konten Utama -->
             <main class="p-4 md:p-8 space-y-8 flex-1 max-w-7xl mx-auto w-full">
@@ -369,14 +410,15 @@
                         </div>
                     </div>
 
+                    <!-- KONTROL SAKLAR BUKA/TUTUP STATUS KAS & EDIT TAGIHAN -->
                     <div class="flex gap-2.5 items-center justify-end">
                         <button onclick="kurangiBulan()" class="px-3 py-2 bg-white dark:bg-slate-800 text-red-500 rounded-xl shadow-sm border border-red-100 dark:border-red-900/40 hover:bg-red-50 transition text-[11px] font-bold uppercase italic">➖ Edit Tagihan</button>
                         <div class="bg-white dark:bg-slate-800 px-3 py-1.5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2.5">
                             <div class="text-right">
-                                <p class="text-[8px] font-black text-slate-400 uppercase">Tambah Tagihan</p>
-                                <p id="statusSaklar" class="text-[9px] font-bold text-red-500 uppercase italic">Libur/Off</p>
+                                <p class="text-[8px] font-black text-slate-400 uppercase">Status Portal Web</p>
+                                <p id="statusSaklar" class="text-[9px] font-bold text-emerald-500 uppercase italic">🟢 BUKA/AKTIF</p>
                             </div>
-                            <label class="switch">
+                            <label class="switch" title="Saklar Buka/Tutup Status Web (Khusus Admin)">
                                 <input type="checkbox" id="btnSaklar" onchange="toggleIuran()">
                                 <span class="slider"></span>
                             </label>
@@ -725,8 +767,27 @@
                                 Pengaturan Kontrol & Sistem
                             </h2>
                             <p class="text-xs text-slate-400 dark:text-slate-400 mt-1">
-                                Pusat pengelolaan tautan cepat, data siswa, otentikasi PIN pengurus, dan rekam audit aktivitas.
+                                Pusat pengelolaan status operasional web (buka/tutup), tautan cepat, data siswa, PIN pengurus, dan rekam audit aktivitas.
                             </p>
+                        </div>
+
+                        <!-- MODUL KONTROL SAKLAR STATUS WEB DIBUKA / DITUTUP -->
+                        <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div>
+                                <h3 class="text-xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-2">
+                                    <span>🌐</span> Saklar Status Operasional Web (Buka / Tutup)
+                                </h3>
+                                <p class="text-[11px] text-slate-400 font-medium mt-1">
+                                    Gunakan saklar ini untuk membuka atau menutup akses/mode operasional web (misalnya saat libur sekolah/semester). *Khusus Admin Utama.
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-3 bg-white dark:bg-slate-800 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                                <span id="textAdminStatusWeb" class="text-xs font-black text-emerald-600 uppercase">DIBUKA</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="btnAdminSaklarWeb" onchange="toggleStatusWebAdmin()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
                         </div>
 
                         <!-- MODUL 1: KELOLA QUICK LINKS & IURAN -->
@@ -874,7 +935,7 @@
     </div>
 
     <!-- ==================== MODAL LOGIN PENGURUS ==================== -->
-    <div id="modalLogin" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div id="modalLogin" class="fixed inset-0 bg-slate-900/60 hidden z-[110] flex items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-white dark:bg-slate-800 w-full max-w-xs rounded-3xl shadow-2xl p-6 text-center space-y-4 border border-slate-200 dark:border-slate-700">
             <div>
                 <h3 class="font-black text-lg uppercase italic text-slate-900 dark:text-white">LOGIN <span class="text-teal-600 dark:text-teal-400">PENGURUS</span></h3>
@@ -891,7 +952,7 @@
     </div>
 
     <!-- ==================== MODAL GANTI PIN PENGURUS ==================== -->
-    <div id="modalGantiPin" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div id="modalGantiPin" class="fixed inset-0 bg-slate-900/60 hidden z-[110] flex items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-white dark:bg-slate-800 w-full max-w-sm rounded-3xl shadow-2xl p-6 text-center space-y-4 border border-slate-200 dark:border-slate-700">
             <div>
                 <h3 class="font-black text-lg uppercase italic text-slate-900 dark:text-white">UBAH <span class="text-teal-600 dark:text-teal-400">PIN PENGURUS</span></h3>
@@ -922,7 +983,7 @@
     </div>
 
     <!-- ==================== MODAL ZOOM JADWAL ==================== -->
-    <div id="modalJadwal" class="fixed inset-0 bg-slate-950/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md" onclick="tutupModalJadwal()">
+    <div id="modalJadwal" class="fixed inset-0 bg-slate-950/80 hidden z-[110] flex items-center justify-center p-4 backdrop-blur-md" onclick="tutupModalJadwal()">
         <div class="relative max-w-4xl w-full flex flex-col items-center">
             <img id="imgJadwalZoom" src="jadwal_pelajaran.jpg" alt="Zoom Jadwal" class="max-h-[80vh] w-auto object-contain rounded-xl shadow-2xl">
             <button onclick="tutupModalJadwal()" class="mt-3 bg-white/20 hover:bg-white/40 text-white font-bold px-5 py-1.5 rounded-lg text-xs uppercase">Tutup Preview</button>
@@ -930,7 +991,7 @@
     </div>
 
     <!-- IMPORT FILE KONFIGURASI PENTING TERPISAH -->
-    <script src="config.js"></script>
+    <script src="config.js" onerror="console.log('File config.js tidak ditemukan, menggunakan fallback lokal.')"></script>
 
     <!-- SCRIPT UTAMA SISTEM DATA & NAVIGATION -->
     <script>
@@ -1017,7 +1078,7 @@
         }
 
         let dynamicConfig = getDynamicConfig();
-        const scriptURL = dynamicConfig.scriptURL;
+        function getScriptURL() { return dynamicConfig.scriptURL || ""; }
         let NOMINAL_IURAN = dynamicConfig.nominalIuran;
 
         let ROLES = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : DEFAULT_ROLES_FALLBACK;
@@ -1025,12 +1086,149 @@
         let dataLokal = [];
         let listSiswa = [...DEFAULT_SISWA_BACKUP];
         let globalAuditLogs = [];
-        let myChart;
+        let myChart = null;
         let bulanAktif = 0;
         let hasilKelompokLokal = [];
 
-        // Status Sidebar Desktop (Default Tampil di Laptop/Desktop)
+        // STATUS OPERASIONAL WEB (BUKA / TUTUP)
+        let isWebOpen = localStorage.getItem('ASTRAVELIS_STATUS_WEB') !== 'tutup';
+
+        // Status Sidebar Desktop
         let sidebarDesktopOpen = true;
+
+        // HELPER KHUSUS CEK WEWENANG ADMIN UTAMA
+        function checkIsAdmin() {
+            if (!currentRole) return false;
+            const roleName = (currentRole.name || "").toLowerCase();
+            return roleName.includes("admin");
+        }
+
+        // ==========================================
+        // HELPER SIKRONISASI CLIPBOARD UNIVERSAL
+        // ==========================================
+        async function copyToClipboard(text, successMsg) {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = text;
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-999999px";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    document.execCommand('copy');
+                    textArea.remove();
+                }
+                alert(successMsg || "Berhasil disalin ke clipboard!");
+            } catch (err) {
+                alert("Gagal menyalin otomatis. Silakan salin teks secara manual.");
+            }
+        }
+
+        // ==========================================
+        // LOGIKA STATUS OPERASIONAL BUKA/TUTUP WEB (HARD LOCK)
+        // ==========================================
+        function perbaruiUIStatusWeb() {
+            const btnSaklarKas = document.getElementById('btnSaklar');
+            const statusSaklarText = document.getElementById('statusSaklar');
+            const btnAdminSaklar = document.getElementById('btnAdminSaklarWeb');
+            const textAdminStatus = document.getElementById('textAdminStatusWeb');
+            const bannerTutup = document.getElementById('bannerWebTutup');
+            const textHeaderStatus = document.getElementById('textHeaderStatusWeb');
+            const badgeHeader = document.getElementById('badgeStatusHeader');
+            const lockedOverlay = document.getElementById('lockedOverlay');
+
+            if (isWebOpen) {
+                // WEB DIBUKA
+                if (lockedOverlay) lockedOverlay.classList.add('hidden');
+                
+                if (btnSaklarKas) btnSaklarKas.checked = true;
+                if (statusSaklarText) {
+                    statusSaklarText.innerText = "🟢 BUKA/AKTIF";
+                    statusSaklarText.className = "text-[9px] font-bold text-emerald-500 uppercase italic";
+                }
+                if (btnAdminSaklar) btnAdminSaklar.checked = true;
+                if (textAdminStatus) {
+                    textAdminStatus.innerText = "DIBUKA";
+                    textAdminStatus.className = "text-xs font-black text-emerald-600 uppercase";
+                }
+                if (bannerTutup) bannerTutup.classList.add('hidden');
+                if (textHeaderStatus) textHeaderStatus.innerText = "WEB BUKA";
+                if (badgeHeader) {
+                    badgeHeader.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800";
+                }
+            } else {
+                // WEB DITUTUP (KUNCI TOTAL JIKA BUKAN ADMIN UTAMA)
+                if (!checkIsAdmin()) {
+                    if (lockedOverlay) lockedOverlay.classList.remove('hidden');
+                } else {
+                    // Admin sedang login -> buka layar pengunci agar Admin bisa mengubah saklar kembali
+                    if (lockedOverlay) lockedOverlay.classList.add('hidden');
+                }
+
+                if (btnSaklarKas) btnSaklarKas.checked = false;
+                if (statusSaklarText) {
+                    statusSaklarText.innerText = "🔴 DITUTUP (LIBUR)";
+                    statusSaklarText.className = "text-[9px] font-bold text-rose-500 uppercase italic";
+                }
+                if (btnAdminSaklar) btnAdminSaklar.checked = false;
+                if (textAdminStatus) {
+                    textAdminStatus.innerText = "DITUTUP (LIBUR)";
+                    textAdminStatus.className = "text-xs font-black text-rose-600 uppercase";
+                }
+                if (bannerTutup) bannerTutup.classList.remove('hidden');
+                if (textHeaderStatus) textHeaderStatus.innerText = "WEB DITUTUP";
+                if (badgeHeader) {
+                    badgeHeader.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800";
+                }
+            }
+        }
+
+        async function simpanStatusWeb(statusBuka) {
+            isWebOpen = statusBuka;
+            localStorage.setItem('ASTRAVELIS_STATUS_WEB', statusBuka ? 'buka' : 'tutup');
+            perbaruiUIStatusWeb();
+
+            const targetURL = getScriptURL();
+            if (targetURL && targetURL.trim() !== "") {
+                try {
+                    await fetch(targetURL, {
+                        method: 'POST',
+                        body: JSON.stringify({ action: "updateStatusWeb", statusWeb: statusBuka ? 'buka' : 'tutup' })
+                    });
+                } catch(e) {
+                    console.error("Gagal sinkron status web ke cloud");
+                }
+            }
+            await catatAuditLog(`Mengubah status operasional web menjadi: ${statusBuka ? 'DIBUKA' : 'DITUTUP (MODE LIBUR)'}`);
+        }
+
+        async function toggleStatusWebAdmin() {
+            if (!checkIsAdmin()) {
+                alert("Akses Ditolak! Hanya Admin Utama yang memiliki wewenang untuk membuka atau menutup status operasional web.");
+                perbaruiUIStatusWeb();
+                if (!currentRole) bukaModalLogin();
+                return;
+            }
+            const btnAdminSaklar = document.getElementById('btnAdminSaklarWeb');
+            const statusBaru = btnAdminSaklar ? btnAdminSaklar.checked : !isWebOpen;
+            await simpanStatusWeb(statusBaru);
+            alert(`Status web berhasil diubah menjadi: ${statusBaru ? 'DIBUKA' : 'DITUTUP (TERKUNCI)'}`);
+        }
+
+        async function toggleIuran() {
+            if (!checkIsAdmin()) {
+                alert("Akses Ditolak! Hanya Admin Utama yang dapat mengubah status operasional Saklar Web!");
+                perbaruiUIStatusWeb();
+                if (!currentRole) bukaModalLogin();
+                return;
+            }
+            const btnSaklarKas = document.getElementById('btnSaklar');
+            const statusBaru = btnSaklarKas ? btnSaklarKas.checked : !isWebOpen;
+            await simpanStatusWeb(statusBaru);
+        }
 
         // ==========================================
         // FITUR DETEKSI PERANGKAT PENGUNJUNG
@@ -1064,10 +1262,9 @@
         }
 
         async function catatKunjunganOtomatis() {
-            // Gunakan sessionStorage agar hanya mencatat 1 kali per sesi browser
             if (sessionStorage.getItem('astravelis_visited')) return;
 
-            const targetURL = getDynamicConfig().scriptURL;
+            const targetURL = getScriptURL();
             if (!targetURL || targetURL.trim() === "") return;
 
             const infoPerangkat = dapatkanDetailPerangkat();
@@ -1149,6 +1346,12 @@
         }
 
         function bukaHalaman(hal) {
+            // JIKA WEB DITUTUP & BUKAN ADMIN UTAMA -> TERKUNCI TOTAL
+            if (!isWebOpen && !checkIsAdmin()) {
+                perbaruiUIStatusWeb();
+                return;
+            }
+
             const listPages = [
                 'pageDashboard', 'pageUangKas', 'pageCekKas', 
                 'pageGeneratorKelompok', 'pageJadwal', 'pageQuickLinks', 
@@ -1204,6 +1407,14 @@
         }
 
         function aksesFitur(fitur) {
+            // PEMERIKSAAN KONTROL WEB DITUTUP
+            if (!isWebOpen && !checkIsAdmin()) {
+                perbaruiUIStatusWeb();
+                alert("Portal sedang DITUTUP. Hanya Admin Utama yang berhak membuka web ini!");
+                if (!currentRole) bukaModalLogin();
+                return;
+            }
+
             if(fitur === 'cekKas' || fitur === 'jadwal' || fitur === 'moment' || fitur === 'materi' || fitur === 'quickLinks' || fitur === 'generatorKelompok') {
                 bukaHalaman(fitur);
                 return;
@@ -1225,14 +1436,15 @@
         // FITUR LOGGING AKTIVITAS PENGURUS
         // ==========================================
         async function catatAuditLog(pesan) {
-            if (!scriptURL || scriptURL.trim() === "") return;
+            const targetURL = getScriptURL();
+            if (!targetURL || targetURL.trim() === "") return;
             const waktu = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
             const tanggal = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
             const pelaku = currentRole ? currentRole.name : "Sistem/Tamu";
             const timestampFormatted = `${tanggal}, ${waktu}`;
 
             try {
-                await fetch(scriptURL, {
+                await fetch(targetURL, {
                     method: 'POST',
                     body: JSON.stringify({
                         action: "addLog",
@@ -1267,14 +1479,15 @@
         }
 
         async function bersihkanAuditLog() {
-            if(!scriptURL || scriptURL.trim() === "") {
+            const targetURL = getScriptURL();
+            if(!targetURL || targetURL.trim() === "") {
                 globalAuditLogs = [];
                 renderAuditLog();
                 return;
             }
             if(confirm("Bersihkan semua riwayat log aktivitas global?")) {
                 try {
-                    await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ action: "clearLogs" }) });
+                    await fetch(targetURL, { method: 'POST', body: JSON.stringify({ action: "clearLogs" }) });
                     globalAuditLogs = [];
                     renderAuditLog();
                     alert("Log aktivitas berhasil dibersihkan!");
@@ -1352,9 +1565,10 @@
 
             currentRoles[pinBaru] = defaultRoles[roleKey] || { name: "Pengurus", access: ["uangKas", "cekKas"] };
             
-            if (scriptURL && scriptURL.trim() !== "") {
+            const targetURL = getScriptURL();
+            if (targetURL && targetURL.trim() !== "") {
                 try {
-                    await fetch(scriptURL, { 
+                    await fetch(targetURL, { 
                         method: 'POST', 
                         body: JSON.stringify({ action: "updatePIN", newRoles: currentRoles }) 
                     });
@@ -1373,9 +1587,10 @@
         async function resetSemuaPinKeDefault() {
             const defaultRoles = (window.APP_CONFIG && window.APP_CONFIG.defaultRoles) ? window.APP_CONFIG.defaultRoles : DEFAULT_ROLES_FALLBACK;
             if(confirm("Yakin ingin mengembalikan seluruh PIN Pengurus ke PIN bawaan default?")) {
-                if (scriptURL && scriptURL.trim() !== "") {
+                const targetURL = getScriptURL();
+                if (targetURL && targetURL.trim() !== "") {
                     try {
-                        await fetch(scriptURL, { 
+                        await fetch(targetURL, { 
                             method: 'POST', 
                             body: JSON.stringify({ action: "updatePIN", newRoles: defaultRoles }) 
                         });
@@ -1409,7 +1624,17 @@
 
                 catatAuditLog(`Login ke sistem`);
                 tutupModalLogin();
-                alert(`Login Berhasil! Anda masuk sebagai ${currentRole.name}.`);
+                perbaruiUIStatusWeb(); // Refresh UI Kunci Web
+                
+                if (!isWebOpen) {
+                    if (checkIsAdmin()) {
+                        alert(`Login Berhasil sebagai ${currentRole.name}.\n\n⚠️ Status web saat ini DITUTUP. Silakan ganti Saklar Operasional di Header atau Panel Kontrol ke DIBUKA agar siswa dapat menggunakan portal.`);
+                    } else {
+                        alert(`Akses Terbatas! Anda masuk sebagai ${currentRole.name}.\n\n🔴 Web saat ini sedang DITUTUP. Hanya Admin Utama yang memiliki wewenang untuk membuka saklar operasional web.`);
+                    }
+                } else {
+                    alert(`Login Berhasil! Anda masuk sebagai ${currentRole.name}.`);
+                }
             } else {
                 alert("PIN Otentikasi Salah!");
             }
@@ -1421,6 +1646,8 @@
             document.getElementById('btnLogin').classList.remove('hidden');
             document.getElementById('userInfo').classList.add('hidden');
             document.getElementById('btnSidebarPanelKontrol').classList.add('hidden');
+            
+            perbaruiUIStatusWeb(); // Kunci otomatis saat logout jika web ditutup
             bukaHalaman('dashboard');
         }
 
@@ -1552,7 +1779,7 @@
             }).join('');
         }
 
-        function copyHasilKelompokWA() { 
+        async function copyHasilKelompokWA() { 
             if(!hasilKelompokLokal || hasilKelompokLokal.length === 0) { 
                 alert("Silakan klik 'Acak Sekarang' terlebih dahulu!"); 
                 return; 
@@ -1573,12 +1800,7 @@
                 teks += `\n`; 
             });
 
-            try {
-                navigator.clipboard.writeText(teks.trim()); 
-                alert("Hasil pembagian kelompok berhasil disalin ke WhatsApp!"); 
-            } catch(e) {
-                alert("Gagal menyalin otomatis. Silakan salin manual!");
-            }
+            await copyToClipboard(teks.trim(), "Hasil pembagian kelompok berhasil disalin ke WhatsApp!");
         }
 
         // ==========================================
@@ -1598,7 +1820,7 @@
             const roleName = currentRole ? currentRole.name : "Pengurus";
             document.getElementById('panelRoleTitleText').innerText = `🔑 AKSES: ${roleName.toUpperCase()}`;
 
-            const isAdmin = roleName.toLowerCase() === "admin" || roleName.toLowerCase().includes("admin");
+            const isAdmin = checkIsAdmin();
             const isSekretaris = roleName.toLowerCase().includes("sekretaris");
             const isKetua = roleName.toLowerCase().includes("ketua") || roleName.toLowerCase().includes("wakil");
 
@@ -1630,12 +1852,14 @@
             renderTabelSiswaAdmin();
             if (isAdmin) renderTabelPinAdmin();
             if (isAdmin) renderAuditLog();
+            perbaruiUIStatusWeb();
         }
 
         async function simpanSiswaKeCloud() {
-            if (!scriptURL || scriptURL.trim() === "") return;
+            const targetURL = getScriptURL();
+            if (!targetURL || targetURL.trim() === "") return;
             try {
-                await fetch(scriptURL, {
+                await fetch(targetURL, {
                     method: 'POST',
                     body: JSON.stringify({
                         action: "updateSiswa",
@@ -1653,7 +1877,7 @@
             if(!body) return;
 
             const roleName = currentRole ? currentRole.name.toLowerCase() : "";
-            const canEditSiswa = roleName.includes("admin") || roleName.includes("sekretaris") || roleName.includes("ketua") || roleName.includes("wakil");
+            const canEditSiswa = checkIsAdmin() || roleName.includes("sekretaris") || roleName.includes("ketua") || roleName.includes("wakil");
 
             badge.innerText = `${listSiswa.length} Siswa`;
             body.innerHTML = listSiswa.map((nama, idx) => `
@@ -1712,7 +1936,7 @@
             if(confirm(`Yakin ingin menghapus ${namaHapus} dari daftar siswa?`)) {
                 listSiswa.splice(idx, 1);
                 await simpanSiswaKeCloud();
-                await catatAuditLog(`Men menghapus siswa: ${namaHapus}`);
+                await catatAuditLog(`Menghapus siswa: ${namaHapus}`);
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
                 renderTabelSiswaAdmin();
                 updateUI();
@@ -1755,9 +1979,10 @@
             localStorage.setItem('ASTRAVELIS_LINKS', JSON.stringify(updatedLinks));
             localStorage.setItem('ASTRAVELIS_NOMINAL', updatedNominal.toString());
             
-            if (scriptURL && scriptURL.trim() !== "") {
+            const targetURL = getScriptURL();
+            if (targetURL && targetURL.trim() !== "") {
                 try {
-                    await fetch(scriptURL, {
+                    await fetch(targetURL, {
                         method: 'POST',
                         body: JSON.stringify({
                             action: "updateConfig",
@@ -1784,7 +2009,7 @@
             bukaHalaman('dashboard');
         }
 
-        function copyLaporanSingkatWA() {
+        async function copyLaporanSingkatWA() {
             const sekarang = new Date();
             const namaBulan = sekarang.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
             let mTotal = 0, kTotal = 0;
@@ -1801,35 +2026,37 @@
             teks += `🔹 Saldo Fisik : *Rp ${(mTotal - kTotal).toLocaleString('id-ID')}*\n\n`;
             teks += `Cek rincian transaksi lengkap di portal resmi:\nhttps://astravelis-official.github.io/ASTRAVELIS/`;
 
-            try {
-                navigator.clipboard.writeText(teks);
-                catatAuditLog(`Menyalin Ringkasan Laporan Kas ke WA`);
-                alert("Laporan Kas WhatsApp berhasil disalin!");
-            } catch(e) {
-                alert("Gagal menyalin otomatis ke Clipboard!");
-            }
+            await copyToClipboard(teks, "Laporan Kas WhatsApp berhasil disalin!");
+            await catatAuditLog(`Menyalin Ringkasan Laporan Kas ke WA`);
         }
 
         // ==========================================
         // DOKUMEN & SINKRONISASI DATA KAS
         // ==========================================
         async function muatData() {
-            if(!scriptURL || scriptURL.trim() === "") {
+            const targetURL = getScriptURL();
+            if(!targetURL || targetURL.trim() === "") {
                 document.getElementById('infoBulan').innerText = "MODE LOKAL";
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
                 updateUI();
                 sesuaikanFormOtomatis();
+                perbaruiUIStatusWeb();
                 return;
             }
             document.getElementById('infoBulan').innerText = "MENYINGKRONKAN...";
             try {
-                const res = await fetch(scriptURL + (scriptURL.includes('?') ? '&' : '?') + "t=" + Date.now());
+                const res = await fetch(targetURL + (targetURL.includes('?') ? '&' : '?') + "t=" + Date.now());
                 const json = await res.json();
                 dataLokal = json.transaksi || [];
                 
                 const rawSiswa = json.Siswa || json.siswa || json.anggota;
                 if(rawSiswa && Array.isArray(rawSiswa) && rawSiswa.length > 0) {
                     listSiswa = rawSiswa.map(n => n.toString().trim()).filter(n => n !== "");
+                }
+
+                if (json.statusWeb) {
+                    isWebOpen = json.statusWeb !== 'tutup';
+                    localStorage.setItem('ASTRAVELIS_STATUS_WEB', json.statusWeb);
                 }
 
                 if (json.links || json.config) {
@@ -1863,18 +2090,21 @@
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
                 updateUI();
                 sesuaikanFormOtomatis();
+                perbaruiUIStatusWeb();
             } catch (e) { 
                 document.getElementById('infoBulan').innerText = "OFFLINE"; 
                 document.getElementById('listAnggota').innerHTML = listSiswa.map(n => `<option value="${n}">`).join('');
                 updateUI();
+                perbaruiUIStatusWeb();
             }
         }
 
         async function sinkronBulanKeCloud(nilaiBaru) {
             document.getElementById('infoBulan').innerText = "MENYIMPAN...";
-            if (scriptURL && scriptURL.trim() !== "") {
+            const targetURL = getScriptURL();
+            if (targetURL && targetURL.trim() !== "") {
                 try {
-                    await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ action: "updateBulan", nilai: nilaiBaru }) });
+                    await fetch(targetURL, { method: 'POST', body: JSON.stringify({ action: "updateBulan", nilai: nilaiBaru }) });
                     await catatAuditLog(`Mengubah Periode Tagihan Bulan Kas menjadi ${nilaiBaru} Bulan`);
                     muatData();
                 } catch (e) { alert("Gagal koneksi cloud!"); }
@@ -1896,16 +2126,13 @@
             await sinkronBulanKeCloud(baru);
         }
 
-        async function toggleIuran() { 
-            if(confirm("Tambah tagihan 1 bulan?")) await sinkronBulanKeCloud(bulanAktif + 1);
-            document.getElementById('btnSaklar').checked = false; 
-        }
-
         function sesuaikanFormOtomatis() {
-            const jmlBulan = parseInt(document.getElementById('jumlahBulanBayar').value) || 1;
-            const kategori = document.getElementById('kategori').value;
-            const tipe = document.getElementById('tipe').value;
             const boxBulan = document.getElementById('boxBayarSekaligus');
+            if(!boxBulan) return;
+
+            const jmlBulan = parseInt(document.getElementById('jumlahBulanBayar')?.value) || 1;
+            const kategori = document.getElementById('kategori')?.value;
+            const tipe = document.getElementById('tipe')?.value;
 
             if (kategori === "Iuran" && tipe === "Masuk") {
                 boxBulan.style.display = "block";
@@ -1918,6 +2145,11 @@
 
         document.getElementById('kasForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!isWebOpen && !currentRole) {
+                alert("Transaksi tidak dapat disimpan karena Status Web sedang DITUTUP (MODE LIBUR/OFF).");
+                return;
+            }
+
             const namaInput = document.getElementById('nama').value.trim();
             const namaValid = listSiswa.find(n => n.toUpperCase() === namaInput.toUpperCase());
             if(!namaValid) { alert("NAMA TIDAK TERDAFTAR!"); return; }
@@ -1932,10 +2164,11 @@
                 tipe: document.getElementById('tipe').value 
             };
 
-            if (scriptURL && scriptURL.trim() !== "") {
+            const targetURL = getScriptURL();
+            if (targetURL && targetURL.trim() !== "") {
                 let barisKosong = dataLokal.length + 2;
                 try {
-                    await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ ...payload, action: "insertAt", targetRow: barisKosong }) });
+                    await fetch(targetURL, { method: 'POST', body: JSON.stringify({ ...payload, action: "insertAt", targetRow: barisKosong }) });
                     await catatAuditLog(`Menginput transaksi (${payload.tipe}): ${payload.nama} - Rp ${payload.jumlah.toLocaleString('id-ID')}`);
                     document.getElementById('nama').value = "";
                     document.getElementById('keterangan').value = "";
@@ -1982,9 +2215,12 @@
                 saldoTrend.push(mTotal - kTotal);
             });
 
-            document.getElementById('ringkasanKategori').innerHTML = Object.entries(pengeluaranKategori).map(([k, v]) => `
-                <div class="flex justify-between border-b dark:border-slate-700 pb-1 text-xs"><span>${k}</span><span class="font-bold text-rose-500">Rp ${v.toLocaleString('id-ID')}</span></div>
-            `).join('');
+            const ringkasanEl = document.getElementById('ringkasanKategori');
+            if (ringkasanEl) {
+                ringkasanEl.innerHTML = Object.entries(pengeluaranKategori).map(([k, v]) => `
+                    <div class="flex justify-between border-b dark:border-slate-700 pb-1 text-xs"><span>${k}</span><span class="font-bold text-rose-500">Rp ${v.toLocaleString('id-ID')}</span></div>
+                `).join('');
+            }
 
             const target = bulanAktif * NOMINAL_IURAN;
             let piutang = 0;
@@ -1993,18 +2229,21 @@
                 if(bayar < target) piutang += (target - bayar);
             });
 
-            document.getElementById('totalSaldo').innerText = "Rp " + (mTotal - kTotal).toLocaleString('id-ID');
-            document.getElementById('sisaPiutang').innerText = "Rp " + piutang.toLocaleString('id-ID');
-            document.getElementById('mBulanIni').innerText = "+" + mBulanIni.toLocaleString('id-ID');
-            document.getElementById('kBulanIni').innerText = "-" + kBulanIni.toLocaleString('id-ID');
-            document.getElementById('infoBulan').innerText = `TAGIHAN: ${bulanAktif} BULAN`;
+            if (document.getElementById('totalSaldo')) document.getElementById('totalSaldo').innerText = "Rp " + (mTotal - kTotal).toLocaleString('id-ID');
+            if (document.getElementById('sisaPiutang')) document.getElementById('sisaPiutang').innerText = "Rp " + piutang.toLocaleString('id-ID');
+            if (document.getElementById('mBulanIni')) document.getElementById('mBulanIni').innerText = "+" + mBulanIni.toLocaleString('id-ID');
+            if (document.getElementById('kBulanIni')) document.getElementById('kBulanIni').innerText = "-" + kBulanIni.toLocaleString('id-ID');
+            if (document.getElementById('infoBulan')) document.getElementById('infoBulan').innerText = `TAGIHAN: ${bulanAktif} BULAN`;
 
             renderTabel();
             renderMiniChart(saldoTrend.length > 0 ? saldoTrend.slice(-10) : [0]);
+            perbaruiUIStatusWeb();
         }
 
         function renderTabel() {
             const body = document.getElementById('tabelBody');
+            if (!body) return;
+
             const dataValidWithIndex = dataLokal.map((r, index) => ({ r, index })).filter(item => item.r[0] && item.r[1] && item.r[3]);
             
             if (dataValidWithIndex.length === 0) {
@@ -2027,8 +2266,9 @@
         async function hapusData(idx) {
             const dataHapus = dataLokal[idx];
             if(confirm("Hapus transaksi ini?")) {
-                if (scriptURL && scriptURL.trim() !== "") {
-                    await fetch(scriptURL, { method: 'POST', body: JSON.stringify({action: 'delete', row: idx}) });
+                const targetURL = getScriptURL();
+                if (targetURL && targetURL.trim() !== "") {
+                    await fetch(targetURL, { method: 'POST', body: JSON.stringify({action: 'delete', row: idx}) });
                     if(dataHapus) await catatAuditLog(`Menghapus transaksi: ${dataHapus[1]} (Rp ${parseInt(dataHapus[3] || 0).toLocaleString('id-ID')})`);
                     muatData();
                 } else {
@@ -2043,15 +2283,35 @@
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             if(myChart) myChart.destroy();
-            myChart = new Chart(ctx, { type: 'line', data: { labels: data.map((_, i) => i), datasets: [{ data: data, borderColor: '#0d9488', fill: true, backgroundColor: 'rgba(13, 148, 136, 0.08)', tension: 0.4, pointRadius: 0 }] }, options: { scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false } } } });
+            myChart = new Chart(ctx, { 
+                type: 'line', 
+                data: { 
+                    labels: data.map((_, i) => i), 
+                    datasets: [{ 
+                        data: data, 
+                        borderColor: '#0d9488', 
+                        fill: true, 
+                        backgroundColor: 'rgba(13, 148, 136, 0.08)', 
+                        tension: 0.4, 
+                        pointRadius: 0 
+                    }] 
+                }, 
+                options: { 
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { x: { display: false }, y: { display: false } }, 
+                    plugins: { legend: { display: false } } 
+                } 
+            });
         }
 
         function renderCekKasPublik() {
             const target = bulanAktif * NOMINAL_IURAN;
-            const filterKeyword = document.getElementById('searchSiswa').value.toUpperCase();
+            const searchEl = document.getElementById('searchSiswa');
+            const filterKeyword = searchEl ? searchEl.value.toUpperCase() : "";
             
-            document.getElementById('labelTagihanPublik').innerText = bulanAktif;
-            document.getElementById('labelNominalTagihan').innerText = "Rp " + target.toLocaleString('id-ID');
+            if (document.getElementById('labelTagihanPublik')) document.getElementById('labelTagihanPublik').innerText = bulanAktif;
+            if (document.getElementById('labelNominalTagihan')) document.getElementById('labelNominalTagihan').innerText = "Rp " + target.toLocaleString('id-ID');
 
             let listLunasHTML = "", listBelumHTML = "";
             let countLunas = 0, countBelum = 0;
@@ -2080,13 +2340,13 @@
                 }
             });
 
-            document.getElementById('countLunas').innerText = countLunas;
-            document.getElementById('countBelumLunas').innerText = countBelum;
-            document.getElementById('listSudahLunas').innerHTML = listLunasHTML || `<p class="text-xs text-slate-400 italic p-2">Tidak ada data lunas.</p>`;
-            document.getElementById('listBelumLunas').innerHTML = listBelumHTML || `<p class="text-xs text-slate-400 italic p-2">Tidak ada data tunggakan.</p>`;
+            if (document.getElementById('countLunas')) document.getElementById('countLunas').innerText = countLunas;
+            if (document.getElementById('countBelumLunas')) document.getElementById('countBelumLunas').innerText = countBelum;
+            if (document.getElementById('listSudahLunas')) document.getElementById('listSudahLunas').innerHTML = listLunasHTML || `<p class="text-xs text-slate-400 italic p-2">Tidak ada data lunas.</p>`;
+            if (document.getElementById('listBelumLunas')) document.getElementById('listBelumLunas').innerHTML = listBelumHTML || `<p class="text-xs text-slate-400 italic p-2">Tidak ada data tunggakan.</p>`;
         }
 
-        function copyPenunggak() {
+        async function copyPenunggak() {
             const target = bulanAktif * NOMINAL_IURAN;
             let teks = "*📢 PENGINGAT TUNGGAKAN KAS ASTRAVELIS 📢*\n\n";
             let adaPenunggak = false;
@@ -2101,18 +2361,14 @@
             });
             if(!adaPenunggak) teks += "Alhamdulillah, seluruh anggota kelas sudah melunasi kas! 🎉";
             
-            try {
-                navigator.clipboard.writeText(teks);
-                catatAuditLog(`Menyalin Daftar Tunggakan Siswa ke WA`);
-                alert("Daftar tunggakan disalin ke Clipboard WhatsApp!");
-            } catch(e) {
-                alert("Gagal menyalin otomatis ke Clipboard!");
-            }
+            await copyToClipboard(teks, "Daftar tunggakan disalin ke Clipboard WhatsApp!");
+            await catatAuditLog(`Menyalin Daftar Tunggakan Siswa ke WA`);
         }
 
         function unduhCSV() { 
-            if (scriptURL && scriptURL.trim() !== "") {
-                window.open(scriptURL + (scriptURL.includes('?') ? '&' : '?') + "action=export"); 
+            const targetURL = getScriptURL();
+            if (targetURL && targetURL.trim() !== "") {
+                window.open(targetURL + (targetURL.includes('?') ? '&' : '?') + "action=export"); 
             } else {
                 alert("Pengunduhan Excel memerlukan Google Sheets AppScript URL.");
             }
@@ -2174,7 +2430,9 @@
 
         // Auto-refresh data real-time setiap 30 detik
         setInterval(() => {
-            if (!document.getElementById('pageUangKas').classList.contains('hidden') || !document.getElementById('pageAdminPanel').classList.contains('hidden')) {
+            const isKasVisible = !document.getElementById('pageUangKas').classList.contains('hidden');
+            const isAdminVisible = !document.getElementById('pageAdminPanel').classList.contains('hidden');
+            if (isKasVisible || isAdminVisible) {
                 muatData();
             }
         }, 30000);
@@ -2185,7 +2443,8 @@
         updateAllLinksUI();
         initTheme();
         muatData();
-        catatKunjunganOtomatis(); // Deteksi & catat perangkat pengunjung secara otomatis
+        catatKunjunganOtomatis();
+        perbaruiUIStatusWeb();
     </script>
 </body>
 </html>
